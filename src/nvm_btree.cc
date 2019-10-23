@@ -1,13 +1,13 @@
 #include "nvm_btree.h"
 
 NVMBtree::NVMBtree() {
-    bt = new cbtree();
+    bt = new btree();
     if(!bt) {
         assert(0);
     }
     value_alloc = nullptr;
     // bpnode *root = NewBpNode();
-    // cbtree tmpbtree = cbtree(root);
+    // btree tmpbtree = btree(root);
 }
 
 void NVMBtree::Initial(const std::string &path, uint64_t keysize, const std::string &valuepath, 

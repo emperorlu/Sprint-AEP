@@ -4,7 +4,7 @@
 pthread_mutex_t print_mtx;
 
 /*
- * class cbtree
+ * class btree
  */
 
 void bpnode::linear_search_range(entry_key_t min, entry_key_t max, std::vector<std::string> &values, int &size) {
@@ -118,13 +118,13 @@ void bpnode::linear_search_range(entry_key_t min, entry_key_t max, std::vector<s
     size = off;
 }
 
-cbtree::cbtree(){
+btree::btree(){
   // root = (char*)new bpnode();
   height = 1;
   node_alloc = nullptr;
 }
 
-void cbtree::btree_init(const std::string &path, uint64_t keysize) {
+void btree::btree_init(const std::string &path, uint64_t keysize) {
       node_alloc = new NVMAllocator(path, keysize);
       if(node_alloc == nullptr) {
           exit(0);
@@ -132,7 +132,7 @@ void cbtree::btree_init(const std::string &path, uint64_t keysize) {
       root = (char*)(new (NewBpNode()) bpnode());
 }
 
-// cbtree::cbtree(bpnode *root_) {
+// btree::btree(bpnode *root_) {
 //     // if()
 //     if(root_ == nullptr) {
 //         root = (char*)new bpnode();
@@ -142,16 +142,16 @@ void cbtree::btree_init(const std::string &path, uint64_t keysize) {
 //         height = root_->GetLevel() + 1;
 //     }
 //     // node_alloc = nullptr;
-//     print_log(LV_DEBUG, "root is %p, cbtree is %p, height is %d", root, this, height);
+//     print_log(LV_DEBUG, "root is %p, btree is %p, height is %d", root, this, height);
 // }
 
-void cbtree::setNewRoot(char *new_root) {
+void btree::setNewRoot(char *new_root) {
   this->root = (char*)new_root;
   clflush((char*)&(this->root),sizeof(char*));
   ++height;
 }
 
-char *cbtree::btree_search(entry_key_t key){
+char *btree::btree_search(entry_key_t key){
   bpnode* p = (bpnode*)root;
 
   while(p->hdr.leftmost_ptr != NULL) {
@@ -175,7 +175,7 @@ char *cbtree::btree_search(entry_key_t key){
 }
 
 // insert the key in the leaf node
-void cbtree::btree_insert(entry_key_t key, char* right){ //need to be string
+void btree::btree_insert(entry_key_t key, char* right){ //need to be string
   bpnode* p = (bpnode*)root;
 
   while(p->hdr.leftmost_ptr != NULL) {
@@ -188,7 +188,7 @@ void cbtree::btree_insert(entry_key_t key, char* right){ //need to be string
 }
 
 // store the key into the node at the given level 
-void cbtree::btree_insert_internal
+void btree::btree_insert_internal
 (char *left, entry_key_t key, char *right, uint32_t level) {
   if(level > ((bpnode *)root)->hdr.level)
     return;
@@ -203,7 +203,7 @@ void cbtree::btree_insert_internal
   }
 }
 
-void cbtree::btree_delete(entry_key_t key) {
+void btree::btree_delete(entry_key_t key) {
   bpnode* p = (bpnode*)root;
 
   while(p->hdr.leftmost_ptr != NULL){
@@ -228,7 +228,7 @@ void cbtree::btree_delete(entry_key_t key) {
   }
 }
 
-void cbtree::btree_delete_internal(entry_key_t key, char *ptr, uint32_t level, entry_key_t *deleted_key, 
+void btree::btree_delete_internal(entry_key_t key, char *ptr, uint32_t level, entry_key_t *deleted_key, 
  bool *is_leftmost_node, bpnode **left_sibling) {
   if(level > ((bpnode *)this->root)->hdr.level)
     return;
@@ -274,7 +274,7 @@ void cbtree::btree_delete_internal(entry_key_t key, char *ptr, uint32_t level, e
 }
 
 // Function to search keys from "min" to "max"
-void cbtree::btree_search_range(entry_key_t min, entry_key_t max, unsigned long *buf) {
+void btree::btree_search_range(entry_key_t min, entry_key_t max, unsigned long *buf) {
   bpnode *p = (bpnode *)root;
 
   while(p) {
@@ -291,7 +291,7 @@ void cbtree::btree_search_range(entry_key_t min, entry_key_t max, unsigned long 
   }
 }
 
-void cbtree::btree_search_range(entry_key_t min, entry_key_t max, 
+void btree::btree_search_range(entry_key_t min, entry_key_t max, 
         std::vector<std::string> &values, int &size) {
     bpnode *p = (bpnode *)root;
 
@@ -309,7 +309,7 @@ void cbtree::btree_search_range(entry_key_t min, entry_key_t max,
     }
 }
 
-void cbtree::printAll(){
+void btree::printAll(){
   pthread_mutex_lock(&print_mtx);
   int total_keys = 0;
   bpnode *leftmost = (bpnode *)root;
@@ -331,14 +331,14 @@ void cbtree::printAll(){
   pthread_mutex_unlock(&print_mtx);
 }
 
-void cbtree::CalculateSapce(uint64_t &space) {
+void btree::CalculateSapce(uint64_t &space) {
     if(root != nullptr) {
         ((bpnode*)root)->CalculateSapce(space);
     }
 }
 
 
-void cbtree::PrintInfo() {
+void btree::PrintInfo() {
     printf("This is a b+ tree.\n");
     printf("Node size is %lu, M path is %d.\n", sizeof(bpnode), cardinality);
     printf("Tree height is %d.\n", height);
