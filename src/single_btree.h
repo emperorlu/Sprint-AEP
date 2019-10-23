@@ -24,7 +24,7 @@
 #include <future>
 #include <mutex>
 
-#include "nvm_common.h"
+#include "nvm_common2.h"
 
 #define PAGESIZE 256
 
