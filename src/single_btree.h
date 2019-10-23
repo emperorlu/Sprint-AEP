@@ -61,7 +61,7 @@ using entry_key_t = uint64_t;
 // int clflush_cnt = 0;
 // int node_cnt=0;
 
-using namespace std;
+using namespace rocksdb;
 
 // inline void mfence()
 // {
