@@ -16,7 +16,6 @@
 #include "drnvm_BPlusTree_Wrapper.h"
 #include "statistic.h"
 #include <mutex>
-#include "nvm_btree.h"
 // #include "nvm_nvtree.h"
 
 // #include "statistic.h"
@@ -51,11 +50,11 @@ namespace rocksdb{
     void End();
     void Print();
 
-    void Insert(const unsigned long key, const string &value);
+    void Insert(const string &key, const string &value);
 
-    void Delete(const unsigned long key);
+    void Delete(const std::string& key);
 
-    string Get(const unsigned long key);
+    string Get(const std::string& key);
 
 
     

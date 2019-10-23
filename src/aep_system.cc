@@ -268,41 +268,41 @@ void Write_Log()    //倒盘
     insertData1 = dram_bptree1->FlushtoNvm();
     for(int i=0;i<insertData1.size();i++){
         if (dram_bptree1->Get(insertData1[i]).size() != 0)
-            bptree_nvm1->Insert(insertData1[i], dram_bptree1->Get(insertData1[i]));
+            bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), dram_bptree1->Get(insertData1[i]));
     }
-    for(int i=0;i<updakey1.size();i++){
-        bptree_nvm1->Updakey(updakey1[i]);
-    }
-    updakey1.clear(); 
+    // for(int i=0;i<updakey1.size();i++){
+    //     bptree_nvm1->Updakey(updakey1[i]);
+    // }
+    // updakey1.clear(); 
     //aep2
     vector<string> insertData2;
     insertData2 = dram_bptree2->FlushtoNvm();
     for(int i=0;i<insertData2.size();i++){
         if (dram_bptree2->Get(insertData2[i]).size() != 0)
-            bptree_nvm2->Insert(insertData2[i], dram_bptree2->Get(insertData2[i]));
+            bptree_nvm2->Insert(char8toint64(insertData2[i].c_str()), dram_bptree2->Get(insertData2[i]));
     }
-    for(int i=0;i<updakey2.size();i++){
-        bptree_nvm2->Updakey(updakey2[i]);
-    }
-    updakey2.clear();
+    // for(int i=0;i<updakey2.size();i++){
+    //     bptree_nvm2->Updakey(updakey2[i]);
+    // }
+    // updakey2.clear();
 
     //aep3
     vector<string> insertData3;
     insertData3 = dram_bptree3->FlushtoNvm();
     for(int i=0;i<insertData3.size();i++){
         if (dram_bptree3->Get(insertData3[i]).size() != 0)
-            bptree_nvm3->Insert(insertData3[i], dram_bptree3->Get(insertData3[i]));
+            bptree_nvm3->Insert(char8toint64(insertData3[i].c_str()), dram_bptree3->Get(insertData3[i]));
     }
-    for(int i=0;i<updakey3.size();i++){
-        bptree_nvm3->Updakey(updakey3[i]);
-    }
-    updakey3.clear();
+    // for(int i=0;i<updakey3.size();i++){
+    //     bptree_nvm3->Updakey(updakey3[i]);
+    // }
+    // updakey3.clear();
 
     // pthread_exit(NULL);
 }  
 
 static long insert_count = 0;
-void aepsystem::Insert(const unsigned long key, const string &value)
+void aepsystem::Insert(const string &key, const string &value)
 {
     int id = Find_aep(key);
     m_mutex.lock();
@@ -312,7 +312,8 @@ void aepsystem::Insert(const unsigned long key, const string &value)
     // cout << "[DEBUG] Insert (" << insert_count << ") key: " << key << endl;
     if(id == 0)  // primary aep
     {
-        bptree_nvm0->Insert(key,value);
+        bptree_nvm0->Insert(char8toint64(key.c_str()),value);
+        // bptree_nvm0->Insert(key,value);
     }
     else        //其它aep
     {
@@ -355,7 +356,7 @@ void aepsystem::Insert(const unsigned long key, const string &value)
 }
 
 static long get_count = 0;
-string aepsystem::Get(const unsigned long key) 
+string aepsystem::Get(const std::string& key) 
 {
     string tmp_value;
     int id = Find_aep(key);
@@ -367,7 +368,8 @@ string aepsystem::Get(const unsigned long key)
     // cout << "[DEBUG] Get (" << get_count << ") key: " << key << endl;
     if(id == 0)  // primary aep
     {
-        tmp_value = bptree_nvm0->Get(key);
+        // tmp_value = bptree_nvm0->Get(key);
+        tmp_value = bptree_nvm0->Get(char8toint64(key.c_str()));
         // cout << "[DEBUG] Get in nvm0! " << endl;
         m_mutex.unlock();
         nvm0_find++;
@@ -431,13 +433,16 @@ string aepsystem::Get(const unsigned long key)
             switch (id)
             {
                 case 1:
-                    tmp_value = bptree_nvm1->Get(key);
+                    // tmp_value = bptree_nvm1->Get(key);
+                    tmp_value = bptree_nvm1->Get(char8toint64(key.c_str()));
                     break;
                 case 2:
-                    tmp_value = bptree_nvm2->Get(key);
+                    // tmp_value = bptree_nvm2->Get(key);
+                    tmp_value = bptree_nvm2->Get(char8toint64(key.c_str()));
                     break;
                 case 3:
-                    tmp_value = bptree_nvm3->Get(key);
+                    // tmp_value = bptree_nvm3->Get(key);
+                    tmp_value = bptree_nvm3->Get(char8toint64(key.c_str()));
                     break;
                 default:
                     cout << "error!" << endl;
@@ -465,12 +470,13 @@ string aepsystem::Get(const unsigned long key)
     }
 }
 
-void aepsystem::Delete(const unsigned long key)
+void aepsystem::Delete(const std::string& key)
 {
     int id = Find_aep(key);
     if(id == 0)  // primary aep
     {
-        bptree_nvm0->Delete(key);
+        // bptree_nvm0->Delete(key);
+        bptree_nvm0->Delete(char8toint64(key.c_str()));
     }
     else        //其它aep
     {
@@ -526,9 +532,12 @@ void aepsystem::Initialize()
     // bptree_nvm3->Initialize(PATH3, NVM_SIZE, VALUEPATH2, NVM_VALUE_SIZE, 10, KEY_SIZE, buf_size);
     bptree_nvm0= new NVMBtree();
     bptree_nvm0->Initial(PATH0, NVM_SIZE, VALUEPATH0, NVM_VALUE_SIZE);
-    // bptree_nvm1= new NVMBtree();
-    // bptree_nvm2= new NVMBtree();
-    // bptree_nvm3= new NVMBtree();
+    bptree_nvm1= new NVMBtree();
+    bptree_nvm1->Initial(PATH1, NVM_SIZE, VALUEPATH1, NVM_VALUE_SIZE);
+    bptree_nvm2= new NVMBtree();
+    bptree_nvm2->Initial(PATH2, NVM_SIZE, VALUEPATH2, NVM_VALUE_SIZE);
+    bptree_nvm3= new NVMBtree();
+    bptree_nvm3->Initial(PATH3, NVM_SIZE, VALUEPATH3, NVM_VALUE_SIZE);
 
     dram_bptree1 = new rocksdb::DrNVM_BPlusTree_Wrapper();
     dram_bptree1->Initialize(CACHE1, CACHE_SIZE, 10, KEY_SIZE, buf_size);
