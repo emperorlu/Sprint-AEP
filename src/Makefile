@@ -16,7 +16,8 @@ LIB_SOURCES = persistent_skiplist_no_transaction.cc\
 			con_btree.cc\
 			statistic.cc\
 			aep_system.cc\
-			nvm_allocator.cc
+			nvm_allocator.cc\
+			single_btree.cc
 
 TEST_TARGET = system\
 
