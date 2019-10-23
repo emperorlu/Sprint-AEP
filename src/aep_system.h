@@ -16,6 +16,7 @@
 #include "drnvm_BPlusTree_Wrapper.h"
 #include "statistic.h"
 #include <mutex>
+#include "nvm_btree.h"
 // #include "nvm_nvtree.h"
 
 // #include "statistic.h"
