@@ -8,10 +8,10 @@ std::mutex m_mutex;
 // rocksdb::NVM_BPlusTree_Wrapper *bptree_nvm1;
 // rocksdb::NVM_BPlusTree_Wrapper *bptree_nvm2;
 // rocksdb::NVM_BPlusTree_Wrapper *bptree_nvm3;
-NVMNvtree *bptree_nvm0;
-NVMNvtree *bptree_nvm1;
-NVMNvtree *bptree_nvm2;
-NVMNvtree *bptree_nvm3;
+NVMBtree *bptree_nvm0;
+NVMBtree *bptree_nvm1;
+NVMBtree *bptree_nvm2;
+NVMBtree *bptree_nvm3;
 
 rocksdb::DrNVM_BPlusTree_Wrapper *dram_bptree1;
 rocksdb::DrNVM_BPlusTree_Wrapper *dram_bptree2;
