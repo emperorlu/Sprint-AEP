@@ -512,7 +512,7 @@ aepsystem::~aepsystem(){
     delete bptree_nvm1;
     delete bptree_nvm2;
     delete bptree_nvm3;
-    AllocatorExit();
+    
     delete dram_bptree1;
     delete dram_bptree2;
     delete dram_bptree3;
