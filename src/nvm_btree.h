@@ -55,5 +55,5 @@ public:
 
 private:
     NVMAllocator *value_alloc;
-    btree *bt;
+    cbtree *bt;
 };
