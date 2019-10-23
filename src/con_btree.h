@@ -24,7 +24,9 @@
 #include <future>
 #include <mutex>
 
-#include "nvm_common.h"
+#include "nvm_common2.h"
+
+using namespace rocksdb;
 
 #define PAGESIZE 256
 

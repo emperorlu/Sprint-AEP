@@ -11,7 +11,7 @@
 #include <string>
 #include <assert.h>
 
-#include "nvm_common.h"
+#include "nvm_common2.h"
 #include "nvm_allocator.h"
 
 #ifdef SINGLE_BTREE

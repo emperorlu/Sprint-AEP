@@ -2,7 +2,14 @@
 
 #include <cstring>
 #include <string>
+#include <libpmem.h>
+#include <sys/time.h>
+#include <assert.h>
+#include <atomic>
+
+#include "nvm_allocator.h"
 #include "statistic.h"
+#include "debug.h"
 
 namespace rocksdb {
     const int NVM_NodeSize = 256;
@@ -35,6 +42,33 @@ namespace rocksdb {
         key[6] = ((char)(value >> 8)) & 0xff;
         key[7] = ((char)value) & 0xff;
     }
+}
+
+
+static inline uint64_t get_now_micros(){
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    return (tv.tv_sec) * 1000000 + tv.tv_usec;
+}
+
+extern atomic<uint64_t> perist_data;
+
+static inline void show_persist_data() {
+    print_log(LV_INFO, "Persit data is %ld %lf GB.", perist_data.load(std::memory_order_relaxed), (1.0 * perist_data) / 1000 / 1000/ 1000);
+}
+
+static inline void nvm_persist(const void *addr, size_t len) {
+    perist_data += len;
+    // print_log(LV_DEBUG, "perist_data is %ld, len is %ld", perist_data.load(std::memory_order_relaxed), len);
+    // show_persist_data();
+    pmem_persist(addr, len);
+}
+
+static inline void nvm_memcpy_persist(void *pmemdest, const void *src, size_t len, bool statistic = true) {
+    if(statistic) {
+        perist_data += len;
+    }
+    pmem_memcpy_persist(pmemdest, src, len);
 }
 
 // #define SBH_DEBUG
