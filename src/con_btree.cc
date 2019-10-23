@@ -124,6 +124,10 @@ btree::btree(){
   node_alloc = nullptr;
 }
 
+void* btree::NewBpNode() {
+    return node_alloc->Allocate(sizeof(bpnode));
+}
+
 void btree::btree_init(const std::string &path, uint64_t keysize) {
       node_alloc = new NVMAllocator(path, keysize);
       if(node_alloc == nullptr) {
