@@ -60,9 +60,10 @@ int main()
         i = rand()%ops;
         // cout << j << " : " << i << endl;
         // for (i = 0; i < (ops/100-j); i++){
-        snprintf(keybuf, sizeof(keybuf), "%07d", i);
+        // snprintf(keybuf, sizeof(keybuf), "%07d", i);
         snprintf(valuebuf, sizeof(valuebuf), "%020d", i * i);
-        string data(keybuf, KEY_SIZE);
+        // string data(keybuf, KEY_SIZE);
+        auto data = rnd_put.Next();
         string value(valuebuf, VALUE_SIZE);
         string tmp_value = db_->Get(data);
         if(tmp_value.size() == 0) {
