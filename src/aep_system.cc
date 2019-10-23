@@ -302,7 +302,7 @@ void Write_Log()    //倒盘
 }  
 
 static long insert_count = 0;
-void aepsystem::Insert(const string &key, const string &value)
+void aepsystem::Insert(const unsigned long key, const string &value)
 {
     int id = Find_aep(key);
     m_mutex.lock();
@@ -355,7 +355,7 @@ void aepsystem::Insert(const string &key, const string &value)
 }
 
 static long get_count = 0;
-string aepsystem::Get(const std::string& key) 
+string aepsystem::Get(const unsigned long key) 
 {
     string tmp_value;
     int id = Find_aep(key);
@@ -465,7 +465,7 @@ string aepsystem::Get(const std::string& key)
     }
 }
 
-void aepsystem::Delete(const std::string& key)
+void aepsystem::Delete(const unsigned long key)
 {
     int id = Find_aep(key);
     if(id == 0)  // primary aep

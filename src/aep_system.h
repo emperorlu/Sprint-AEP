@@ -51,11 +51,11 @@ namespace rocksdb{
     void End();
     void Print();
 
-    void Insert(const string &key, const string &value);
+    void Insert(const unsigned long key, const string &value);
 
-    void Delete(const std::string& key);
+    void Delete(const unsigned long key);
 
-    string Get(const std::string& key);
+    string Get(const unsigned long key);
 
 
     
