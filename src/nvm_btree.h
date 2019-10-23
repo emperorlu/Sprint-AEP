@@ -13,12 +13,12 @@
 
 #include "nvm_common2.h"
 #include "nvm_allocator.h"
-
-#ifdef SINGLE_BTREE
-#include "single_btree.h"
-#else 
 #include "con_btree.h"
-#endif
+// #ifdef SINGLE_BTREE
+// #include "single_btree.h"
+// #else 
+// #include "con_btree.h"
+// #endif
 
 using namespace std;
 
