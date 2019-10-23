@@ -16,9 +16,9 @@
 #include "drnvm_BPlusTree_Wrapper.h"
 #include "statistic.h"
 #include <mutex>
-#include "nvm_nvtree.h"
+// #include "nvm_nvtree.h"
 
-#include "statistic.h"
+// #include "statistic.h"
 
 
 #define PATH0      "/pmem0/datastruct/persistent"
