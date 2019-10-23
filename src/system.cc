@@ -2,6 +2,7 @@
 #include "nvm_common2.h"
 #include <sys/time.h>
 #include <cstdlib>
+#include "random.h"
 using namespace rocksdb;
 
 int main()
@@ -17,12 +18,15 @@ int main()
     db_->Initialize();
     char keybuf[KEY_SIZE + 1];
     char valuebuf[VALUE_SIZE + 1];
+    uint64_t rand_seed = 0xdeadbeef;
+    rocksdb::Random64 rnd_put(rand_seed);
     printf("******Test Start.******\n");
     gettimeofday(&begin1, NULL);
     for(i = 0; i < ops; i ++) {
-        snprintf(keybuf, sizeof(keybuf), "%07d", i);
+        // snprintf(keybuf, sizeof(keybuf), "%07d", i);
         snprintf(valuebuf, sizeof(valuebuf), "%020d", i * i);
-        string data(keybuf, KEY_SIZE);
+        // string data(keybuf, KEY_SIZE);
+        auto data = rnd_put.Next();
         string value(valuebuf, VALUE_SIZE);
         db_->Insert(data, value);
     }
