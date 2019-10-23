@@ -13,6 +13,7 @@ LIB_SOURCES = persistent_skiplist_no_transaction.cc\
 			dram_nvmbptree.cc\
 			drnvm_BPlusTree_Wrapper.cc\
 			nvm_btree.cc\
+			con_btree.cc\
 			statistic.cc\
 			aep_system.cc\
 			nvm_allocator.cc

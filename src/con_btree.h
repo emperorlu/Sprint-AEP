@@ -93,7 +93,7 @@ static void alloc_memalign(void **ret, size_t alignment, size_t size) {
 
 class bpnode;
 
-class btree{
+class cbtree{
   private:
     NVMAllocator *node_alloc;
     int height;
@@ -101,10 +101,10 @@ class btree{
 
   public:
 
-    btree();
-    // btree(bpnode *root);
+    cbtree();
+    // cbtree(bpnode *root);
     void btree_init(const std::string &path, uint64_t keysize); 
-    ~btree() {
+    ~cbtree() {
         if(node_alloc) {
             delete node_alloc;
         }
@@ -137,7 +137,7 @@ class header{
     std::mutex *mtx;      // 8 bytes
 
     friend class bpnode;
-    friend class btree;
+    friend class cbtree;
 
   public:
     header() {
@@ -167,7 +167,7 @@ class entry{
     }
 
     friend class bpnode;
-    friend class btree;
+    friend class cbtree;
 };
 
 const int cardinality = (PAGESIZE-sizeof(header))/sizeof(entry);
@@ -179,7 +179,7 @@ class bpnode{
     entry records[cardinality]; // slots in persistent memory, 16 bytes * n
 
   public:
-    friend class btree;
+    friend class cbtree;
 
     bpnode(uint32_t level = 0) {
       hdr.level = level;
@@ -273,7 +273,7 @@ class bpnode{
       return shift;
     }
 
-    bool remove(btree* bt, entry_key_t key, bool only_rebalance = false, bool with_lock = true) {
+    bool remove(cbtree* bt, entry_key_t key, bool only_rebalance = false, bool with_lock = true) {
       hdr.mtx->lock();
 
       bool ret = remove_key(key);
@@ -290,7 +290,7 @@ class bpnode{
      * Making B+-tree efficient in PCM-based main memory. In Proceedings of the 2014
      * international symposium on Low power electronics and design (pp. 69-74). ACM.
      */
-    bool remove_rebalancing(btree* bt, entry_key_t key, bool only_rebalance = false, bool with_lock = true) {
+    bool remove_rebalancing(cbtree* bt, entry_key_t key, bool only_rebalance = false, bool with_lock = true) {
       if(with_lock) {
         hdr.mtx->lock();
       }
@@ -602,7 +602,7 @@ class bpnode{
 
     // Insert a new key - FAST and FAIR
     bpnode *store
-      (btree* bt, char* left, entry_key_t key, char* right,
+      (cbtree* bt, char* left, entry_key_t key, char* right,
        bool flush, bool with_lock, bpnode *invalid_sibling = NULL) {
         if(with_lock) {
           hdr.mtx->lock(); // Lock the write lock
@@ -980,6 +980,6 @@ class bpnode{
     }
 };
 
-void* btree::NewBpNode() {
+void* cbtree::NewBpNode() {
     return node_alloc->Allocate(sizeof(bpnode));
 }
