@@ -979,7 +979,3 @@ class bpnode{
       }
     }
 };
-
-void* btree::NewBpNode() {
-    return node_alloc->Allocate(sizeof(bpnode));
-}
