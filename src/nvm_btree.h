@@ -27,6 +27,9 @@ public:
     NVMBtree();
     ~NVMBtree();
 
+    void Initial(const std::string &path, uint64_t keysize, const std::string &valuepath, 
+                uint64_t valuesize);
+
     void Insert(const unsigned long key, const string &value);
 
     void Delete(const unsigned long key);
@@ -51,5 +54,6 @@ public:
     }
 
 private:
+    NVMAllocator *value_alloc;
     btree *bt;
 };

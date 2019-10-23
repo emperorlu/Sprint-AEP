@@ -6,11 +6,13 @@ CXXFLAGS += $(DEFS) $(IFLAGS)
 AR = ar
 ARFLAGS = rs
 # con_btree.cc nvm_btree.cc
+# persistent_BPlusTree_Wrapper.cc
+# nvmbptree.cc
 LIB_SOURCES = persistent_skiplist_no_transaction.cc\
 			dram_nvmbptree.cc\
-			persistent_BPlusTree_Wrapper.cc\
-			nvmbptree.cc\
 			drnvm_BPlusTree_Wrapper.cc\
+			con_btree.cc\
+			nvm_btree.cc\
 			statistic.cc\
 			aep_system.cc
 

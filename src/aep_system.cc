@@ -4,10 +4,14 @@
 using namespace rocksdb;
 
 std::mutex m_mutex;
-rocksdb::NVM_BPlusTree_Wrapper *bptree_nvm0;
-rocksdb::NVM_BPlusTree_Wrapper *bptree_nvm1;
-rocksdb::NVM_BPlusTree_Wrapper *bptree_nvm2;
-rocksdb::NVM_BPlusTree_Wrapper *bptree_nvm3;
+// rocksdb::NVM_BPlusTree_Wrapper *bptree_nvm0;
+// rocksdb::NVM_BPlusTree_Wrapper *bptree_nvm1;
+// rocksdb::NVM_BPlusTree_Wrapper *bptree_nvm2;
+// rocksdb::NVM_BPlusTree_Wrapper *bptree_nvm3;
+NVMNvtree *bptree_nvm0;
+NVMNvtree *bptree_nvm1;
+NVMNvtree *bptree_nvm2;
+NVMNvtree *bptree_nvm3;
 
 rocksdb::DrNVM_BPlusTree_Wrapper *dram_bptree1;
 rocksdb::DrNVM_BPlusTree_Wrapper *dram_bptree2;
@@ -502,6 +506,7 @@ aepsystem::~aepsystem(){
     delete bptree_nvm1;
     delete bptree_nvm2;
     delete bptree_nvm3;
+    AllocatorExit();
     delete dram_bptree1;
     delete dram_bptree2;
     delete dram_bptree3;
@@ -510,15 +515,20 @@ aepsystem::~aepsystem(){
 void aepsystem::Initialize()
 {
     
-    bptree_nvm0 = new rocksdb::NVM_BPlusTree_Wrapper();
-    bptree_nvm0->Initialize(PATH0, NVM_SIZE, VALUEPATH0, NVM_VALUE_SIZE, 10, KEY_SIZE, buf_size);
+    // bptree_nvm0 = new rocksdb::NVM_BPlusTree_Wrapper();
+    // bptree_nvm0->Initialize(PATH0, NVM_SIZE, VALUEPATH0, NVM_VALUE_SIZE, 10, KEY_SIZE, buf_size);
 
-    bptree_nvm1 = new rocksdb::NVM_BPlusTree_Wrapper();
-    bptree_nvm1->Initialize(PATH1, NVM_SIZE, VALUEPATH1, NVM_VALUE_SIZE, 10, KEY_SIZE, buf_size);
-    bptree_nvm2 = new rocksdb::NVM_BPlusTree_Wrapper();
-    bptree_nvm2->Initialize(PATH2, NVM_SIZE, VALUEPATH2, NVM_VALUE_SIZE, 10, KEY_SIZE, buf_size);
-    bptree_nvm3 = new rocksdb::NVM_BPlusTree_Wrapper();
-    bptree_nvm3->Initialize(PATH3, NVM_SIZE, VALUEPATH2, NVM_VALUE_SIZE, 10, KEY_SIZE, buf_size);
+    // bptree_nvm1 = new rocksdb::NVM_BPlusTree_Wrapper();
+    // bptree_nvm1->Initialize(PATH1, NVM_SIZE, VALUEPATH1, NVM_VALUE_SIZE, 10, KEY_SIZE, buf_size);
+    // bptree_nvm2 = new rocksdb::NVM_BPlusTree_Wrapper();
+    // bptree_nvm2->Initialize(PATH2, NVM_SIZE, VALUEPATH2, NVM_VALUE_SIZE, 10, KEY_SIZE, buf_size);
+    // bptree_nvm3 = new rocksdb::NVM_BPlusTree_Wrapper();
+    // bptree_nvm3->Initialize(PATH3, NVM_SIZE, VALUEPATH2, NVM_VALUE_SIZE, 10, KEY_SIZE, buf_size);
+    bptree_nvm0= new NVMBtree();
+    bptree_nvm0->Initial(PATH0, NVM_SIZE, VALUEPATH0, NVM_VALUE_SIZE);
+    // bptree_nvm1= new NVMBtree();
+    // bptree_nvm2= new NVMBtree();
+    // bptree_nvm3= new NVMBtree();
 
     dram_bptree1 = new rocksdb::DrNVM_BPlusTree_Wrapper();
     dram_bptree1->Initialize(CACHE1, CACHE_SIZE, 10, KEY_SIZE, buf_size);

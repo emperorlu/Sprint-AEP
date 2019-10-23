@@ -5,13 +5,27 @@ NVMBtree::NVMBtree() {
     if(!bt) {
         assert(0);
     }
+    value_alloc = nullptr;
     // bpnode *root = NewBpNode();
     // btree tmpbtree = btree(root);
+}
+
+void NVMBtree::Initial(const std::string &path, uint64_t keysize, const std::string &valuepath, 
+                uint64_t valuesize) {
+    bt->btree_init(path, keysize);
+    value_alloc = new NVMAllocator(valuepath, valuesize);
+    if(value_alloc == nullptr) {
+        delete bt;
+        assert(0);
+    }
 }
 
 NVMBtree::~NVMBtree() {
     if(bt) {
         delete bt;
+    }
+    if(value_alloc) {
+        delete value_alloc;
     }
 }
     

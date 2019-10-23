@@ -93,13 +93,21 @@ class bpnode;
 
 class btree{
   private:
+    NVMAllocator *node_alloc;
     int height;
     char* root;
 
   public:
 
     btree();
-    btree(bpnode *root);
+    // btree(bpnode *root);
+    void btree_init(const std::string &path, uint64_t keysize); 
+    ~btree() {
+        if(node_alloc) {
+            delete node_alloc;
+        }
+    }
+    void *NewBpNode();
     void setNewRoot(char *);
     void getNumberOfNodes();
     void btree_insert(entry_key_t, char*);
@@ -189,11 +197,11 @@ class bpnode{
       clflush((char*)this, sizeof(bpnode));
     }
 
-    void *operator new(size_t size) {
-      void *ret;
-      alloc_memalign(&ret,64,size);
-      return ret;
-    }
+    // void *operator new(size_t size) {
+    //   void *ret;
+    //   alloc_memalign(&ret,64,size);
+    //   return ret;
+    // }
 
     uint32_t GetLevel() {
       return hdr.level;
@@ -419,7 +427,7 @@ class bpnode{
           }
 
           if(left_sibling == ((bpnode *)bt->root)) {
-            bpnode* new_root = new bpnode(left_sibling, parent_key, this, hdr.level + 1);
+            bpnode* new_root = new (bt->NewBpNode()) bpnode(left_sibling, parent_key, this, hdr.level + 1);
             bt->setNewRoot((char *)new_root);
           }
           else {
@@ -431,7 +439,7 @@ class bpnode{
           hdr.is_deleted = 1;
           clflush((char *)&(hdr.is_deleted), sizeof(uint8_t));
 
-          bpnode* new_sibling = new bpnode(hdr.level); 
+          bpnode* new_sibling = new (bt->NewBpNode()) bpnode(hdr.level); 
           new_sibling->hdr.mtx->lock();
           new_sibling->hdr.sibling_ptr = hdr.sibling_ptr;
 
@@ -479,7 +487,7 @@ class bpnode{
           }
 
           if(left_sibling == ((bpnode *)bt->root)) {
-            bpnode* new_root = new bpnode(left_sibling, parent_key, new_sibling, hdr.level + 1);
+            bpnode* new_root = new (bt->NewBpNode()) bpnode(left_sibling, parent_key, new_sibling, hdr.level + 1);
             bt->setNewRoot((char *)new_root);
           }
           else {
@@ -632,7 +640,7 @@ class bpnode{
         else {// FAIR
           // overflow
           // create a new node
-          bpnode* sibling = new bpnode(hdr.level); 
+          bpnode* sibling = new (bt->NewBpNode()) bpnode(hdr.level); 
           register int m = (int) ceil(num_entries/2);
           entry_key_t split_key = records[m].key;
 
@@ -683,7 +691,7 @@ class bpnode{
 
           // Set a new root or insert the split key to the parent
           if(bt->root == (char *)this) { // only one node can update the root ptr
-            bpnode* new_root = new bpnode((bpnode*)this, split_key, sibling, 
+            bpnode* new_root = new (bt->NewBpNode()) bpnode((bpnode*)this, split_key, sibling, 
                 hdr.level + 1);
             bt->setNewRoot((char *)new_root);
 
@@ -970,6 +978,6 @@ class bpnode{
     }
 };
 
-static inline bpnode* NewBpNode() {
-    return new bpnode();
+void* btree::NewBpNode() {
+    return node_alloc->Allocate(sizeof(bpnode));
 }

@@ -119,20 +119,31 @@ void bpnode::linear_search_range(entry_key_t min, entry_key_t max, std::vector<s
 }
 
 btree::btree(){
-  root = (char*)new bpnode();
+  // root = (char*)new bpnode();
   height = 1;
+  node_alloc = nullptr;
 }
 
-btree::btree(bpnode *root_) {
-    if(root_ == nullptr) {
-        root = (char*)new bpnode();
-        height = 1;
-    } else {
-        root = (char *)root_;
-        height = root_->GetLevel() + 1;
-    }
-    print_log(LV_DEBUG, "root is %p, btree is %p, height is %d", root, this, height);
+void btree::btree_init(const std::string &path, uint64_t keysize) {
+      node_alloc = new NVMAllocator(path, keysize);
+      if(node_alloc == nullptr) {
+          exit(0);
+      }
+      root = (char*)(new (NewBpNode()) bpnode());
 }
+
+// btree::btree(bpnode *root_) {
+//     // if()
+//     if(root_ == nullptr) {
+//         root = (char*)new bpnode();
+//         height = 1;
+//     } else {
+//         root = (char *)root_;
+//         height = root_->GetLevel() + 1;
+//     }
+//     // node_alloc = nullptr;
+//     print_log(LV_DEBUG, "root is %p, btree is %p, height is %d", root, this, height);
+// }
 
 void btree::setNewRoot(char *new_root) {
   this->root = (char*)new_root;
