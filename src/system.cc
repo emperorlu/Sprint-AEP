@@ -12,7 +12,7 @@ int main()
     size_t KEY_SIZE = rocksdb::NVM_KeySize;         // 32B
     size_t VALUE_SIZE = rocksdb::NVM_ValueSize;
     int i;
-    int ops = 1000000;
+    int ops = 10000000;
     db_ = new rocksdb::aepsystem;
     db_->Initialize();
     char keybuf[KEY_SIZE + 1];
