@@ -3,6 +3,7 @@
 
 pthread_mutex_t print_mtx;
 
+
 /*
  * class btree
  */
@@ -120,8 +121,13 @@ void bpnode::linear_search_range(entry_key_t min, entry_key_t max, std::vector<s
 
 btree::btree(){
   // root = (char*)new bpnode();
+  HCrchain = new NVMRangChain;
   height = 1;
   node_alloc = nullptr;
+}
+
+void btree::CreateChain(){
+  HCrchain->makeEmpty();
 }
 
 void* btree::NewBpNode() {
@@ -334,6 +340,17 @@ void btree::printAll(){
   printf("total number of keys: %d\n", total_keys);
   pthread_mutex_unlock(&print_mtx);
 }
+void btree::for_each() {
+  bpnode *node = (bpnode *)root;
+  while(node->hdr.leftmost_ptr) {
+    node = node->hdr.leftmost_ptr;
+  }
+  while(node) {
+    // hhjbkjkjj
+    node = node->hdr.sibling_ptr;
+  }
+}
+
 
 void btree::CalculateSapce(uint64_t &space) {
     if(root != nullptr) {

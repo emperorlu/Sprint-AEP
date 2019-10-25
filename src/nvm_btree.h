@@ -31,6 +31,7 @@ public:
                 uint64_t valuesize);
 
     void Insert(const unsigned long key, const string &value);
+    void Insert(const unsigned long key, const unsigned long hot, const string &value);
 
     void Delete(const unsigned long key);
 

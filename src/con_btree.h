@@ -37,7 +37,64 @@ using namespace rocksdb;
 
 #define IS_FORWARD(c) (c % 2 == 0)
 
-using entry_key_t = uint64_t;
+// using entry_key_t = uint64_t;
+
+struct entry_key_t {
+    uint64_t key;
+    uint64_t hot;
+
+    entry_key_t(uint64_t key_, uint64_t hot_ = 0) :key(key_), hot(hot_) {}
+    entry_key_t & operator = (const entry_key_t &entry) {
+        if(this == &entry) {
+            return *this;
+        }
+
+        key = entry.key;
+        hot = entry.hot;
+        return *this;
+    }
+
+    bool operator < (const entry_key_t &entry) {
+        return key < entry.key;
+    }
+
+    bool operator <= (const entry_key_t &entry) {
+        return key <= entry.key;
+    }
+
+    bool operator > (const entry_key_t &entry) {
+        return key > entry.key;
+    }
+
+    bool operator >= (const entry_key_t &entry) {
+        return key >= entry.key;
+    }
+
+    bool operator == (const entry_key_t &entry) {
+        return key == entry.key;
+    }
+
+    bool operator != (const entry_key_t &entry) {
+        return key != entry.key;
+    }
+
+    operator int64_t () {
+        return key;
+    }
+
+    operator uint64_t () {
+        return key;
+    }
+
+    operator int () {
+        return key;
+    }
+
+    operator uint32_t () {
+        return key;
+    }
+};
+
 
 // static inline void cpu_pause()
 // {
@@ -93,6 +150,127 @@ static void alloc_memalign(void **ret, size_t alignment, size_t size) {
 
 class bpnode;
 
+
+class NVMRangChain 
+{
+  public:
+    NVMRangChain()
+    {
+        listSize = 10;
+        theLists = vector<list<entry_key_t> >(listSize);
+        myList = vector<list<entry_key_t> >(listSize);
+        maxhot = 30;
+        minhot = 0;
+        currentSize = 0;
+    }
+
+    void initialize(int minValue, int maxValue)
+    {
+        maxhot = maxValue;
+        minhot = minValue;
+    }
+
+    int getSize()
+    {
+        return currentSize;
+    }
+
+    void makeEmpty()
+    {
+        for(std::size_t i = 0; i < theLists.size(); i++)
+            theLists[i].clear();
+    }
+
+    void traver()
+    {
+        for(std::size_t i = 0; i < theLists.size(); i++)
+        {
+            cout << i << ":";
+            typename list<entry_key_t>::iterator itr = theLists[i].begin();
+            while(itr != theLists[i].end()){
+                cout << (*itr).GetHot() << "\t";
+                itr++;
+            }
+            cout << endl;
+        }
+    }
+    
+    bool remove()
+    {   
+        int i = 0;
+        while (theLists[i].size() == 0){
+            i++;
+        }
+        list<entry_key_t> & whichList = theLists[i];
+        whichList.erase(whichList.begin());
+        currentSize--;
+        return true;
+    }
+    
+    void relist()
+    {   
+        cout << "before relist: " << endl;
+        // traver();
+        for(std::size_t i = 0; i < theLists.size(); i++)
+        {
+            typename list<entry_key_t>::iterator itr = theLists[i].begin();
+            while(itr != theLists[i].end()){
+                myinsert(*itr, (*itr).GetHot());
+                itr++;
+            }
+        }
+        theLists = myList;
+        cout << "relist: " << endl;
+        // traver();
+    }
+    
+    bool insert(const entry_key_t &x, int value)
+    {   
+        if (value < minhot){
+            minhot = value;
+            relist();
+        }else if (value >= maxhot)
+        {
+            maxhot = value;
+            relist();
+        }
+        list<entry_key_t> & whichList = theLists[myid(value)];
+        whichList.push_front(x);
+
+        currentSize++;
+        return true;   
+    }
+    int  maxhot, minhot;
+    vector<list<entry_key_t> > theLists;   // The array of Lists
+    
+  private:
+    int listSize;
+    int currentSize;
+    vector<list<entry_key_t>>  myList;
+    // int hc; //c or h
+
+    int myid(int value)
+    {
+        if(maxhot == minhot) {
+            return 0;
+        } 
+        if(value >= maxhot) {
+            return listSize - 1;
+        }
+        return 1.0 * (value - minhot) / (maxhot - minhot) * listSize;
+    }
+
+    bool myinsert(const entry_key_t x, int value)
+    {   
+        list<entry_key_t  > & whichList = myList[myid(value)];
+        whichList.push_front(x);
+        return true;   
+    }
+
+};
+
+
+
 class btree{
   private:
     NVMAllocator *node_alloc;
@@ -108,6 +286,7 @@ class btree{
         if(node_alloc) {
             delete node_alloc;
         }
+        delete HCrchain;
     }
     void *NewBpNode();
     void setNewRoot(char *);
@@ -124,6 +303,12 @@ class btree{
     void CalculateSapce(uint64_t &space);
 
     friend class bpnode;
+
+    void CreateChain();
+
+    vector<string> BacktoDram(int hot, size_t read);
+    NVMRangChain *HCrchain;
+
 };
 
 class header{
@@ -134,6 +319,8 @@ class header{
     uint8_t switch_counter;     // 1 bytes
     uint8_t is_deleted;         // 1 bytes
     int16_t last_index;         // 2 bytes
+    // uint64_t hot;
+    // uint8_t is_d   
     std::mutex *mtx;      // 8 bytes
 
     friend class bpnode;
@@ -160,7 +347,7 @@ class entry{
     entry_key_t key; // 8 bytes
     char* ptr; // 8 bytes
 
-  public :
+  public:
     entry(){
       key = LONG_MAX;
       ptr = NULL;
@@ -177,6 +364,7 @@ class bpnode{
   private:
     header hdr;  // header in persistent memory, 16 bytes
     entry records[cardinality]; // slots in persistent memory, 16 bytes * n
+
 
   public:
     friend class btree;

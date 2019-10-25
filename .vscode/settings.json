@@ -1,5 +1,8 @@
 {
     "files.associations": {
-        "cstdlib": "cpp"
+        "cstdlib": "cpp",
+        "xstring": "cpp",
+        "list": "cpp",
+        "vector": "cpp"
     }
 }
