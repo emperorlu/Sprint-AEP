@@ -42,7 +42,7 @@ using namespace rocksdb;
 struct entry_key_t {
     uint64_t key;
     uint64_t hot;
-
+    entry_key_t() :key(ULONG_MAX), hot(0) {}
     entry_key_t(uint64_t key_, uint64_t hot_ = 0) :key(key_), hot(hot_) {}
     entry_key_t & operator = (const entry_key_t &entry) {
         if(this == &entry) {
@@ -286,7 +286,7 @@ class btree{
         if(node_alloc) {
             delete node_alloc;
         }
-        delete HCrchain;
+        // delete HCrchain;
     }
     void *NewBpNode();
     void setNewRoot(char *);
@@ -349,7 +349,7 @@ class entry{
 
   public:
     entry(){
-      key = LONG_MAX;
+      key = entry_key_t(ULONG_MAX);
       ptr = NULL;
     }
 
