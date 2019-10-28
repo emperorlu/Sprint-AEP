@@ -126,7 +126,7 @@ btree::btree(){
   node_alloc = nullptr;
 }
 
-void btree::chain_insert(entry_key_t key)
+void btree::chain_insert(entry_key_t key){
   // HCrchain->makeEmpty();
   HCrchain->insert(&key);
 }
