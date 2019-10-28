@@ -3,6 +3,10 @@
         "cstdlib": "cpp",
         "xstring": "cpp",
         "list": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "map": "cpp",
+        "unordered_map": "cpp",
+        "xhash": "cpp",
+        "xtree": "cpp"
     }
 }

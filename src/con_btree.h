@@ -227,28 +227,29 @@ class CONRangChain
         // traver();
     }
     
-    bool insert(const entry_key_t &x, int value)
+    bool insert(const entry_key_t &x)
     {   
-        if (value < minhot){
-            minhot = value;
-            relist();
-        }else if (value >= maxhot)
-        {
-            maxhot = value;
-            relist();
-        }
+      uint64_t value = x.hot;
+      if (value < minhot){
+          minhot = value;
+          relist();
+      }else if (value >= maxhot)
+      {
+          maxhot = value;
+          relist();
+      }
 
-        if(currentSize >= theLists.size()){
-          return false;
-        }
+      if(currentSize >= theLists.size()){
+        return false;
+      }
 
-        list<entry_key_t> & whichList = theLists[myid(value)];
-        whichList.push_front(x);
+      list<entry_key_t> & whichList = theLists[myid(value)];
+      whichList.push_front(x);
 
-        currentSize++;
-        return true;   
-    }
-    int  maxhot, minhot;
+      currentSize++;
+      return true;   
+  }
+    uint64_t  maxhot, minhot;
     vector<list<entry_key_t> > theLists;   // The array of Lists
     
   private:
@@ -257,7 +258,7 @@ class CONRangChain
     vector<list<entry_key_t>>  myList;
     // int hc; //c or h
 
-    int myid(int value)
+    int myid(uint64_t value)
     {
         if(maxhot == minhot) {
             return 0;
@@ -268,7 +269,7 @@ class CONRangChain
         return 1.0 * (value - minhot) / (maxhot - minhot) * listSize;
     }
 
-    bool myinsert(const entry_key_t x, int value)
+    bool myinsert(const entry_key_t x, uint64_t value)
     {   
         list<entry_key_t  > & whichList = myList[myid(value)];
         whichList.push_front(x);
@@ -309,12 +310,13 @@ class btree{
     void printAll();
     void PrintInfo();
     void CalculateSapce(uint64_t &space);
+    void chain_insert(entry_key_t key)
 
     friend class bpnode;
 
-    void CreateChain();
+    // void CreateChain();
 
-    vector<string> BacktoDram(int hot, size_t read);
+    // vector<string> BacktoDram(int hot, size_t read);
     CONRangChain *HCrchain;
 
 };

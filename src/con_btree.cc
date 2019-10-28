@@ -126,8 +126,9 @@ btree::btree(){
   node_alloc = nullptr;
 }
 
-void btree::CreateChain(){
-  HCrchain->makeEmpty();
+void btree::chain_insert(entry_key_t key)
+  // HCrchain->makeEmpty();
+  HCrchain->insert(&key);
 }
 
 void* btree::NewBpNode() {
@@ -340,16 +341,17 @@ void btree::printAll(){
   printf("total number of keys: %d\n", total_keys);
   pthread_mutex_unlock(&print_mtx);
 }
-void btree::for_each() {
-  bpnode *node = (bpnode *)root;
-  while(node->hdr.leftmost_ptr) {
-    node = node->hdr.leftmost_ptr;
-  }
-  while(node) {
-    // hhjbkjkjj
-    node = node->hdr.sibling_ptr;
-  }
-}
+
+// void btree::for_each() {
+//   bpnode *node = (bpnode *)root;
+//   while(node->hdr.leftmost_ptr) {
+//     node = node->hdr.leftmost_ptr;
+//   }
+//   while(node) {
+//     // hhjbkjkjj
+//     node = node->hdr.sibling_ptr;
+//   }
+// }
 
 
 void btree::CalculateSapce(uint64_t &space) {
