@@ -23,6 +23,8 @@
 #include <climits>
 #include <future>
 #include <mutex>
+#include <vector>
+#include <list>
 
 #include "nvm_common2.h"
 
