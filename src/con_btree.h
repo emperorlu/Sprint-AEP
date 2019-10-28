@@ -154,10 +154,10 @@ static void alloc_memalign(void **ret, size_t alignment, size_t size) {
 class bpnode;
 
 
-class NVMRangChain 
+class CONRangChain 
 {
   public:
-    NVMRangChain()
+    CONRangChain()
     {
         listSize = 10;
         theLists = vector<list<entry_key_t> >(listSize);
@@ -315,7 +315,7 @@ class btree{
     void CreateChain();
 
     vector<string> BacktoDram(int hot, size_t read);
-    NVMRangChain *HCrchain;
+    CONRangChain *HCrchain;
 
 };
 
