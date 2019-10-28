@@ -310,7 +310,7 @@ class btree{
     void printAll();
     void PrintInfo();
     void CalculateSapce(uint64_t &space);
-    void chain_insert(entry_key_t key)
+    void chain_insert(entry_key_t key);
 
     friend class bpnode;
 
