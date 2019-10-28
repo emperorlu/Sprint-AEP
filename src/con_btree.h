@@ -26,6 +26,7 @@
 #include <vector>
 #include <list>
 
+
 #include "nvm_common2.h"
 
 using namespace rocksdb;
@@ -190,7 +191,7 @@ class NVMRangChain
             cout << i << ":";
             typename list<entry_key_t>::iterator itr = theLists[i].begin();
             while(itr != theLists[i].end()){
-                cout << (*itr).GetHot() << "\t";
+                cout << (*itr).hot << "\t";
                 itr++;
             }
             cout << endl;
@@ -217,7 +218,7 @@ class NVMRangChain
         {
             typename list<entry_key_t>::iterator itr = theLists[i].begin();
             while(itr != theLists[i].end()){
-                myinsert(*itr, (*itr).GetHot());
+                myinsert(*itr, (*itr).hot);
                 itr++;
             }
         }
@@ -236,6 +237,11 @@ class NVMRangChain
             maxhot = value;
             relist();
         }
+
+        if(currentSize >= theLists.size()){
+          return false;
+        }
+
         list<entry_key_t> & whichList = theLists[myid(value)];
         whichList.push_front(x);
 
