@@ -268,9 +268,9 @@ void Write_Log()    //倒盘
         bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), hot, dram_bptree1->Get(insertData1[i]));
         
         uint64_t k = char8toint64(insertData1[i].c_str());
-        char tmp[8];
+        char tmp[19];
         fillchar8wirhint64(tmp, k);
-        string str(tmp, 8);
+        string str(tmp, 19);
         cout << "insertData1: " << insertData1[i].length() << endl;
         cout << "insertData1: " << insertData1[i] << endl;
         cout << "k: " << k << endl;
