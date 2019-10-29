@@ -290,7 +290,7 @@ void Write_Log()    //倒盘
         int len = insertData2[i].length();
         string inse = insertData2[i].substr(len - 3, len -1);
         uint64_t hot = atoi(inse.c_str());
-        bptree_nvm2->Insert(char8toint64(insertData2[i].c_str()), hot, dram_bptree2->Get(insertData2[i]));
+        bptree_nvm1->Insert(char8toint64(insertData2[i].c_str()), hot, dram_bptree2->Get(insertData2[i]));
     }
     // for(int i=0;i<updakey2.size();i++){
     //     bptree_nvm2->Updakey(updakey2[i]);
