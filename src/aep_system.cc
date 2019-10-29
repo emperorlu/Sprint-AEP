@@ -427,7 +427,7 @@ string aepsystem::Get(const std::string& key)
             {
                 // cout << "[DEBUG] Read Cache!" << endl;
                 
-                Read_Cache();
+                // Read_Cache();
             }
             switch (id)
             {
