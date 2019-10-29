@@ -129,6 +129,7 @@ btree::btree(){
 void btree::chain_insert(entry_key_t key){
   // HCrchain->makeEmpty();
   HCrchain->insert(key);
+  HCrchain->traver();
 }
 
 void* btree::NewBpNode() {
