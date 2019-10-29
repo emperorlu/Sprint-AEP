@@ -37,6 +37,7 @@ public:
     vector<string> BacktoDram(int hot, size_t read);
 
     const std::string Get(const unsigned long key);
+    void Updakey(const unsigned long key);
 
     void GetRange(unsigned long key1, unsigned long key2, std::vector<std::string> &values, int &size);
 
