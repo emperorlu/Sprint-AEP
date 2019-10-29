@@ -558,7 +558,7 @@ void BpTree::Insert(string key, string value)
     memcpy(keybuf, key.c_str(), key.size());
     memcpy(keybuf + NVM_KeySize, &vpoint, NVM_PointSize);
 
-    snprintf(sign, sizeof(sign), "%03d", 1);
+    snprintf(sign, sizeof(sign), "%03d", 31);
     string signdata(sign, NVM_SignSize);
     memcpy(keybuf + NVM_KeySize + NVM_PointSize, signdata.c_str(), NVM_SignSize);
     string tmp_key(keybuf, NVM_KeyBuf);
