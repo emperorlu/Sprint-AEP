@@ -267,15 +267,13 @@ void Write_Log()    //倒盘
         // cout << hot << endl;
         bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), hot, dram_bptree1->Get(insertData1[i]));
         
-        uint64_t k = char8toint64(insertData1[i].c_str());
-        char tmp[19];
-        fillchar8wirhint64(tmp, k);
-        string str(tmp, 19);
-        cout << "insertData1: " << insertData1[i].length() << endl;
+        uint64_t k = atoi(insertData1[i].c_str());
+        string str = to_string (k);
+
         cout << "insertData1: " << insertData1[i] << endl;
         cout << "k: " << k << endl;
-        cout << "tmp: " << tmp << endl;
         cout << "str: " << str << endl;
+        cout << "str: " << str.length() << endl;
         // bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), dram_bptree1->Get(insertData1[i]));
     }
     // for(int i=0;i<updakey1.size();i++){
