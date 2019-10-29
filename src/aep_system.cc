@@ -208,7 +208,7 @@ void Read_Cache()     //预取
     // cout << "size1: " << backData1.size();
     if(backData1.size()!=0){
         for(int i=0;i<backData1.size();i++){
-            dram_bptree1->Insert(backData1[i], bptree_nvm1->Get(backData1[i]));
+            dram_bptree1->Insert(backData1[i], bptree_nvm1->Get(char8toint64(backData1[i].c_str())));
         }
     }
     backData1.clear();
@@ -220,7 +220,7 @@ void Read_Cache()     //预取
     // cout << "size2: " << backData2.size();
     if(backData2.size()!=0){
         for(int i=0;i<backData2.size();i++){
-            dram_bptree2->Insert(backData2[i], bptree_nvm2->Get(backData2[i]));
+            dram_bptree2->Insert(backData2[i], bptree_nvm2->Get(char8toint64(backData2[i].c_str())));
         }
     }
     backData2.clear();
@@ -235,7 +235,7 @@ void Read_Cache()     //预取
     // cout << "size3: " << backData3.size() << endl;
     if(backData3.size()!=0){
         for(int i=0;i<backData3.size();i++){
-            dram_bptree3->Insert(backData3[i], bptree_nvm3->Get(backData3[i]));
+            dram_bptree3->Insert(backData3[i], bptree_nvm3->Get(char8toint64(backData3[i].c_str())));
         }
     }
     backData3.clear();
