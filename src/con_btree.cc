@@ -132,6 +132,32 @@ void btree::chain_insert(entry_key_t key){
   // HCrchain->traver();
 }
 
+vector<string> btree::btree_back(int hot, size_t read){
+  vector<string> dlist;
+    for(int i = HCrchain->theLists.size()-1; i >= 0; i--)
+    {
+      typename list<entry_key_t>::iterator itr = HCrchain->theLists[i].begin();
+      while(itr != HCrchain->theLists[i].end()){
+        if((*itr).hot < hot){
+          return dlist;
+        }
+        if((*itr).hot % 10 == 0){
+          char tmp[8];
+          fillchar8wirhint64(tmp, (*itr).key);
+          string str(tmp, 8);
+          dlist.push_back(str);
+          (*itr).hot++;
+          if (dlist.size() >= read)
+            return dlist;
+        }
+        itr++;
+      }
+    }
+  return dlist;
+}
+
+
+
 void* btree::NewBpNode() {
     return node_alloc->Allocate(sizeof(bpnode));
 }

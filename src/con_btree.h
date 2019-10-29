@@ -311,6 +311,7 @@ class btree{
     void PrintInfo();
     void CalculateSapce(uint64_t &space);
     void chain_insert(entry_key_t key);
+    vector<string> btree_back(int hot, size_t read);
 
     friend class bpnode;
 
