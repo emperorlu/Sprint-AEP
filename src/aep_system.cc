@@ -269,8 +269,9 @@ void Write_Log()    //倒盘
     for(int i=0;i<insertData1.size();i++){
         // if (dram_bptree1->Get(insertData1[i]).size() != 0)
         int len = insertData1[i].length();
-        cout << insertData1[i].substr(len - 3, len -1) << endl;
-        cout << char8toint64(insertData1[i].substr(len - 3, len -1).c_str()) << endl;
+        string inse = insertData1[i].substr(len - 3, len -1);
+        cout << "1: " << inse << endl;
+        cout << "2: " << char8toint64(inse.c_str()) << endl;
         uint64_t hot = 0;
         // bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), hot, dram_bptree1->Get(insertData1[i]));
         bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), dram_bptree1->Get(insertData1[i]));

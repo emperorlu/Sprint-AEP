@@ -8,6 +8,9 @@
         "unordered_map": "cpp",
         "xhash": "cpp",
         "xtree": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "iostream": "cpp",
+        "xlocale": "cpp",
+        "xutility": "cpp"
     }
 }
