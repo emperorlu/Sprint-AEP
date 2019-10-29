@@ -197,57 +197,57 @@ void* Data_out(void *arg)
 }
 
 
-void Read_Cache()     //预取
-{     
-    cache_num++;
-    //aep1
-    // bptree_nvm1->CreateChain();
-    vector<string> backData1;
-    size_t read = READ_DATA;
-    backData1 = bptree_nvm1->BacktoDram(dram_bptree1->GetMinHot(), read);
-    // cout << "size1: " << backData1.size();
-    if(backData1.size()!=0){
-        for(int i=0;i<backData1.size();i++){
-            dram_bptree1->Insert(backData1[i], bptree_nvm1->Get(backData1[i]));
-        }
-    }
-    backData1.clear();
+// void Read_Cache()     //预取
+// {     
+//     cache_num++;
+//     //aep1
+//     // bptree_nvm1->CreateChain();
+//     vector<string> backData1;
+//     size_t read = READ_DATA;
+//     backData1 = bptree_nvm1->BacktoDram(dram_bptree1->GetMinHot(), read);
+//     // cout << "size1: " << backData1.size();
+//     if(backData1.size()!=0){
+//         for(int i=0;i<backData1.size();i++){
+//             dram_bptree1->Insert(backData1[i], bptree_nvm1->Get(backData1[i]));
+//         }
+//     }
+//     backData1.clear();
 
-    //aep2   
-    // bptree_nvm2->CreateChain();
-    vector<string> backData2;
-    backData2 = bptree_nvm2->BacktoDram(dram_bptree2->GetMinHot(), read);
-    // cout << "size2: " << backData2.size();
-    if(backData2.size()!=0){
-        for(int i=0;i<backData2.size();i++){
-            if (bptree_nvm2->Get(backData2[i]).size() != 0)
-                dram_bptree2->Insert(backData2[i], bptree_nvm2->Get(backData2[i]));
-        }
-    }
-    backData2.clear();
-    // gettimeofday(&end2, NULL);
-    // double delta2 = (end2.tv_sec-begin.tv_sec) + (end2.tv_usec-begin.tv_usec)/1000000.0;
-    // printf("end\n cache2 timeval 总共时间：%lf us\n",delta2);
+//     //aep2   
+//     // bptree_nvm2->CreateChain();
+//     vector<string> backData2;
+//     backData2 = bptree_nvm2->BacktoDram(dram_bptree2->GetMinHot(), read);
+//     // cout << "size2: " << backData2.size();
+//     if(backData2.size()!=0){
+//         for(int i=0;i<backData2.size();i++){
+//             if (bptree_nvm2->Get(backData2[i]).size() != 0)
+//                 dram_bptree2->Insert(backData2[i], bptree_nvm2->Get(backData2[i]));
+//         }
+//     }
+//     backData2.clear();
+//     // gettimeofday(&end2, NULL);
+//     // double delta2 = (end2.tv_sec-begin.tv_sec) + (end2.tv_usec-begin.tv_usec)/1000000.0;
+//     // printf("end\n cache2 timeval 总共时间：%lf us\n",delta2);
     
-    //aep3
-    // bptree_nvm3->CreateChain();
-    vector<string> backData3;
-    backData3 = bptree_nvm3->BacktoDram(dram_bptree3->GetMinHot(), read);
-    // cout << "size3: " << backData3.size() << endl;
-    if(backData3.size()!=0){
-        for(int i=0;i<backData3.size();i++){
-            if (bptree_nvm3->Get(backData3[i]).size() != 0)
-                dram_bptree3->Insert(backData3[i], bptree_nvm3->Get(backData3[i]));
-        }
-    }
-    backData3.clear();
-    // gettimeofday(&end3, NULL);
-    // double delta3 = (end3.tv_sec-begin.tv_sec) + (end3.tv_usec-begin.tv_usec)/1000000.0;
-    // printf("end\n cache3 timeval 总共时间：%lf us\n",delta3);
+//     //aep3
+//     // bptree_nvm3->CreateChain();
+//     vector<string> backData3;
+//     backData3 = bptree_nvm3->BacktoDram(dram_bptree3->GetMinHot(), read);
+//     // cout << "size3: " << backData3.size() << endl;
+//     if(backData3.size()!=0){
+//         for(int i=0;i<backData3.size();i++){
+//             if (bptree_nvm3->Get(backData3[i]).size() != 0)
+//                 dram_bptree3->Insert(backData3[i], bptree_nvm3->Get(backData3[i]));
+//         }
+//     }
+//     backData3.clear();
+//     // gettimeofday(&end3, NULL);
+//     // double delta3 = (end3.tv_sec-begin.tv_sec) + (end3.tv_usec-begin.tv_usec)/1000000.0;
+//     // printf("end\n cache3 timeval 总共时间：%lf us\n",delta3);
 
-    // m_mutex.unlock();
-    // pthread_exit(NULL);
-}
+//     // m_mutex.unlock();
+//     // pthread_exit(NULL);
+// }
 
 void Write_Log()    //倒盘
 {   
