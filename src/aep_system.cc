@@ -267,8 +267,11 @@ void Write_Log()    //倒盘
     vector<string> insertData1;
     insertData1 = dram_bptree1->FlushtoNvm();
     for(int i=0;i<insertData1.size();i++){
-        if (dram_bptree1->Get(insertData1[i]).size() != 0)
-            bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), dram_bptree1->Get(insertData1[i]));
+        // if (dram_bptree1->Get(insertData1[i]).size() != 0)
+        cout << char8toint64(insertData1[i].c_str()) << endl;
+        uint64_t hot = 0;
+        // bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), hot, dram_bptree1->Get(insertData1[i]));
+        bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), dram_bptree1->Get(insertData1[i]));
     }
     // for(int i=0;i<updakey1.size();i++){
     //     bptree_nvm1->Updakey(updakey1[i]);
