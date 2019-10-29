@@ -271,6 +271,7 @@ void Write_Log()    //倒盘
         char tmp[8];
         fillchar8wirhint64(tmp, k);
         string str(tmp, 8);
+        cout << "insertData1: " << insertData1[i].length() << endl;
         cout << "insertData1: " << insertData1[i] << endl;
         cout << "k: " << k << endl;
         cout << "tmp: " << tmp << endl;

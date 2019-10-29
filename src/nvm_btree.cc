@@ -43,6 +43,7 @@ vector<string> NVMBtree::BacktoDram(int hot, size_t read)
     if(bt) {
         return bt->btree_back(hot, read);
     }
+    exit(0);
 }
 
 
