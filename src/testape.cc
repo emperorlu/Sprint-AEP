@@ -32,7 +32,7 @@ int main()
             hot++;
             // tmp_key++;
         }
-        tmp_key.replace(len-6, 6, hot.to_string());
+        tmp_key.replace(len-6, 6, to_string(hot));
         hot = stoi(tmp_key.substr(len-6));
         cout << "after insert Key: " << tmp_key << endl;
         cout << "after hot: " << hot << endl;
