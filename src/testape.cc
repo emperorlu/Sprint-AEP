@@ -26,7 +26,7 @@ int main()
         cout << "tmp_key: " << tmp_key << endl;
         memcpy(m_key[i], tmp_key.c_str(), NVM_KeyBuf);
         // strncpy(m_key[i], tmp_key.c_str(), NVM_KeyBuf);
-
+        cout << "m_key[i][NVM_KeyBuf-8]" << m_key[i][NVM_KeyBuf-8] << endl;
         printf("b: %s\n;", m_key[i]);
         string tmp(m_key[i], NVM_KeyBuf);
         cout << "before insert Key: " << tmp << endl;
