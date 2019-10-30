@@ -11,7 +11,7 @@ int main()
     int i;
     int ops = 10000;
     char keybuf[KEY_SIZE + 1];
-    
+    char m_key[10][NVM_KeyBuf];
     for(int i = 0; i < 10; i++) 
     {   
         snprintf(keybuf, sizeof(keybuf), "%07d", i);
@@ -23,25 +23,26 @@ int main()
         string signdata(sign, NVM_SignSize);
         memcpy(keybuf + NVM_KeySize + NVM_PointSize, signdata.c_str(), NVM_SignSize);
         string tmp_key(keybuf, NVM_KeyBuf);
-        cout << "before insert Key: " << tmp_key << endl;
-        int len = tmp_key.length();
-        int hot = stoi(tmp_key.substr(len-6));
+        memcpy(m_key[i], tmp_key, NVM_KeyBuf);
+        cout << "before insert Key: " << m_key[i] << endl;
+        int len = m_key[i].length();
+        int hot = stoi(m_key[i].substr(len-6));
         cout << "before hot: " << hot << endl;
         for(int j = 0; j < ops; j++)
         {
             hot++;
             if(j>ops/8){
-                if(tmp_key[len-8] == '1'){
+                if(m_key[i][len-8] == '1'){
                     cout << "1" << endl;
-                    tmp_key[len-8] = '0';
+                    m_key[i][len-8] = '0';
                     j = ops;
                 }
             }
             // tmp_key++;
         }
-        tmp_key.replace(len-6, 6, to_string(hot));
-        hot = stoi(tmp_key.substr(len-6));
-        cout << "after insert Key: " << tmp_key << endl;
+        m_key[i].replace(len-6, 6, to_string(hot));
+        hot = stoi(m_key[i].substr(len-6));
+        cout << "after insert Key: " << m_key[i] << endl;
         cout << "after hot: " << hot << endl;
     }
     
