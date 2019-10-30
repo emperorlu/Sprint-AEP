@@ -33,7 +33,7 @@ int main()
         cout << "before insert Key: " << tmp << endl;
         
         int len = tmp.length();
-        int hot = stoi(tmp.substr(len-6));
+        int hot = stoi(tmp.substr(len-7));
         cout << "before hot: " << hot << endl;
         for(int j = 0; j < ops; j++)
         {
@@ -47,8 +47,8 @@ int main()
             }
             // tmp_key++;
         }
-        tmp.replace(len-6, 6, to_string(hot));
-        hot = stoi(tmp.substr(len-6));
+        tmp.replace(len-7, 7, to_string(hot));
+        hot = stoi(tmp.substr(len-7));
         cout << "after insert Key: " << tmp << endl;
         cout << "after hot: " << hot << endl;
         memcpy(m_key[i], tmp.c_str(), NVM_KeyBuf);
