@@ -14,7 +14,7 @@ int main()
     char m_key[10][NVM_KeyBuf];
     for(int i = 0; i < 10; i++) 
     {   
-        snprintf(keybuf, sizeof(keybuf), "%07d", i);
+        snprintf(keybuf, sizeof(keybuf), "%08d", i);
         string data(keybuf, KEY_SIZE);
         char keybuf[NVM_KeyBuf + 1];
         char sign[NVM_SignSize + 1];
