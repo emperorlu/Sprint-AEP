@@ -9,7 +9,7 @@ int main()
     size_t KEY_SIZE = rocksdb::NVM_KeySize;         // 32B
     size_t VALUE_SIZE = rocksdb::NVM_ValueSize;
     int i;
-    int ops = 1000;
+    int ops = 10000;
     char keybuf[KEY_SIZE + 1];
     
     for(int i = 0; i < 10; i++) 
@@ -30,6 +30,12 @@ int main()
         for(int j = 0; j < ops; j++)
         {
             hot++;
+            if(j>ops/8){
+                if(tmp_key[len-7] == '1'){
+                    tmp_key[len-7] == '0';
+                    break;
+                }
+            }
             // tmp_key++;
         }
         tmp_key.replace(len-6, 6, to_string(hot));
