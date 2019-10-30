@@ -27,11 +27,17 @@ int main()
         int len = tmp_key.length();
         int hot = stoi(tmp_key.substr(len-6));
         cout << "before hot: " << hot << endl;
+        cout << "tmp_key[len-7]: " << tmp_key[len-7] << endl;
+        cout << "tmp_key[len-6]: " << tmp_key[len-6] << endl;
+        cout << "tmp_key[len-5]: " << tmp_key[len-5] << endl;
+        cout << "tmp_key[len-4]: " << tmp_key[len-4] << endl;
+        cout << "tmp_key[len-3]: " << tmp_key[len-3] << endl;
+        cout << "tmp_key[len-2]: " << tmp_key[len-2] << endl;
+        cout << "tmp_key[len-1]: " << tmp_key[len-1] << endl;
         for(int j = 0; j < ops; j++)
         {
             hot++;
             if(j>ops/8){
-                cout << "0" << endl;
                 if(tmp_key[len-7] == '1'){
                     cout << "1" << endl;
                     tmp_key[len-7] = '0';
