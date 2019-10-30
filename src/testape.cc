@@ -23,11 +23,10 @@ int main()
         string signdata(sign, NVM_SignSize);
         string tmp_key(keybuf, NVM_KeyBuf);
         memcpy(m_key[i], tmp_key.c_str(), NVM_KeyBuf);
-        printf("before m_key[i]: %s\n", m_key[i]);
+        cout << "before m_key[i]: " << m_key[i][len-8] << endl;
         string tmp (m_key[i], NVM_KeyBuf);
-
-
         cout << "before insert Key: " << tmp << endl;
+        
         int len = tmp.length();
         int hot = stoi(tmp.substr(len-6));
         cout << "before hot: " << hot << endl;
@@ -36,6 +35,7 @@ int main()
             hot++;
             if(j>ops/8){
                 if(tmp[len-8] == '1'){
+                    cout << "1" << endl;
                     tmp[len-8] = '0';
                     j = ops;
                 }
@@ -47,7 +47,7 @@ int main()
         cout << "after insert Key: " << tmp << endl;
         cout << "after hot: " << hot << endl;
         memcpy(m_key[i], tmp.c_str(), NVM_KeyBuf);
-        printf("after m_key[i]: %s", m_key[i]);
+        cout << "after m_key[i]: " << m_key[i] << endl;
     }
     
 }
