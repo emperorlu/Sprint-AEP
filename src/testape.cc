@@ -22,15 +22,18 @@ int main()
         string signdata(sign, NVM_SignSize);
         memcpy(keybuf + NVM_KeySize + NVM_PointSize, signdata.c_str(), NVM_SignSize);
         string tmp_key(keybuf, NVM_KeyBuf);
-        cout << "Insert Key: " << tmp_key << endl;
+        cout << "before insert Key: " << tmp_key << endl;
         int len = tmp_key.length();
         int hot = stoi(tmp_key.substr(len-6));
         cout << "before hot: " << hot << endl;
         for(int j = 0; j < ops; j++)
         {
-            tmp_key++;
+            hot++
+            // tmp_key++;
         }
-        int hot = stoi(tmp_key.substr(len-6));
+        tmp_key.replace(len-6, 6, hot.to_string());
+        hot = stoi(tmp_key.substr(len-6));
+        cout << "after insert Key: " << tmp_key << endl;
         cout << "after hot: " << hot << endl;
     }
     
