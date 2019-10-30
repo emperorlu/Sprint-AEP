@@ -25,9 +25,10 @@ int main()
         string tmp_key(keybuf, NVM_KeyBuf);
         memcpy(m_key[i], tmp_key.c_str(), NVM_KeyBuf);
         cout << "before m_key[i]: " << m_key[i] << endl;
-        string tmp = to_string(m_key[i]);
-        cout << "before insert Key: " << m_key[i] << endl;
-        int len = sizeof(m_key[i]);
+        string tmp (m_key[i], NVM_KeyBuf);
+        cout << "before insert Key: " << tmp << endl;
+        // int len = sizeof(m_key[i]);
+        int len = tmp.length();
         int hot = stoi(tmp.substr(len-6));
         cout << "before hot: " << hot << endl;
         for(int j = 0; j < ops; j++)
