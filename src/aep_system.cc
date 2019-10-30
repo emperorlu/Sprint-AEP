@@ -259,6 +259,7 @@ void Write_Log()    //倒盘
         int len = insertData1[i].length();
         string inse = insertData1[i].substr(len - 3, len -1);
         uint64_t hot = atoi(inse.c_str());
+        hot--;
         // cout << hot << endl;
         bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), hot, dram_bptree1->Get(insertData1[i]));
         // bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), dram_bptree1->Get(insertData1[i]));
@@ -277,6 +278,7 @@ void Write_Log()    //倒盘
         int len = insertData2[i].length();
         string inse = insertData2[i].substr(len - 3, len -1);
         uint64_t hot = atoi(inse.c_str());
+        hot--;
         bptree_nvm2->Insert(char8toint64(insertData2[i].c_str()), hot, dram_bptree2->Get(insertData2[i]));
     }
     // for(int i=0;i<updakey2.size();i++){
@@ -291,6 +293,7 @@ void Write_Log()    //倒盘
         int len = insertData3[i].length();
         string inse = insertData3[i].substr(len - 3, len -1);
         uint64_t hot = atoi(inse.c_str());
+        hot--;
         bptree_nvm3->Insert(char8toint64(insertData3[i].c_str()), hot, dram_bptree3->Get(insertData3[i]));
     }
     // for(int i=0;i<updakey3.size();i++){
