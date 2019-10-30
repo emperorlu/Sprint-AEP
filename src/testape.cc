@@ -22,7 +22,8 @@ int main()
         snprintf(sign, sizeof(sign), "%07d", 1000000);
         string signdata(sign, NVM_SignSize);
         string tmp_key(keybuf, NVM_KeyBuf);
-        memcpy(m_key[i], tmp_key.c_str(), NVM_KeyBuf);
+        // memcpy(m_key[i], tmp_key.c_str(), NVM_KeyBuf);
+        strncpy(m_key[i], tmp_key.c_str(), NVM_KeyBuf);
 
         cout << "before m_key[i]: " << m_key[i] << endl;
         string tmp (m_key[i], NVM_KeyBuf);
