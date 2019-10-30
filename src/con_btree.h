@@ -229,7 +229,7 @@ class CONRangChain
     
     bool insert(const entry_key_t &x)
     {   
-      uint64_t value = x.hot;
+      uint64_t value = x.hot / 10;
       if (value < minhot){
           minhot = value;
           relist();
