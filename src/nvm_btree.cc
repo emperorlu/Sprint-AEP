@@ -47,9 +47,9 @@ vector<string> NVMBtree::BacktoDram(int hot, size_t read)
 }
 
 void NVMBtree::Updakey(const unsigned long key){
-    if(bt) {
-        bt->btree_updakey(key);
-    }
+    // if(bt) {
+    //     bt->btree_updakey(key);
+    // }
 }
 
 
