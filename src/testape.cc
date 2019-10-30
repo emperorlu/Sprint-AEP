@@ -27,7 +27,7 @@ int main()
         memcpy(m_key[i], tmp_key.c_str(), NVM_KeyBuf);
         // strncpy(m_key[i], tmp_key.c_str(), NVM_KeyBuf);
 
-        cout << "before m_key[i]: " << m_key[i] << endl;
+        printf("b: %s\n;", m_key[i]);
         string tmp(m_key[i], NVM_KeyBuf);
         cout << "before insert Key: " << tmp << endl;
         
@@ -51,7 +51,7 @@ int main()
         cout << "after insert Key: " << tmp << endl;
         cout << "after hot: " << hot << endl;
         memcpy(m_key[i], tmp.c_str(), NVM_KeyBuf);
-        cout << "after m_key[i]: " << m_key[i] << endl;
+        printf("a: %s\n;", m_key[i]);
     }
     
 }
