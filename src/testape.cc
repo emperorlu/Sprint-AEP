@@ -19,7 +19,7 @@ int main()
         char keybuf[NVM_KeyBuf + 1];
         char sign[NVM_SignSize + 1];
         memcpy(keybuf, data.c_str(), data.size());
-        snprintf(sign, sizeof(sign), "%07d", 10000000);
+        snprintf(sign, sizeof(sign), "%07d", 1000000);
         string signdata(sign, NVM_SignSize);
         memcpy(keybuf + NVM_KeySize + NVM_PointSize, signdata.c_str(), NVM_SignSize);
         string tmp_key(keybuf, NVM_KeyBuf);
