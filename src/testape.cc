@@ -14,12 +14,12 @@ int main()
     
     for(int i = 0; i < 10; i++) 
     {   
-        snprintf(keybuf, sizeof(keybuf), "%07d", i);
+        snprintf(keybuf, sizeof(keybuf), "%08d", i);
         string data(keybuf, KEY_SIZE);
         char keybuf[NVM_KeyBuf + 1];
         char sign[NVM_SignSize + 1];
         memcpy(keybuf, data.c_str(), data.size());
-        snprintf(sign, sizeof(sign), "%07d", 1000000);
+        snprintf(sign, sizeof(sign), "%08d", 10000000);
         string signdata(sign, NVM_SignSize);
         memcpy(keybuf + NVM_KeySize + NVM_PointSize, signdata.c_str(), NVM_SignSize);
         string tmp_key(keybuf, NVM_KeyBuf);
@@ -38,9 +38,9 @@ int main()
         {
             hot++;
             if(j>ops/8){
-                if(tmp_key[len-7] == '1'){
+                if(tmp_key[len-8] == '1'){
                     cout << "1" << endl;
-                    tmp_key[len-7] = '0';
+                    tmp_key[len-8] = '0';
                     j = ops;
                 }
             }
