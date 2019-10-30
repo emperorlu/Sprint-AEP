@@ -1,6 +1,7 @@
 #include "nvm_common2.h"
 #include <cstring>
 
+using namespace std;
 using namespace rocksdb;
 
 int main()
