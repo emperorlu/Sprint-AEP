@@ -28,7 +28,7 @@ int main()
         cout << "before hot: " << hot << endl;
         for(int j = 0; j < ops; j++)
         {
-            hot++
+            hot++;
             // tmp_key++;
         }
         tmp_key.replace(len-6, 6, hot.to_string());
