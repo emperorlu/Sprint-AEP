@@ -46,6 +46,12 @@ vector<string> NVMBtree::BacktoDram(int hot, size_t read)
     exit(0);
 }
 
+void NVMBtree::Updakey(const unsigned long key){
+    if(bt) {
+        bt->btree_updakey(key);
+    }
+}
+
 
     
 void NVMBtree::Insert(const unsigned long key, const string &value) {
