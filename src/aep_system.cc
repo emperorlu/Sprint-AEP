@@ -260,7 +260,7 @@ void Write_Log()    //倒盘
         string inse = insertData1[i].substr(len - 3, len -1);
         uint64_t hot = atoi(inse.c_str());
         hot--;
-        cout << hot << endl;
+        // cout << hot << endl;
         bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), hot, dram_bptree1->Get(insertData1[i]));
         // bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), dram_bptree1->Get(insertData1[i]));
     }

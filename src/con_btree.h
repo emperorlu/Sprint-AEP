@@ -240,7 +240,10 @@ class CONRangChain
       }
 
       if(currentSize >= theLists.size()){
-        return false;
+        if(myid(value) == 0)
+          return false;
+        else
+          remove();
       }
 
       list<entry_key_t> & whichList = theLists[myid(value)];

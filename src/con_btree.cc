@@ -142,6 +142,7 @@ vector<string> btree::btree_back(int hot, size_t read){
           return dlist;
         }
         if((*itr).hot % 10 == 0){
+          cout << "back!" << endl;
           char tmp[8];
           fillchar8wirhint64(tmp, (*itr).key);
           string str(tmp, 8);
