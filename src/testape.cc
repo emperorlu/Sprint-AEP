@@ -24,8 +24,8 @@ int main()
         memcpy(keybuf + NVM_KeySize + NVM_PointSize, signdata.c_str(), NVM_SignSize);
         string tmp_key(keybuf, NVM_KeyBuf);
         cout << "tmp_key: " << tmp_key << endl;
-        // memcpy(m_key[i], tmp_key.c_str(), NVM_KeyBuf);
-        strncpy(m_key[i], tmp_key.c_str(), NVM_KeyBuf);
+        memcpy(m_key[i], tmp_key.c_str(), NVM_KeyBuf);
+        // strncpy(m_key[i], tmp_key.c_str(), NVM_KeyBuf);
 
         cout << "before m_key[i]: " << m_key[i] << endl;
         string tmp(m_key[i], NVM_KeyBuf);
