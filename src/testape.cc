@@ -32,7 +32,8 @@ int main()
             hot++;
             if(j>ops/8){
                 if(tmp_key[len-7] == '1'){
-                    tmp_key[len-7] == '0';
+                    cout << "1" << endl;
+                    tmp_key[len-7] = '0';
                     j = ops;
                 }
             }
