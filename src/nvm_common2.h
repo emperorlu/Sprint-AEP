@@ -16,7 +16,7 @@ namespace rocksdb {
     const int NVM_KeySize = 8;
     const int NVM_ValueSize = 1024;//1024;
     const int NVM_PointSize = 8;
-    const int NVM_SignSize = 3;
+    const int NVM_SignSize = 8;
     const int NVM_KeyBuf = NVM_KeySize + NVM_PointSize + NVM_SignSize;
     // Statistic stats;
     static inline int KeyCompare(const void *key1, const void *key2) {

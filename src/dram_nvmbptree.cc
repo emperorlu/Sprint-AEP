@@ -143,8 +143,8 @@ char * BpNode::Get(const std::string& key) {
         {
             if(IsLeafNode()) {
                 if(res == 0) {
-                    if ((m_key[i][NVM_KeyBuf-3] - '0') < 79)
-                        m_key[i][NVM_KeyBuf-3]++;
+                    // if ((m_key[i][NVM_KeyBuf-3] - '0') < 79)
+                    m_key[i]++;
                     return m_key[i] + NVM_KeySize;
                 }
                 else {
@@ -558,7 +558,7 @@ void BpTree::Insert(string key, string value)
     memcpy(keybuf, key.c_str(), key.size());
     memcpy(keybuf + NVM_KeySize, &vpoint, NVM_PointSize);
 
-    snprintf(sign, sizeof(sign), "%03d", 1);
+    snprintf(sign, sizeof(sign), "%08d", 10000000);
     string signdata(sign, NVM_SignSize);
     memcpy(keybuf + NVM_KeySize + NVM_PointSize, signdata.c_str(), NVM_SignSize);
     string tmp_key(keybuf, NVM_KeyBuf);

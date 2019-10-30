@@ -141,13 +141,11 @@ class BpNode    //将叶子节点和索引节点放在一个结构里面
         return m_currentSize;
     }
 
-    int GetHot()
+    int GetHot(string x)
     {
         int hot = 0;
-        for(int i=0;i< GetSize();i++){
-            hot += (m_key[i][NVM_KeyBuf-3] - '0');
-        }
-        return (hot / GetSize());
+        
+        return hot;
     }
 
     bool IsLeafNode() {
@@ -189,8 +187,8 @@ class RangChain
     RangChain()
     {
         listSize = 10;
-        theLists = vector<list<BpNode> >(listSize);
-        myList = vector<list<BpNode> >(listSize);
+        theLists = vector<list<string> >(listSize);
+        myList = vector<list<string> >(listSize);
         for(std::size_t i = 0; i < myList.size(); i++){
             if(!myList[i].empty()) {
                 myList[i].clear();
@@ -231,9 +229,9 @@ class RangChain
         for(std::size_t i = 0; i < theLists.size(); i++)
         {
             cout << i << ":";
-            typename list<BpNode>::iterator itr = theLists[i].begin();
+            typename list<string>::iterator itr = theLists[i].begin();
             while(itr != theLists[i].end()){
-                cout << (*itr).GetHot() << "\t";
+                cout << GetHot(*itr) << "\t";
                 itr++;
             }
             cout << endl;
@@ -246,7 +244,7 @@ class RangChain
         while (theLists[i].size() == 0){
             i++;
         }
-        list<BpNode> & whichList = theLists[i];
+        list<string> & whichList = theLists[i];
         whichList.erase(whichList.begin());
         currentSize--;
         return true;
@@ -256,7 +254,7 @@ class RangChain
     {
         for(std::size_t i = 0; i < theLists.size(); i++)
         {
-            typename list<BpNode>::iterator itr = theLists[i].begin();
+            typename list<string>::iterator itr = theLists[i].begin();
             while(itr != theLists[i].end()){
                 myinsert(*itr, (*itr).GetHot());
                 itr++;
@@ -265,7 +263,7 @@ class RangChain
         theLists = myList;
     }
     
-    bool insert(const BpNode &x, int value)
+    bool insert(const string &x, int value)
     {   
         if (value >= maxhot)
         {
@@ -281,12 +279,12 @@ class RangChain
         return true;   
     }
     int  maxhot, minhot;
-    vector<list<BpNode>> theLists;   // The array of Lists
+    vector<list<string>> theLists;   // The array of Lists
     
   private:
     int listSize;
     int currentSize;
-    vector<list<BpNode>>  myList;
+    vector<list<string>>  myList;
 
     int myid(int value)
     {
@@ -299,7 +297,7 @@ class RangChain
         return 1.0 * (value - minhot) / (maxhot - minhot) * listSize;
     }
 
-    bool myinsert(const BpNode x, int value)
+    bool myinsert(const string x, int value)
     {   
         myList[myid(value)].push_front(x);
         return true;   
