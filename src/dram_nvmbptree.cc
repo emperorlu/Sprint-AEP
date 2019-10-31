@@ -143,7 +143,12 @@ char * BpNode::Get(const std::string& key) {
         {
             if(IsLeafNode()) {
                 if(res == 0) {
-                    m_key[i]++;
+                    string tmp(m_key[i], NVM_KeyBuf);
+                    int len = tmp.length();
+                    int hot = stoi(tmp.substr(len-7));
+                    hot++;
+                    tmp.replace(len-7, 7, to_string(hot));
+                    memcpy(m_key[i], tmp.c_str(), NVM_KeyBuf);
                     return m_key[i] + NVM_KeySize;
                 }
                 else {
@@ -536,14 +541,18 @@ BpTree::BpTree()
 BpTree::~BpTree()
 {
     delete m_root;
-    delete HCrchain;
     m_first = NULL;
-    HCrchain = NULL;
+    delete HCrchain;
 }
 
 void BpTree::Initialize(PersistentAllocator* valueAllocator) {
     // BpNodeNVMAllocator_ = allocator;
     DrBpValueNVMAllocator_ = valueAllocator;
+}
+
+void BpTree::InsertChain(string key)
+{
+    HCrchain->insert(key);
 }
 
 void BpTree::Insert(string key, string value)
@@ -561,6 +570,7 @@ void BpTree::Insert(string key, string value)
     string signdata(sign, NVM_SignSize);
     memcpy(keybuf + NVM_KeySize + NVM_PointSize, signdata.c_str(), NVM_SignSize);
     string tmp_key(keybuf, NVM_KeyBuf);
+    InsertChain(tmp_key);
 
     if(m_root == nullptr)
     {
@@ -628,6 +638,7 @@ string BpTree::Get(const std::string& key) {
     // cout << "[DEBUG] Get 1! " << endl;
 
     if((pvalue = m_root->Get(key)) != nullptr){
+        HCrchain->update(key);
         uint64_t value_point;
         memcpy(&value_point, pvalue, sizeof(uint64_t));
         char *value = (char *)value_point;

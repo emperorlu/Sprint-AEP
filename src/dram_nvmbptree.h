@@ -144,7 +144,7 @@ class BpNode    //将叶子节点和索引节点放在一个结构里面
     int GetHot(string x)
     {
         int hot = 0;
-        
+        hot = stoi(x.substr(x.length()-7));
         return hot;
     }
 
@@ -189,11 +189,14 @@ class RangChain
         listSize = 10;
         theLists = vector<list<string> >(listSize);
         myList = vector<list<string> >(listSize);
+        maxhot = 30;
+        minhot = 0;
         for(std::size_t i = 0; i < myList.size(); i++){
             if(!myList[i].empty()) {
                 myList[i].clear();
             }
         }
+        cout << "theLists.size(): " << theLists.size() << endl;
         currentSize = 0; 
     }
 
@@ -240,9 +243,9 @@ class RangChain
 
     bool remove()
     {   
-        int i = 0;
+        int i = theLists.size();
         while (theLists[i].size() == 0){
-            i++;
+            i--;
         }
         list<string> & whichList = theLists[i];
         whichList.erase(whichList.begin());
@@ -256,25 +259,49 @@ class RangChain
         {
             typename list<string>::iterator itr = theLists[i].begin();
             while(itr != theLists[i].end()){
-                myinsert(*itr, (*itr).GetHot());
+                myinsert(*itr, GetHot(*itr));
                 itr++;
             }
         }
         theLists = myList;
     }
     
-    bool insert(const string &x, int value)
+    bool update(const string &x)
+    {
+        for(std::size_t i = 0; i < theLists.size(); i++)
+        {
+            typename list<string>::iterator itr = theLists[i].begin();
+            while(itr != theLists[i].end()){
+                int res = memcmp(x.c_str(), (*itr).c_str(), NVM_KeySize);
+                if (res == 0){
+                    theLists[i].erase(itr);
+                    insert(x);
+                    return true;
+                }
+                itr++;
+            }
+        }
+        return false;
+    }
+
+    bool insert(const string &x)
     {   
+        int value = GetHot(x);
+        if(currentSize >= theLists.size()){
+            if(value >= maxhot)
+                return false;
+            else
+                remove();
+        }
+
         if (value >= maxhot)
         {
-            maxhot = value + 10;
+            maxhot = value;
             relist();
         }else if (value < minhot){
-            minhot = value;
-            relist();
+            return false;
         }
         theLists[myid(value)].push_front(x);
-
         currentSize++;
         return true;   
     }
@@ -325,30 +352,31 @@ class BpTree
     void PrintStatistic();
     void PrintInfo();
     void CreateChain();
+    void InsertChain(string key);
     vector<string> OutdeData(size_t out);
-    int GetMinHot(){
-        return (HCrchain->minhot+HCrchain->maxhot)/2;
-    }
-    int MinHot(){
-        int minHot = m_first->GetHot();
-        BpNode* p = m_first;
-        while(p!=NULL){
-            if(p->GetHot() < minHot)
-                minHot = p->GetHot();
-            p=p->GetNext();
-        }
-        return minHot;
-    }
-    int MaxHot(){
-        int maxHot = m_first->GetHot();
-        BpNode* p = m_first;
-        while(p!=NULL){
-            if(p->GetHot() > maxHot)
-                maxHot = p->GetHot();
-            p=p->GetNext();
-        }
-        return maxHot;
-    }
+    // int GetMinHot(){
+    //     return (HCrchain->minhot+HCrchain->maxhot)/2;
+    // }
+    // int MinHot(){
+    //     int minHot = m_first->GetHot();
+    //     BpNode* p = m_first;
+    //     while(p!=NULL){
+    //         if(p->GetHot() < minHot)
+    //             minHot = p->GetHot();
+    //         p=p->GetNext();
+    //     }
+    //     return minHot;
+    // }
+    // int MaxHot(){
+    //     int maxHot = m_first->GetHot();
+    //     BpNode* p = m_first;
+    //     while(p!=NULL){
+    //         if(p->GetHot() > maxHot)
+    //             maxHot = p->GetHot();
+    //         p=p->GetNext();
+    //     }
+    //     return maxHot;
+    // }
     RangChain* HCrchain;
   private:
     //根节点指向，根节点可能是IndexNode，也可能是LeaveNode

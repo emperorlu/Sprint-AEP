@@ -51,9 +51,10 @@ int main()
     //     // }
         
     // }
+    for(int k = 0; k < 10; k ++){
     for(int j = 0; j < ops; j++) 
     {   
-        i = rand()%ops;
+        i = rand()%(ops/10) + k * (ops/10);
         // cout << j << " : " << i << endl;
         // for (i = 0; i < (ops/100-j); i++){
         snprintf(keybuf, sizeof(keybuf), "%07d", i);
@@ -68,6 +69,7 @@ int main()
         }
         // }
         
+    }
     }
     printf("******Get1 test finished.*****\n");
     db_->End();
