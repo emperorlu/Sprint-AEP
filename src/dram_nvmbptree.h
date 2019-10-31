@@ -183,7 +183,7 @@ class RangChain
         theLists = vector<list<string> >(listSize);
         myList = vector<list<string> >(listSize);
         maxhot = 30;
-        minhot = 10;
+        minhot = 0;
         maxSize = 100000;
         for(std::size_t i = 0; i < myList.size(); i++){
             if(!myList[i].empty()) {

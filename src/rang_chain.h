@@ -112,7 +112,7 @@ class RangChain
     
     void relist()
     {   
-        cout << "before relist: " << endl;
+        // cout << "before relist: " << endl;
         traver();
         for(int i = 0; i < theLists.size(); i++)
         {
@@ -124,7 +124,7 @@ class RangChain
             }
         }
         theLists = myList;
-        cout << "relist: " << endl;
+        // cout << "relist: " << endl;
         traver();
     }
 

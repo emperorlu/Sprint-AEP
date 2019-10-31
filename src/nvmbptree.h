@@ -241,7 +241,7 @@ class NVMRangChain
     
     void relist()
     {   
-        cout << "before relist: " << endl;
+        // cout << "before relist: " << endl;
         // traver();
         for(std::size_t i = 0; i < theLists.size(); i++)
         {
@@ -252,7 +252,7 @@ class NVMRangChain
             }
         }
         theLists = myList;
-        cout << "relist: " << endl;
+        // cout << "relist: " << endl;
         // traver();
     }
     

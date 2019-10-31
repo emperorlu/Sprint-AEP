@@ -165,7 +165,7 @@ class CONRangChain
         theLists = vector<list<entry_key_t> >(listSize);
         myList = vector<list<entry_key_t> >(listSize);
         maxhot = 30;
-        minhot = 10;
+        minhot = 0;
         maxSize = 100000;
         currentSize = 0;
     }
@@ -215,7 +215,7 @@ class CONRangChain
     
     void relist()
     {   
-        cout << "before relist: " << endl;
+        // cout << "before relist: " << endl;
         // traver();
         for(std::size_t i = 0; i < theLists.size(); i++)
         {
@@ -226,7 +226,7 @@ class CONRangChain
             }
         }
         theLists = myList;
-        cout << "relist: " << endl;
+        // cout << "relist: " << endl;
         // traver();
     }
     
