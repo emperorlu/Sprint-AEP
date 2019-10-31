@@ -179,7 +179,7 @@ class RangChain
   public:
     RangChain()
     {
-        listSize = 10;
+        listSize = 1000000;
         theLists = vector<list<string> >(listSize);
         myList = vector<list<string> >(listSize);
         maxhot = 30;
@@ -189,7 +189,7 @@ class RangChain
                 myList[i].clear();
             }
         }
-        cout << "theLists.size(): " << theLists.size() << endl;
+        // cout << "theLists.size(): " << theLists.size() << endl;
         currentSize = 0; 
     }
 
@@ -323,13 +323,14 @@ class RangChain
 
     int myid(int value)
     {
+        int maxSize = 10;
         if(maxhot == minhot) {
             return 0;
         } 
         if(value >= maxhot) {
-            return listSize - 1;
+            return maxSize - 1;
         }
-        return 1.0 * (value - minhot) / (maxhot - minhot) * listSize;
+        return 1.0 * (value - minhot) / (maxhot - minhot) * maxSize;
     }
 
     bool myinsert(const string x, int value)
