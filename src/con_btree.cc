@@ -134,25 +134,28 @@ void btree::chain_insert(entry_key_t key){
 
 vector<string> btree::btree_back(int hot, size_t read){
   vector<string> dlist;
-    for(int i = HCrchain->theLists.size()-1; i >= 0; i--)
-    {
-      typename list<entry_key_t>::iterator itr = HCrchain->theLists[i].begin();
-      while(itr != HCrchain->theLists[i].end()){
-        if((*itr).hot < hot){
-          return dlist;
-        }
-        if((*itr).sign == '0'){
-          char tmp[8];
-          fillchar8wirhint64(tmp, (*itr).key);
-          string str(tmp, 8);
-          dlist.push_back(str);
-          (*itr).sign == '1';
-          if (dlist.size() >= read)
-            return dlist;
-        }
-        itr++;
+  cout << "minhot: " << hot << endl;
+  for(int i = HCrchain->theLists.size()-1; i >= 0; i--)
+  {
+    typename list<entry_key_t>::iterator itr = HCrchain->theLists[i].begin();
+    while(itr != HCrchain->theLists[i].end()){
+      if((*itr).hot < hot){
+        cout << "<hot" << endl;
+        return dlist;
       }
+      if((*itr).sign == '0'){
+        cout << " get hot" << endl;
+        char tmp[8];
+        fillchar8wirhint64(tmp, (*itr).key);
+        string str(tmp, 8);
+        dlist.push_back(str);
+        (*itr).sign == '1';
+        if (dlist.size() >= read)
+          return dlist;
+      }
+      itr++;
     }
+  }
   return dlist;
 }
 
