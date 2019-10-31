@@ -207,8 +207,7 @@ class CONRangChain
         while (theLists[i].size() == 0){
             i++;
         }
-        list<entry_key_t> & whichList = theLists[i];
-        whichList.erase(whichList.begin());
+        theLists[i].erase(whichList.begin());
         currentSize--;
         return true;
     }

@@ -186,6 +186,7 @@ class RangChain
         maxhot = 30;
         minhot = 0;
         Mah=0;
+        Mih=10;
         maxSize = 100000;
         for(std::size_t i = 0; i < myList.size(); i++){
             if(!myList[i].empty()) {
@@ -273,11 +274,12 @@ class RangChain
     }
     
     int MinHot(){
-        int i = 0;
-        while (theLists[i].size() == 0){
-            i++;
-        }
-        return GetHot(*theLists[i].begin());
+        // int i = 0;
+        // while (theLists[i].size() == 0){
+        //     i++;
+        // }
+        // return GetHot(*theLists[i].begin());
+        return Mih;
     }
 
     bool update_insert(const string &x)
@@ -328,11 +330,12 @@ class RangChain
                 remove();
         }
         if (value > Mah){
-            cout << "Max: " << x << " value: " << value << endl;
+            // cout << "Max: " << x << " value: " << value << endl;
             Mah = value;
-
         }
-
+        if (value < Mih){
+            Mih = value;
+        }
 
         if (value > maxhot)
         {
@@ -353,7 +356,7 @@ class RangChain
   private:
     int listSize;
     int maxSize;
-    int Mah;
+    int Mah,Mih;
 
     vector<list<string>>  myList;
 
