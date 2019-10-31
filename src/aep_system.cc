@@ -158,7 +158,7 @@ void* Data_out(void *arg)
             out_num++;
             vector<string> outData;
             size_t out = OUT_DATA;
-            dram_bptree1->CreateChain();
+            // dram_bptree1->CreateChain();
             outData = dram_bptree1->OutdeData(out);
             if(outData.size()!=0){
                 for(int i=0;i<outData.size();i++){
@@ -169,7 +169,7 @@ void* Data_out(void *arg)
             }
 
             vector<string> outData2;
-            dram_bptree2->CreateChain();
+            // dram_bptree2->CreateChain();
             outData2 = dram_bptree2->OutdeData(out);
             if(outData2.size()!=0){
                 for(int i=0;i<outData2.size();i++){
@@ -180,7 +180,7 @@ void* Data_out(void *arg)
             }
 
             vector<string> outData3;
-            dram_bptree3->CreateChain();
+            // dram_bptree3->CreateChain();
             outData3 = dram_bptree3->OutdeData(out);
             if(outData3.size()!=0){
                 for(int i=0;i<outData3.size();i++){

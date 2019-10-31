@@ -699,17 +699,14 @@ bool BpTree::Search(string key1, string key2, string* result, int& size)
 // }
 vector<string> BpTree::OutdeData(size_t out){
     vector<string> dlist;
-    size_t num = 0;
     for(int i = 0; i < HCrchain->theLists.size(); i++)
     {
         typename list<BpNode>::iterator itr = HCrchain->theLists[i].begin();
         while(itr != HCrchain->theLists[i].end()){
-            for(int j=0;j<(*itr).GetSize();j++){
-                if((*itr).GetKey(j)[NVM_KeyBuf-8]== '0'){
-                    dlist.push_back(string((*itr).GetKey(j), NVM_KeyBuf));
-                    if (dlist.size() >= out)
-                        return dlist;
-                }
+            if((*itr)[NVM_KeyBuf-8]== '0'){
+                dlist.push_back(*itr);
+                if (dlist.size() >= out)
+                    return dlist;
             }
             itr++;
         }
@@ -734,17 +731,17 @@ vector<string> BpTree::FlushtoNvm()
     return dlist;
 }
 
-void BpTree::CreateChain()
-{
-    BpNode* p = m_root->GetMinLeaveNode();
-    HCrchain->makeEmpty();
-    HCrchain->initialize(MinHot(), MaxHot()+1);
-    while(p!=NULL){
-        HCrchain->insert(*p, p->GetHot());
-        p=p->GetNext();
-    }
-    // HCrchain->traver();
-}
+// void BpTree::CreateChain()
+// {
+//     BpNode* p = m_root->GetMinLeaveNode();
+//     HCrchain->makeEmpty();
+//     HCrchain->initialize(MinHot(), MaxHot()+1);
+//     while(p!=NULL){
+//         HCrchain->insert(*p, p->GetHot());
+//         p=p->GetNext();
+//     }
+//     // HCrchain->traver();
+// }
 
 void BpTree::Print(){
     if(m_root != nullptr) {

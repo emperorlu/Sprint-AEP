@@ -203,6 +203,13 @@ class RangChain
         minhot = minValue;
     }
 
+    int GetHot(string x)
+    {
+        int hot = 0;
+        hot = stoi(x.substr(x.length()-7));
+        return hot;
+    }
+
     int getSize()
     {
         return currentSize;
@@ -259,6 +266,14 @@ class RangChain
         theLists = myList;
     }
     
+    int MinHot(){
+        int i = 0;
+        while (theLists[i].size() == 0){
+            i++;
+        }
+        return Gethot(*theLists[i].begin());
+    }
+
     bool update(const string &x)
     {
         for(std::size_t i = 0; i < theLists.size(); i++)
@@ -344,21 +359,11 @@ class BpTree
     void Print();
     void PrintStatistic();
     void PrintInfo();
-    void CreateChain();
+    // void CreateChain();
     void InsertChain(string key);
     vector<string> OutdeData(size_t out);
     // int GetMinHot(){
     //     return (HCrchain->minhot+HCrchain->maxhot)/2;
-    // }
-    // int MinHot(){
-    //     int minHot = m_first->GetHot();
-    //     BpNode* p = m_first;
-    //     while(p!=NULL){
-    //         if(p->GetHot() < minHot)
-    //             minHot = p->GetHot();
-    //         p=p->GetNext();
-    //     }
-    //     return minHot;
     // }
     // int MaxHot(){
     //     int maxHot = m_first->GetHot();
@@ -381,9 +386,4 @@ class BpTree
 
 }
 
-int GetHot(string x)
-{
-    int hot = 0;
-    hot = stoi(x.substr(x.length()-7));
-    return hot;
-}
+
