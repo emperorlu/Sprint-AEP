@@ -145,7 +145,7 @@ char * BpNode::Get(const std::string& key) {
                 if(res == 0) {
                     string tmp(m_key[i], NVM_KeyBuf);
                     int len = tmp.length();
-                    int hot = stoi(tmp.substr(len-7));
+                    int hot = stoi(tmp.substr(len-7, NVM_SignSize-1));
                     hot++;
                     tmp.replace(len-7, 7, to_string(hot));
                     memcpy(m_key[i], tmp.c_str(), NVM_KeyBuf);

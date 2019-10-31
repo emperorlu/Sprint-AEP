@@ -210,7 +210,7 @@ class RangChain
     int GetHot(string x)
     {
         int hot = 0;
-        hot = stoi(x.substr(x.length()-7));
+        hot = stoi(x.substr(x.length()-7,NVM_SignSize-1));
         return hot;
     }
 

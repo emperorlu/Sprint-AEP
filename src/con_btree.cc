@@ -134,7 +134,8 @@ void btree::chain_insert(entry_key_t key){
 }
 
 void btree::btree_updakey(const string key){
-  Keyvalue tmp_key(key, key);
+  string ikey = key.substr(0,NVM_KeySize);
+  Keyvalue tmp_key(ikey, ikey);
   Cache->insert(tmp_key);
 }
 
