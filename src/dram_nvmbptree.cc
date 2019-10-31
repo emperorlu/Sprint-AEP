@@ -700,14 +700,15 @@ bool BpTree::Search(string key1, string key2, string* result, int& size)
 // }
 vector<string> BpTree::OutdeData(size_t out){
     vector<string> dlist;
+    cout << "size: " << HCrchain->currentSize << endl;
     // HCrchain->traver();
     for(int i = 0; i < HCrchain->theLists.size(); i++)
     {
         typename list<string>::iterator itr = HCrchain->theLists[i].begin();
         while(itr != HCrchain->theLists[i].end()){
             // cout << HCrchain->theLists[i].size() << ": " << (*itr)[(*itr).length()-8] << ": " << HCrchain->theLists[i].max_size()  << endl;
-            if((*itr)[(*itr).length()-8]== '1'){
-                cout << "get !" << endl;
+            if((*itr)[(*itr).length()-8]== '0'){
+                // cout << "get !" << endl;
                 dlist.push_back((*itr));
                 if (dlist.size() >= out)
                     return dlist;
@@ -722,7 +723,6 @@ vector<string> BpTree::FlushtoNvm()
 {
     vector<string> dlist;
     BpNode* p = m_first;
-    // HCrchain->traver();
     while(p!=NULL){
         for(int i=0;i<p->GetSize();i++){
             if(p->GetKey(i)[NVM_KeyBuf-8]== '1'){
@@ -733,7 +733,6 @@ vector<string> BpTree::FlushtoNvm()
         }
         p=p->GetNext();
     }
-    // HCrchain->traver();
     return dlist;
 }
 

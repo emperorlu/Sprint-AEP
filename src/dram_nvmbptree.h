@@ -313,6 +313,7 @@ class RangChain
 
     bool insert(const string &x)
     {   
+        cout << "size: " << currentSize << endl;
         int value = GetHot(x);
         if(currentSize >= maxSize){
             cout << "out!" << endl;
