@@ -146,8 +146,8 @@ vector<string> btree::btree_back(int hot, size_t read){
       if((*itr).hot < hot){
         return dlist;
       }
-      Keyvalue tmp((*itr).key, (*itr).key);
-      if(cache_table.contains(tmp)){
+      Keyvalue tmp_key((*itr).key, (*itr).key);
+      if(cache_table.contains(tmp_key)){
         char tmp[8];
         fillchar8wirhint64(tmp, (*itr).key);
         string str(tmp, 8);
