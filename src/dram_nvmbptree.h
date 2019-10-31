@@ -319,7 +319,7 @@ class RangChain
         // cout << "size: " << currentSize << endl;
         int value = GetHot(x);
         if(currentSize >= maxSize){
-            cout << "out!" << endl;
+            cout << "out! " << value << ": " << Mah << endl;
             if(value >= Mah)
                 return false;
             else
