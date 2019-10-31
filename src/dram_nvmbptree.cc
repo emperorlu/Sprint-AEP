@@ -708,7 +708,7 @@ vector<string> BpTree::OutdeData(size_t out){
             if((*itr)[NVM_KeyBuf-8]== '0'){
                 cout << "get !" << endl;
                 dlist.push_back((*itr));
-                HCrchain->theLists[i].erase(irt);
+                HCrchain->theLists[i].erase(itr);
                 if (dlist.size() >= out)
                     return dlist;
             }
