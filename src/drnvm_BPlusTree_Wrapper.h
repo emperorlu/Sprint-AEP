@@ -24,9 +24,9 @@ public:
     //     return bptree_->GetMinHot();
     // }
 
-    void CreateChain(){
-        bptree_->CreateChain();
-    }
+    // void CreateChain(){
+    //     bptree_->CreateChain();
+    // }
 
     // void GetRange(const std::string key1, const std::string key2, std::vector<std::string> &values, int &size);
 

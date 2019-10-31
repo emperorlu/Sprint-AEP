@@ -204,7 +204,7 @@ void Read_Cache()     //预取
     // bptree_nvm1->CreateChain();
     vector<string> backData1;
     size_t read = READ_DATA;
-    backData1 = bptree_nvm1->BacktoDram(dram_bptree1->GetMinHot(), read);
+    backData1 = bptree_nvm1->BacktoDram(dram_bptree1->HCrchain->MinHot(), read);
     cout << "size1: " << backData1.size();
     if(backData1.size()!=0){
         for(int i=0;i<backData1.size();i++){
@@ -216,7 +216,7 @@ void Read_Cache()     //预取
     //aep2   
     // bptree_nvm2->CreateChain();
     vector<string> backData2;
-    backData2 = bptree_nvm2->BacktoDram(dram_bptree2->GetMinHot(), read);
+    backData2 = bptree_nvm2->BacktoDram(dram_bptree2->HCrchain->MinHot(), read);
     cout << "size2: " << backData2.size();
     if(backData2.size()!=0){
         for(int i=0;i<backData2.size();i++){
@@ -231,7 +231,7 @@ void Read_Cache()     //预取
     //aep3
     // bptree_nvm3->CreateChain();
     vector<string> backData3;
-    backData3 = bptree_nvm3->BacktoDram(dram_bptree3->GetMinHot(), read);
+    backData3 = bptree_nvm3->BacktoDram(dram_bptree3->HCrchain->MinHot(), read);
     cout << "size3: " << backData3.size() << endl;
     if(backData3.size()!=0){
         for(int i=0;i<backData3.size();i++){

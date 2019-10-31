@@ -271,7 +271,7 @@ class RangChain
         while (theLists[i].size() == 0){
             i++;
         }
-        return Gethot(*theLists[i].begin());
+        return GetHot(*theLists[i].begin());
     }
 
     bool update(const string &x)
