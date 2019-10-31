@@ -355,7 +355,7 @@ string aepsystem::Get(const std::string& key)
     m_mutex.lock();
     // std::lock_guard<std::mutex> lk(m_mutex);
     get_count++;
-    cout << "[DEBUG] Get (" << get_count << ") key: " << char8toint64(key.c_str()) << " id: " << id << endl;
+    // cout << "[DEBUG] Get (" << get_count << ") key: " << char8toint64(key.c_str()) << " id: " << id << endl;
     // cout << "[DEBUG] Get (" << get_count << ") key: " << key << endl;
     if(id == 0)  // primary aep
     {
@@ -417,7 +417,7 @@ string aepsystem::Get(const std::string& key)
         if(tmp_value.size() == 0) {
             if (Dmark) //至少经历一次倒盘
             {
-                cout << "[DEBUG] Read Cache!" << endl;
+                // cout << "[DEBUG] Read Cache!" << endl;
                 
                 // Read_Cache();
             }
