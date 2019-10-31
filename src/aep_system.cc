@@ -263,6 +263,7 @@ void Write_Log()    //倒盘
         bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), hot, '1', dram_bptree1->Geti(insertData1[i]));
         // bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), dram_bptree1->Get(insertData1[i]));
     }
+    cout << "update size: " << updakey1.size() << endl;
     for(int i=0;i<updakey1.size();i++){
         bptree_nvm1->Updakey(updakey1[i]);
     }
