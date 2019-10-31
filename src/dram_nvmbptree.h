@@ -362,6 +362,9 @@ class BpTree
     // void CreateChain();
     void InsertChain(string key);
     vector<string> OutdeData(size_t out);
+    int MinHot(){
+        return HCrchain->MinHot();
+    }
     // int GetMinHot(){
     //     return (HCrchain->minhot+HCrchain->maxhot)/2;
     // }
