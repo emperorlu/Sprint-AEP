@@ -13,7 +13,7 @@ class HashTable
 {
   public:
     // explicit HashTable(int size = 101);
-    HashTable(int size = 101);
+    HashTable(int size = 30000);
     void display()const;
 
     void makeEmpty()

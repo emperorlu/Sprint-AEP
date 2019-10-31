@@ -41,7 +41,6 @@ using namespace rocksdb;
 #define IS_FORWARD(c) (c % 2 == 0)
 
 // using entry_key_t = uint64_t;
-HashTable<Keyvalue> cache_table(30000);
 struct entry_key_t {
     uint64_t key;
     uint64_t hot;
@@ -317,7 +316,8 @@ class btree{
         if(node_alloc) {
             delete node_alloc;
         }
-        // delete HCrchain;
+        delete HCrchain;
+        delete Cache;
     }
     void *NewBpNode();
     void setNewRoot(char *);
@@ -342,6 +342,7 @@ class btree{
 
     // vector<string> BacktoDram(int hot, size_t read);
     CONRangChain *HCrchain;
+    HashTable *Cache;
 };
 
 class header{

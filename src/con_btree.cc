@@ -122,6 +122,7 @@ void bpnode::linear_search_range(entry_key_t min, entry_key_t max, std::vector<s
 btree::btree(){
   // root = (char*)new bpnode();
   HCrchain = new CONRangChain;
+  Cache = new HashTable;
   height = 1;
   node_alloc = nullptr;
 }
@@ -134,7 +135,7 @@ void btree::chain_insert(entry_key_t key){
 
 void btree::btree_updakey(const string key){
   Keyvalue tmp_key(key, key);
-  cache_table.insert(tmp_key);
+  Cache->insert(tmp_key);
 }
 
 vector<string> btree::btree_back(int hot, size_t read){
@@ -150,9 +151,9 @@ vector<string> btree::btree_back(int hot, size_t read){
       fillchar8wirhint64(tmp, (*itr).key);
       string str(tmp, 8);
       Keyvalue tmp_key(str, str);
-      if(cache_table.contains(tmp_key)){
+      if(Cache->contains(tmp_key)){
         dlist.push_back(str);
-        cache_table.remove(tmp_key);
+        Cache->remove(tmp_key);
         if (dlist.size() >= read)
           return dlist;
       }
