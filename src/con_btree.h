@@ -342,7 +342,7 @@ class btree{
 
     // vector<string> BacktoDram(int hot, size_t read);
     CONRangChain *HCrchain;
-    HashTable *Cache;
+    HashTable<Keyvalue> *Cache;
 };
 
 class header{
