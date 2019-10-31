@@ -206,7 +206,7 @@ void Read_Cache()     //预取
     vector<string> backData1;
     size_t read = READ_DATA;
     backData1 = bptree_nvm1->BacktoDram(dram_bptree1->MinHot(), read);
-    cout << "size1: " << backData1.size();
+    // cout << "size1: " << backData1.size();
     if(backData1.size()!=0){
         for(int i=0;i<backData1.size();i++){
             dram_bptree1->Insert(backData1[i], bptree_nvm1->Get(char8toint64(backData1[i].c_str())));
@@ -418,7 +418,7 @@ string aepsystem::Get(const std::string& key)
         if(tmp_value.size() == 0) {
             if (Dmark) //至少经历一次倒盘
             {
-                cout << "[DEBUG] Read Cache!" << endl;
+                // cout << "[DEBUG] Read Cache!" << endl;
                 
                 Read_Cache();
             }
