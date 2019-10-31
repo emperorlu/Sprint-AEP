@@ -184,6 +184,7 @@ class RangChain
         myList = vector<list<string> >(listSize);
         maxhot = 30;
         minhot = 0;
+        Mah=0;
         maxSize = 100000;
         for(std::size_t i = 0; i < myList.size(); i++){
             if(!myList[i].empty()) {
@@ -318,11 +319,13 @@ class RangChain
         int value = GetHot(x);
         if(currentSize >= maxSize){
             cout << "out!" << endl;
-            if(value >= maxhot)
+            if(value >= Mah)
                 return false;
             else
                 remove();
         }
+        if (value > Mah)
+            Mah = value;
 
         if (value > maxhot)
         {
@@ -343,6 +346,7 @@ class RangChain
   private:
     int listSize;
     int maxSize;
+    int Mah;
 
     vector<list<string>>  myList;
 
