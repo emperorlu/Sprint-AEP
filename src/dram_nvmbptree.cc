@@ -571,7 +571,7 @@ void BpTree::Insert(string key, string value)
     memcpy(keybuf + NVM_KeySize + NVM_PointSize, signdata.c_str(), NVM_SignSize);
     string tmp_key(keybuf, NVM_KeyBuf);
     // cout << "tmp_key: " << tmp_key << endl;
-    InsertChain(tmp_key);
+    // InsertChain(tmp_key);
 
     if(m_root == nullptr)
     {
@@ -740,14 +740,16 @@ vector<string> BpTree::OutdeData(size_t out){
 vector<string> BpTree::FlushtoNvm()
 {
     vector<string> dlist;
+    HCrchain->makeEmpty();
     BpNode* p = m_first;
     while(p!=NULL){
         for(int i=0;i<p->GetSize();i++){
             if(p->GetKey(i)[NVM_KeyBuf-8]== '1'){
                 dlist.push_back(string(p->GetKey(i), NVM_KeyBuf));
-                HCrchain->update_insert(string(p->GetKey(i), NVM_KeyBuf));
+                // HCrchain->update_insert(string(p->GetKey(i), NVM_KeyBuf));
                 p->GetKey(i)[NVM_KeyBuf-8]= '0';
             }
+            InsertChain(string(p->GetKey(i), NVM_KeyBuf));
         }
         p=p->GetNext();
     }
