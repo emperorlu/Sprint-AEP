@@ -313,7 +313,7 @@ class RangChain
 
     bool insert(const string &x)
     {   
-        cout << "theLists[0].size(): " << theLists[0].size() << endl;
+        cout << "theLists[0].size(): " << theLists[0].size() << "：" << HCrchain->theLists[i].max_size()  << endl;
         int value = GetHot(x);
         if(currentSize >= maxSize){
             if(value >= maxhot)
