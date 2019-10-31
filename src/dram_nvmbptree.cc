@@ -638,7 +638,7 @@ string BpTree::Get(const std::string& key) {
     // cout << "[DEBUG] Get 1! " << endl;
 
     if((pvalue = m_root->Get(key)) != nullptr){
-        HCrchain->update(key);
+        HCrchain->update_hot(key);
         uint64_t value_point;
         memcpy(&value_point, pvalue, sizeof(uint64_t));
         char *value = (char *)value_point;
@@ -723,6 +723,7 @@ vector<string> BpTree::FlushtoNvm()
         for(int i=0;i<p->GetSize();i++){
             if(p->GetKey(i)[NVM_KeyBuf-8]== '1'){
                 dlist.push_back(string(p->GetKey(i), NVM_KeyBuf));
+                HCrchain->update_insert(string(p->GetKey(i), NVM_KeyBuf));
                 p->GetKey(i)[NVM_KeyBuf-8]= '0';
             }
         }

@@ -275,7 +275,24 @@ class RangChain
         return GetHot(*theLists[i].begin());
     }
 
-    bool update(const string &x)
+    bool update_insert(const string &x)
+    {
+        for(std::size_t i = 0; i < theLists.size(); i++)
+        {
+            typename list<string>::iterator itr = theLists[i].begin();
+            while(itr != theLists[i].end()){
+                int res = memcmp(x.c_str(), (*itr).c_str(), NVM_KeySize);
+                if (res == 0){
+                    (*itr)[(*itr).length()-8] = '0';
+                    return true;
+                }
+                itr++;
+            }
+        }
+        return false;
+    }
+
+    bool update_hot(const string &x)
     {
         for(std::size_t i = 0; i < theLists.size(); i++)
         {
