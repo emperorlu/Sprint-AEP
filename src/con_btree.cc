@@ -139,6 +139,7 @@ vector<string> btree::btree_back(int hot, size_t read){
   {
     typename list<entry_key_t>::iterator itr = HCrchain->theLists[i].begin();
     while(itr != HCrchain->theLists[i].end()){
+      cout << "sign" << (*itr).sign << endl;
       if((*itr).hot < hot){
         cout << "<hot" << endl;
         return dlist;
