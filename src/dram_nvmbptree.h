@@ -325,8 +325,12 @@ class RangChain
             else
                 remove();
         }
-        if (value > Mah)
+        if (value > Mah){
+            cout << "Max: " << x << " value: " << value << endl;
             Mah = value;
+
+        }
+
 
         if (value > maxhot)
         {
