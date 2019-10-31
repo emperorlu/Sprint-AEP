@@ -283,6 +283,7 @@ class RangChain
             typename list<string>::iterator itr = theLists[i].begin();
             while(itr != theLists[i].end()){
                 int res = memcmp(x.c_str(), (*itr).c_str(), NVM_KeySize);
+                cout << x << ": " << (*itr) << "res: " << res << endl;
                 if (res == 0){
                     (*itr)[(*itr).length()-8] = '0';
                     return true;
