@@ -705,9 +705,9 @@ vector<string> BpTree::OutdeData(size_t out){
     {
         typename list<string>::iterator itr = HCrchain->theLists[i].begin();
         while(itr != HCrchain->theLists[i].end()){
-            cout << HCrchain->theLists[i].size() << ": " << (*itr)[(*itr).length()-8] << ": " << HCrchain->theLists[i].max_size()  << endl;
+            // cout << HCrchain->theLists[i].size() << ": " << (*itr)[(*itr).length()-8] << ": " << HCrchain->theLists[i].max_size()  << endl;
             if((*itr)[(*itr).length()-8]== '0'){
-                // cout << "get !" << endl;
+                cout << "get !" << endl;
                 dlist.push_back((*itr));
                 HCrchain->theLists[i].erase(itr);
                 HCrchain->currentSize--;
