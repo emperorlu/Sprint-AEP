@@ -314,6 +314,7 @@ class RangChain
 
     bool insert(const string &x)
     {   
+        cout << "insert x: " << x << endl;
         int value = GetHot(x);
         if(currentSize >= maxSize){
             if(value >= maxhot)
