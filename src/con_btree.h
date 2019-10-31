@@ -41,7 +41,7 @@ using namespace rocksdb;
 #define IS_FORWARD(c) (c % 2 == 0)
 
 // using entry_key_t = uint64_t;
-
+HashTable<Keyvalue> cache_table(30000);
 struct entry_key_t {
     uint64_t key;
     uint64_t hot;
@@ -342,7 +342,6 @@ class btree{
 
     // vector<string> BacktoDram(int hot, size_t read);
     CONRangChain *HCrchain;
-    HashTable<Keyvalue> cache_table(3000);
 };
 
 class header{
