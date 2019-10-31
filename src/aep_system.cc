@@ -160,6 +160,7 @@ void* Data_out(void *arg)
             size_t out = OUT_DATA;
             // dram_bptree1->CreateChain();
             outData = dram_bptree1->OutdeData(out);
+            cout << "outData.size(): " << outData.size() << endl;
             if(outData.size()!=0){
                 for(int i=0;i<outData.size();i++){
                     dram_bptree1->Delete(outData[i]);
@@ -324,14 +325,7 @@ void aepsystem::Insert(const string &key, const string &value)
             Dmark = 1;
             flush_num++;
             flush_size = 0;//重新计数
-            // cout << "[DEBUG] Write Log!" << endl;
             Write_Log();
-            // pthread_t t;
-            // if(pthread_create(&t, NULL, Write_Log, NULL) == -1){
-            //     puts("fail to create pthread t0");
-            //     exit(1);
-            // }
-            // pthread_join(t, NULL);
         }
         switch (id)
         { 
