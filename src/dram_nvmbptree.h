@@ -335,12 +335,13 @@ class RangChain
         return true;   
     }
     int  maxhot, minhot;
+    int currentSize;
     vector<list<string>> theLists;   // The array of Lists
     
   private:
     int listSize;
     int maxSize;
-    int currentSize;
+
     vector<list<string>>  myList;
 
     int myid(int value)
