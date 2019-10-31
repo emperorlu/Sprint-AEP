@@ -709,8 +709,6 @@ vector<string> BpTree::OutdeData(size_t out){
             if((*itr)[(*itr).length()-8]== '1'){
                 cout << "get !" << endl;
                 dlist.push_back((*itr));
-                HCrchain->theLists[i].erase(itr);
-                HCrchain->currentSize--;
                 if (dlist.size() >= out)
                     return dlist;
             }
