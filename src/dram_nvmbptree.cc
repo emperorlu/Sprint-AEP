@@ -722,7 +722,6 @@ vector<string> BpTree::FlushtoNvm()
     while(p!=NULL){
         for(int i=0;i<p->GetSize();i++){
             if(p->GetKey(i)[NVM_KeyBuf-8]== '1'){
-                // dlist.push_back(p->GetKey(i));
                 dlist.push_back(string(p->GetKey(i), NVM_KeyBuf));
                 p->GetKey(i)[NVM_KeyBuf-8]= '0';
             }

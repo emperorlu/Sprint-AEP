@@ -244,7 +244,7 @@ class RangChain
 
     bool remove()
     {   
-        int i = theLists.size();
+        int i = theLists.size()-1;
         while (theLists[i].size() == 0){
             i--;
         }
