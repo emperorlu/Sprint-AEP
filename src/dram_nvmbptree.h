@@ -252,7 +252,7 @@ class RangChain
             i--;
         }
         cout << i << endl;
-        theLists[i].pop_back();
+        theLists[i].pop_front();
         currentSize--;
         return true;
     }
