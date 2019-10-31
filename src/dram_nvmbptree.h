@@ -68,6 +68,7 @@ class BpNode    //将叶子节点和索引节点放在一个结构里面
      bool Delete(string key);
      
      char* Get(const std::string& key) ;
+     char* Geti(const std::string& key) ;
 
      void printKey();
 

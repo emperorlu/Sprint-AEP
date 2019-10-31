@@ -162,6 +162,28 @@ char * BpNode::Get(const std::string& key) {
     return nullptr;
 }
 
+char * BpNode::Geti(const std::string& key) {
+    for (int i = 0; i < m_currentSize; ++i)
+    {
+        int res = strncmp(key.c_str(), m_key[i], NVM_KeySize);
+        if (res <= 0)
+        {
+            if(IsLeafNode()) {
+                if(res == 0) {
+                    return m_key[i] + NVM_KeySize;
+                }
+                else {
+                    return nullptr;
+                }
+            } else {
+                return m_pointer[i]->Geti(key);
+            }
+        }
+    }
+    return nullptr;
+}
+
+
 BpNode *BpNode::FindLeafNode(const std::string key) {
     if(IsLeafNode()) {
         return this;
@@ -570,7 +592,7 @@ void BpTree::Insert(string key, string value)
     string signdata(sign, NVM_SignSize);
     memcpy(keybuf + NVM_KeySize + NVM_PointSize, signdata.c_str(), NVM_SignSize);
     string tmp_key(keybuf, NVM_KeyBuf);
-    cout << "tmp_key: " << tmp_key << endl;
+    // cout << "tmp_key: " << tmp_key << endl;
     // InsertChain(tmp_key);
 
     if(m_root == nullptr)
@@ -657,7 +679,7 @@ string BpTree::Geti(const std::string& key) {
     }
     // cout << "[DEBUG] Get 1! " << endl;
 
-    if((pvalue = m_root->Get(key)) != nullptr){
+    if((pvalue = m_root->Geti(key)) != nullptr){
         uint64_t value_point;
         memcpy(&value_point, pvalue, sizeof(uint64_t));
         char *value = (char *)value_point;
