@@ -701,7 +701,7 @@ vector<string> BpTree::OutdeData(size_t out){
     vector<string> dlist;
     for(int i = 0; i < HCrchain->theLists.size(); i++)
     {
-        typename list<BpNode>::iterator itr = HCrchain->theLists[i].begin();
+        typename list<string>::iterator itr = HCrchain->theLists[i].begin();
         while(itr != HCrchain->theLists[i].end()){
             if((*itr)[NVM_KeyBuf-8]== '0'){
                 dlist.push_back((*itr));
