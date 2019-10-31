@@ -236,7 +236,7 @@ class CONRangChain
         {
             typename list<entry_key_t>::iterator itr = theLists[i].begin();
             while(itr != theLists[i].end()){
-                int res = memcmp(x.c_str(), (*itr).key, NVM_KeySize);
+                int res = memcmp(x.c_str(), to_string((*itr).key), NVM_KeySize);
                 if (res == 0){
                     (*itr).sign = '0';
                     return;
