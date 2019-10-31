@@ -570,6 +570,7 @@ void BpTree::Insert(string key, string value)
     string signdata(sign, NVM_SignSize);
     memcpy(keybuf + NVM_KeySize + NVM_PointSize, signdata.c_str(), NVM_SignSize);
     string tmp_key(keybuf, NVM_KeyBuf);
+    cout << "tmp_key: " << tmp_key << endl;
     InsertChain(tmp_key);
 
     if(m_root == nullptr)
