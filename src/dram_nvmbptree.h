@@ -246,12 +246,12 @@ class RangChain
 
     bool remove()
     {   
-        cout << "remove! ";
+        // cout << "remove! ";
         int i = theLists.size()-1;
         while (theLists[i].size() == 0){
             i--;
         }
-        cout << i << endl;
+        // cout << i << endl;
         theLists[i].pop_front();
         currentSize--;
         return true;
@@ -319,7 +319,7 @@ class RangChain
         // cout << "size: " << currentSize << endl;
         int value = GetHot(x);
         if(currentSize >= maxSize){
-            cout << "out! " << value << ": " << Mah << endl;
+            // cout << "out! " << value << ": " << Mah << endl;
             if(value >= Mah)
                 return false;
             else
