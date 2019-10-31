@@ -7,7 +7,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <thread>
-#include "hashtable.h"
+// #include "hashtable.h"
 #include <mutex>
 #include "nvm_common2.h"
 #include "test_common.h"
