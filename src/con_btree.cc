@@ -132,6 +132,11 @@ void btree::chain_insert(entry_key_t key){
   // HCrchain->traver();
 }
 
+void btree::btree_updakey(const string key){
+  Keyvalue tmp_key(key, key);
+  cache_table.insert(tmp_key);
+}
+
 vector<string> btree::btree_back(int hot, size_t read){
   vector<string> dlist;
   for(int i = HCrchain->theLists.size()-1; i >= 0; i--)
