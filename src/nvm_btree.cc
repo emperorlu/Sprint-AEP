@@ -29,12 +29,12 @@ NVMBtree::~NVMBtree() {
     }
 }
 
-void NVMBtree::Insert(const unsigned long key, const unsigned long hot, const string &value) {
+void NVMBtree::Insert(const unsigned long key, const unsigned long hot, const char sign, const string &value) {
     if(bt) {
         char *pvalue = value_alloc->Allocate(value.size());
         nvm_memcpy_persist(pvalue, value.c_str(), value.size(), false);
-        bt->chain_insert(entry_key_t(key, hot));
-        bt->btree_insert(entry_key_t(key, hot), pvalue);
+        bt->chain_insert(entry_key_t(key, hot, sign));
+        bt->btree_insert(entry_key_t(key, hot, sign), pvalue);
     }
 }
 

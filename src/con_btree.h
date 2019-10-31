@@ -45,8 +45,9 @@ using namespace rocksdb;
 struct entry_key_t {
     uint64_t key;
     uint64_t hot;
+    char sign;
     entry_key_t() :key(ULONG_MAX), hot(0) {}
-    entry_key_t(uint64_t key_, uint64_t hot_ = 0) :key(key_), hot(hot_) {}
+    entry_key_t(uint64_t key_, uint64_t hot_ = 0, char sign_ = '0') :key(key_), hot(hot_), sign(sign_){}
     entry_key_t & operator = (const entry_key_t &entry) {
         if(this == &entry) {
             return *this;
@@ -54,6 +55,7 @@ struct entry_key_t {
 
         key = entry.key;
         hot = entry.hot;
+        sign = entry.sign;
         return *this;
     }
 
@@ -159,11 +161,12 @@ class CONRangChain
   public:
     CONRangChain()
     {
-        listSize = 1000000;
+        listSize = 10;
         theLists = vector<list<entry_key_t> >(listSize);
         myList = vector<list<entry_key_t> >(listSize);
         maxhot = 30;
-        minhot = 0;
+        minhot = 10;
+        maxSize = 100000;
         currentSize = 0;
     }
 
@@ -229,21 +232,21 @@ class CONRangChain
     
     bool insert(const entry_key_t &x)
     {   
-      uint64_t value = x.hot / 10;
-      if (value < minhot){
-          minhot = value;
-          relist();
-      }else if (value >= maxhot)
-      {
-          maxhot = value;
-          relist();
+      uint64_t value = x.hot;
+      if(currentSize >= maxSize){
+          if(value <= minhot)
+            return false;
+          else
+            remove();
       }
 
-      if(currentSize >= theLists.size()){
-        if(myid(value) == 0)
-          return false;
-        else
-          remove();
+      if (value < minhot){
+        minhot = value;
+        relist();
+      }else if (value > maxhot)
+      {
+        maxhot = value;
+        relist();
       }
 
       list<entry_key_t> & whichList = theLists[myid(value)];
@@ -251,26 +254,26 @@ class CONRangChain
 
       currentSize++;
       return true;   
-  }
+    }
     uint64_t  maxhot, minhot;
     vector<list<entry_key_t> > theLists;   // The array of Lists
     
   private:
     int listSize;
     int currentSize;
+    int maxSize;
     vector<list<entry_key_t>>  myList;
     // int hc; //c or h
 
     int myid(uint64_t value)
     {
-        int maxSize = 10;
         if(maxhot == minhot) {
             return 0;
         } 
         if(value >= maxhot) {
-            return maxSize - 1;
+            return listSize - 1;
         }
-        return 1.0 * (value - minhot) / (maxhot - minhot) * maxSize;
+        return 1.0 * (value - minhot) / (maxhot - minhot) * listSize;
     }
 
     bool myinsert(const entry_key_t x, uint64_t value)

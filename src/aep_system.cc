@@ -44,7 +44,7 @@ const size_t OPEN_T2 = 200;
 const size_t OPEN_T3 = 300;
 
 const size_t FLUSH_SIZE = 60 * (1ULL << 20);
-const size_t OUT_SIZE = 600 * (1ULL << 20);
+const size_t OUT_SIZE = 100 * (1ULL << 20);
 // const size_t FLUSH_SIZE = 3000;
 // const size_t OUT_SIZE = 60000;
 
@@ -258,11 +258,9 @@ void Write_Log()    //倒盘
     insertData1 = dram_bptree1->FlushtoNvm();
     for(int i=0;i<insertData1.size();i++){
         int len = insertData1[i].length();
-        string inse = insertData1[i].substr(len - 3, len -1);
-        uint64_t hot = atoi(inse.c_str());
-        hot--;
-        // cout << hot << endl;
-        bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), hot, dram_bptree1->Get(insertData1[i]));
+        uint64_t hot = stoi(insertData1[i].substr(len-7));
+        insertData1[i][len-8] = '0';
+        bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), hot, '0', dram_bptree1->Get(insertData1[i]));
         // bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), dram_bptree1->Get(insertData1[i]));
     }
     // for(int i=0;i<updakey1.size();i++){
@@ -277,10 +275,9 @@ void Write_Log()    //倒盘
         // if (dram_bptree2->Get(insertData2[i]).size() != 0)
         //     bptree_nvm2->Insert(char8toint64(insertData2[i].c_str()), dram_bptree2->Get(insertData2[i]));
         int len = insertData2[i].length();
-        string inse = insertData2[i].substr(len - 3, len -1);
-        uint64_t hot = atoi(inse.c_str());
-        hot--;
-        bptree_nvm2->Insert(char8toint64(insertData2[i].c_str()), hot, dram_bptree2->Get(insertData2[i]));
+        uint64_t hot = stoi(insertData2[i].substr(len-7));
+        insertData2[i][len-8] = '0';
+        bptree_nvm2->Insert(char8toint64(insertData2[i].c_str()), hot, '0', dram_bptree2->Get(insertData2[i]));
     }
     // for(int i=0;i<updakey2.size();i++){
     //     bptree_nvm2->Updakey(updakey2[i]);
@@ -292,10 +289,9 @@ void Write_Log()    //倒盘
     insertData3 = dram_bptree3->FlushtoNvm();
     for(int i=0;i<insertData3.size();i++){
         int len = insertData3[i].length();
-        string inse = insertData3[i].substr(len - 3, len -1);
-        uint64_t hot = atoi(inse.c_str());
-        hot--;
-        bptree_nvm3->Insert(char8toint64(insertData3[i].c_str()), hot, dram_bptree3->Get(insertData3[i]));
+        uint64_t hot = stoi(insertData3[i].substr(len-7));
+        insertData3[i][len-8] = '0';
+        bptree_nvm3->Insert(char8toint64(insertData3[i].c_str()), hot, '0', dram_bptree3->Get(insertData3[i]));
     }
     // for(int i=0;i<updakey3.size();i++){
     //     bptree_nvm3->Updakey(updakey3[i]);
