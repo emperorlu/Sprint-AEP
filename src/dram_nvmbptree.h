@@ -246,11 +246,12 @@ class RangChain
 
     bool remove()
     {   
-        cout << "remove! " << endl;
+        cout << "remove! ";
         int i = theLists.size()-1;
         while (theLists[i].size() == 0){
             i--;
         }
+        cout << i << endl;
         theLists[i].pop_back();
         currentSize--;
         return true;
