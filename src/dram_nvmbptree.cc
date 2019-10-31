@@ -699,6 +699,7 @@ bool BpTree::Search(string key1, string key2, string* result, int& size)
 // }
 vector<string> BpTree::OutdeData(size_t out){
     vector<string> dlist;
+    HCrchain->traver();
     for(int i = 0; i < HCrchain->theLists.size(); i++)
     {
         typename list<string>::iterator itr = HCrchain->theLists[i].begin();
