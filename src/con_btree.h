@@ -25,7 +25,7 @@
 #include <mutex>
 #include <vector>
 #include <list>
-
+#include "hashtable.h"
 
 #include "nvm_common2.h"
 
@@ -45,9 +45,8 @@ using namespace rocksdb;
 struct entry_key_t {
     uint64_t key;
     uint64_t hot;
-    char sign;
     entry_key_t() :key(ULONG_MAX), hot(0) {}
-    entry_key_t(uint64_t key_, uint64_t hot_ = 0, char sign_ = '0') :key(key_), hot(hot_), sign(sign_){}
+    entry_key_t(uint64_t key_, uint64_t hot_ = 0) :key(key_), hot(hot_){}
     entry_key_t & operator = (const entry_key_t &entry) {
         if(this == &entry) {
             return *this;
@@ -55,7 +54,6 @@ struct entry_key_t {
 
         key = entry.key;
         hot = entry.hot;
-        sign = entry.sign;
         return *this;
     }
 
@@ -271,7 +269,6 @@ class CONRangChain
 
       currentSize++;
       return true;  
-      cout << "[Debug] hclist insert true!" << endl; 
     }
     uint64_t  maxhot, minhot;
     vector<list<entry_key_t> > theLists;   // The array of Lists
@@ -337,7 +334,8 @@ class btree{
     void CalculateSapce(uint64_t &space);
     void chain_insert(entry_key_t key);
     void btree_updakey(const string key){
-      HCrchain->update(key);
+      Keyvalue tmp_key(key, key);
+      cache_table.insert(tmp_key);
     }
     vector<string> btree_back(int hot, size_t read);
 
@@ -347,7 +345,7 @@ class btree{
 
     // vector<string> BacktoDram(int hot, size_t read);
     CONRangChain *HCrchain;
-
+    HashTable<Keyvalue> cache_table(3000);
 };
 
 class header{

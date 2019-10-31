@@ -141,12 +141,13 @@ vector<string> btree::btree_back(int hot, size_t read){
       if((*itr).hot < hot){
         return dlist;
       }
-      if((*itr).sign == '0'){
+      Keyvalue tmp((*itr).key, (*itr).key);
+      if(cache_table.contains(tmp)){
         char tmp[8];
         fillchar8wirhint64(tmp, (*itr).key);
         string str(tmp, 8);
         dlist.push_back(str);
-        (*itr).sign == '1';
+        cache_table.remove(tmp);
         if (dlist.size() >= read)
           return dlist;
       }
