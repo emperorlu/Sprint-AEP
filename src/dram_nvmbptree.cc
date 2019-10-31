@@ -704,7 +704,7 @@ vector<string> BpTree::OutdeData(size_t out){
         typename list<BpNode>::iterator itr = HCrchain->theLists[i].begin();
         while(itr != HCrchain->theLists[i].end()){
             if((*itr)[NVM_KeyBuf-8]== '0'){
-                dlist.push_back(*itr);
+                dlist.push_back((*itr));
                 if (dlist.size() >= out)
                     return dlist;
             }
