@@ -734,6 +734,7 @@ vector<string> BpTree::FlushtoNvm()
         }
         p=p->GetNext();
     }
+    HCrchain->traver();
     return dlist;
 }
 
