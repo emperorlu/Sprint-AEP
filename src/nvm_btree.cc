@@ -33,8 +33,11 @@ void NVMBtree::Insert(const unsigned long key, const unsigned long hot, const ch
     if(bt) {
         char *pvalue = value_alloc->Allocate(value.size());
         nvm_memcpy_persist(pvalue, value.c_str(), value.size(), false);
+        cout << "[Debug] nvm insert1!" << endl;
         bt->chain_insert(entry_key_t(key, hot, sign));
+        cout << "[Debug] nvm insert2!" << endl;
         bt->btree_insert(entry_key_t(key, hot, sign), pvalue);
+        cout << "[Debug] nvm insert3!" << endl;
     }
 }
 

@@ -232,10 +232,13 @@ class CONRangChain
     
     bool insert(const entry_key_t &x)
     {   
+      cout << "[Debug] hclist insert!" << endl;
       uint64_t value = x.hot;
       if(currentSize >= maxSize){
-          if(value <= minhot)
+          if(value <= minhot){
+            cout << "[Debug] hclist insert false!" << endl;
             return false;
+          }
           else
             remove();
       }
@@ -253,7 +256,8 @@ class CONRangChain
       whichList.push_front(x);
 
       currentSize++;
-      return true;   
+      return true;  
+      cout << "[Debug] hclist insert true!" << endl; 
     }
     uint64_t  maxhot, minhot;
     vector<list<entry_key_t> > theLists;   // The array of Lists
