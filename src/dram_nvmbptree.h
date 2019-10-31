@@ -141,13 +141,6 @@ class BpNode    //将叶子节点和索引节点放在一个结构里面
         return m_currentSize;
     }
 
-    int GetHot(string x)
-    {
-        int hot = 0;
-        hot = stoi(x.substr(x.length()-7));
-        return hot;
-    }
-
     bool IsLeafNode() {
         return nodeType == DrBpLeafType;
     }
@@ -386,4 +379,11 @@ class BpTree
     int treeLevel ;
 };
 
+}
+
+int GetHot(string x)
+{
+    int hot = 0;
+    hot = stoi(x.substr(x.length()-7));
+    return hot;
 }
