@@ -230,13 +230,28 @@ class CONRangChain
         // traver();
     }
     
+    void update(const string &x)
+    {
+        for(std::size_t i = 0; i < theLists.size(); i++)
+        {
+            typename list<entry_key_t>::iterator itr = theLists[i].begin();
+            while(itr != theLists[i].end()){
+                int res = memcmp(x.c_str(), (*itr).c_str(), NVM_KeySize);
+                if (res == 0){
+                    (*itr).sign = '0';
+                    return;
+                }
+                itr++;
+            }
+        }
+        return;
+    }
+
     bool insert(const entry_key_t &x)
     {   
-      cout << "[Debug] hclist insert!" << endl;
       uint64_t value = x.hot;
       if(currentSize >= maxSize){
           if(value <= minhot){
-            cout << "[Debug] hclist insert false!" << endl;
             return false;
           }
           else
@@ -322,6 +337,9 @@ class btree{
     void PrintInfo();
     void CalculateSapce(uint64_t &space);
     void chain_insert(entry_key_t key);
+    void btree_updakey(const string key){
+      HCrchain->update(key);
+    }
     vector<string> btree_back(int hot, size_t read);
 
     friend class bpnode;
