@@ -315,6 +315,7 @@ class RangChain
     {   
         int value = GetHot(x);
         if(currentSize >= maxSize){
+            cout << "out!" << endl;
             if(value >= maxhot)
                 return false;
             else
