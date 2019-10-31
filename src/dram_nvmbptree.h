@@ -220,7 +220,7 @@ class RangChain
 
     void makeEmpty()
     {
-        currentSize = 0; 
+        currentSize = 0;
         for(std::size_t i = 0; i < theLists.size(); i++){
             theLists[i].clear();
         }

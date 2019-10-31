@@ -153,14 +153,14 @@ void* Data_out(void *arg)
             
             // std::lock_guard<std::mutex> lk(m_mutex);
             m_mutex.lock();
-            cout << "[DEBUG] Begin out data!" << endl;
+            // cout << "[DEBUG] Begin out data!" << endl;
             // cout << "[DEBUG] current_size:" << current_size << endl;
             out_num++;
             vector<string> outData;
             size_t out = OUT_DATA;
             // dram_bptree1->CreateChain();
             outData = dram_bptree1->OutdeData(out);
-            cout << "outData.size(): " << outData.size() << endl;
+            // cout << "outData.size(): " << outData.size() << endl;
             if(outData.size()!=0){
                 for(int i=0;i<outData.size();i++){
                     dram_bptree1->Delete(outData[i]);
@@ -206,7 +206,7 @@ void Read_Cache()     //预取
     vector<string> backData1;
     size_t read = READ_DATA;
     backData1 = bptree_nvm1->BacktoDram(dram_bptree1->MinHot(), read);
-    cout << "size1: " << backData1.size();
+    // cout << "size1: " << backData1.size();
     if(backData1.size()!=0){
         for(int i=0;i<backData1.size();i++){
             dram_bptree1->Insert(backData1[i], bptree_nvm1->Get(char8toint64(backData1[i].c_str())));
@@ -218,7 +218,7 @@ void Read_Cache()     //预取
     // bptree_nvm2->CreateChain();
     vector<string> backData2;
     backData2 = bptree_nvm2->BacktoDram(dram_bptree2->MinHot(), read);
-    cout << "size2: " << backData2.size();
+    // cout << "size2: " << backData2.size();
     if(backData2.size()!=0){
         for(int i=0;i<backData2.size();i++){
             dram_bptree2->Insert(backData2[i], bptree_nvm2->Get(char8toint64(backData2[i].c_str())));
@@ -233,7 +233,7 @@ void Read_Cache()     //预取
     // bptree_nvm3->CreateChain();
     vector<string> backData3;
     backData3 = bptree_nvm3->BacktoDram(dram_bptree3->MinHot(), read);
-    cout << "size3: " << backData3.size() << endl;
+    // cout << "size3: " << backData3.size() << endl;
     if(backData3.size()!=0){
         for(int i=0;i<backData3.size();i++){
             dram_bptree3->Insert(backData3[i], bptree_nvm3->Get(char8toint64(backData3[i].c_str())));
@@ -252,18 +252,18 @@ void Write_Log()    //倒盘
 {   
     // std::lock_guard<std::mutex> lk(m_mutex);
     // m_mutex.lock();
-    cout << "[DEBUG] Begin write log!" << endl;
+    // cout << "[DEBUG] Begin write log!" << endl;
     //aep1
     vector<string> insertData1;
     insertData1 = dram_bptree1->FlushtoNvm();
-    cout << "flush size: " << insertData1.size() << endl;
+    // cout << "flush size: " << insertData1.size() << endl;
     for(int i=0;i<insertData1.size();i++){
         int len = insertData1[i].length();
         uint64_t hot = stoi(insertData1[i].substr(len-7));
         bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), hot, '1', dram_bptree1->Geti(insertData1[i]));
         // bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), dram_bptree1->Get(insertData1[i]));
     }
-    cout << "update size: " << updakey1.size() << endl;
+    // cout << "update size: " << updakey1.size() << endl;
     // for(int i=0;i<updakey1.size();i++){
     //     bptree_nvm1->Updakey(updakey1[i]);
     // }
@@ -419,7 +419,7 @@ string aepsystem::Get(const std::string& key)
             {
                 // cout << "[DEBUG] Read Cache!" << endl;
                 
-                // Read_Cache();
+                Read_Cache();
             }
             switch (id)
             {
