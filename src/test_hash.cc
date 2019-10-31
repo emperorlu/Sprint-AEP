@@ -3,7 +3,7 @@
 #include <iostream>
 using namespace std;
 
-HashTable<Keyvalue> cache_table(1000);
+// HashTable<Keyvalue> cache_table(1000);
 
 int main(){
     size_t KEY_SIZE = rocksdb::NVM_KeySize; 
