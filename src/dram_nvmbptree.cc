@@ -661,7 +661,7 @@ string BpTree::Get(const std::string& key) {
     // cout << "[DEBUG] Get 1! " << endl;
 
     if((pvalue = m_root->Get(key)) != nullptr){
-        HCrchain->update_hot(key);
+        // HCrchain->update_hot(key);
         uint64_t value_point;
         memcpy(&value_point, pvalue, sizeof(uint64_t));
         char *value = (char *)value_point;
