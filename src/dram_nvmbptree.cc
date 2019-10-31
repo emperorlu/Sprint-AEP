@@ -705,7 +705,7 @@ vector<string> BpTree::OutdeData(size_t out){
     {
         typename list<string>::iterator itr = HCrchain->theLists[i].begin();
         while(itr != HCrchain->theLists[i].end()){
-            if((*itr)[NVM_KeyBuf-8]== '0'){
+            if((*itr)[(*itr).length()-8]== '0'){
                 // cout << "get !" << endl;
                 dlist.push_back((*itr));
                 HCrchain->theLists[i].erase(itr);
