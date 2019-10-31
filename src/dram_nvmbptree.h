@@ -302,6 +302,7 @@ class RangChain
                 int res = memcmp(x.c_str(), (*itr).c_str(), NVM_KeySize);
                 if (res == 0){
                     theLists[i].erase(itr);
+                    currentSize--;
                     insert(x);
                     return true;
                 }
