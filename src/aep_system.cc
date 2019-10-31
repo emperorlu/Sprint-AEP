@@ -306,7 +306,7 @@ void aepsystem::Insert(const string &key, const string &value)
     m_mutex.lock();
     // std::lock_guard<std::mutex> lk(m_mutex);
     insert_count++;
-    cout << "[DEBUG] Insert (" << insert_count << ") key: " << key << endl;
+    // cout << "[DEBUG] Insert (" << insert_count << ") key: " << key << endl;
     if(id == 0)  // primary aep
     {
         bptree_nvm0->Insert(char8toint64(key.c_str()),value);
