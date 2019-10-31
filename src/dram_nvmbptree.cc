@@ -718,7 +718,7 @@ bool BpTree::Search(string key1, string key2, string* result, int& size)
 // }
 vector<string> BpTree::OutdeData(size_t out){
     vector<string> dlist;
-    cout << "size: " << HCrchain->currentSize << endl;
+    // cout << "size: " << HCrchain->currentSize << endl;
     // HCrchain->traver();
     for(int i = 0; i < HCrchain->theLists.size(); i++)
     {

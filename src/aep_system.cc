@@ -256,6 +256,7 @@ void Write_Log()    //倒盘
     //aep1
     vector<string> insertData1;
     insertData1 = dram_bptree1->FlushtoNvm();
+    cout << "flush size: " << insertData1.size() << endl;
     for(int i=0;i<insertData1.size();i++){
         int len = insertData1[i].length();
         uint64_t hot = stoi(insertData1[i].substr(len-7));
