@@ -20,6 +20,9 @@ public:
         return bptree_->OutdeData(out);
     }
     string Get(const std::string& key);
+    string Geti(const std::string& key){
+        return bptree_->Geti(key);
+    }
     int MinHot(){
         return bptree_->MinHot();
     }

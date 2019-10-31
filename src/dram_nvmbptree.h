@@ -375,6 +375,7 @@ class BpTree
     void Initialize(PersistentAllocator* valueAllocator);
     void Insert(string key, string value);
     string Get(const std::string& key);
+    string Geti(const std::string& key);
     void Delete(string key);
     bool Search(string key, string& value);
     bool Search(string key1, string key2, string* result, int& size);

@@ -649,6 +649,24 @@ string BpTree::Get(const std::string& key) {
     return "";
 }
 
+string BpTree::Geti(const std::string& key) {
+    char *pvalue;
+    if(m_root == nullptr) {
+        printf("B+ tree is empty\n");
+        return "";
+    }
+    // cout << "[DEBUG] Get 1! " << endl;
+
+    if((pvalue = m_root->Get(key)) != nullptr){
+        uint64_t value_point;
+        memcpy(&value_point, pvalue, sizeof(uint64_t));
+        char *value = (char *)value_point;
+        // printf("Value pointer is %p\n", value);
+        return string(value, NVM_ValueSize);
+    }
+    return "";
+}
+
 bool BpTree::Search(string key, string& value)
 {
 	if(m_root == NULL)

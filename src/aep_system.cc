@@ -259,7 +259,7 @@ void Write_Log()    //倒盘
     for(int i=0;i<insertData1.size();i++){
         int len = insertData1[i].length();
         uint64_t hot = stoi(insertData1[i].substr(len-7));
-        bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), hot, '1', dram_bptree1->Get(insertData1[i]));
+        bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), hot, '1', dram_bptree1->Geti(insertData1[i]));
         // bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), dram_bptree1->Get(insertData1[i]));
     }
     for(int i=0;i<updakey1.size();i++){
@@ -275,7 +275,7 @@ void Write_Log()    //倒盘
         //     bptree_nvm2->Insert(char8toint64(insertData2[i].c_str()), dram_bptree2->Get(insertData2[i]));
         int len = insertData2[i].length();
         uint64_t hot = stoi(insertData2[i].substr(len-7));
-        bptree_nvm2->Insert(char8toint64(insertData2[i].c_str()), hot, '1', dram_bptree2->Get(insertData2[i]));
+        bptree_nvm2->Insert(char8toint64(insertData2[i].c_str()), hot, '1', dram_bptree2->Geti(insertData2[i]));
     }
     for(int i=0;i<updakey2.size();i++){
         bptree_nvm2->Updakey(updakey2[i]);
@@ -288,7 +288,7 @@ void Write_Log()    //倒盘
     for(int i=0;i<insertData3.size();i++){
         int len = insertData3[i].length();
         uint64_t hot = stoi(insertData3[i].substr(len-7));
-        bptree_nvm3->Insert(char8toint64(insertData3[i].c_str()), hot, '1', dram_bptree3->Get(insertData3[i]));
+        bptree_nvm3->Insert(char8toint64(insertData3[i].c_str()), hot, '1', dram_bptree3->Geti(insertData3[i]));
     }
     for(int i=0;i<updakey3.size();i++){
         bptree_nvm3->Updakey(updakey3[i]);
