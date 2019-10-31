@@ -250,8 +250,7 @@ class RangChain
         while (theLists[i].size() == 0){
             i--;
         }
-        list<string> & whichList = theLists[i];
-        whichList.erase(whichList.begin());
+        theLists[i].pop_back();
         currentSize--;
         return true;
     }
