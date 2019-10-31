@@ -75,7 +75,7 @@ int main()
     for(int j = 0; j < ops; j++) 
     {   
         // i = rand()%(ops/10) + k * (ops/10);
-        i = rang()%ops;
+        i = rand()%ops;
         // cout << j << " : " << i << endl;
         // for (i = 0; i < (ops/100-j); i++){
         snprintf(keybuf, sizeof(keybuf), "%07d", i);
