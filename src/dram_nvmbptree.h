@@ -283,8 +283,9 @@ class RangChain
             typename list<string>::iterator itr = theLists[i].begin();
             while(itr != theLists[i].end()){
                 int res = memcmp(x.c_str(), (*itr).c_str(), NVM_KeySize);
-                cout << x << ": " << (*itr) << "res: " << res << endl;
+                // cout << x << ": " << (*itr) << "res: " << res << endl;
                 if (res == 0){
+                    cout << "get! " << endl;
                     (*itr)[(*itr).length()-8] = '0';
                     return true;
                 }
@@ -314,7 +315,7 @@ class RangChain
 
     bool insert(const string &x)
     {   
-        cout << "insert x: " << x << endl;
+        // cout << "insert x: " << x << endl;
         int value = GetHot(x);
         if(currentSize >= maxSize){
             if(value >= maxhot)
