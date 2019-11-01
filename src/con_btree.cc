@@ -154,11 +154,13 @@ vector<string> btree::btree_back(int hot, size_t read){
       Keyvalue tmp_key(str, str);
       if(Cache->contains(tmp_key)){
         dlist.push_back(str);
+        itr = HCrchain->theLists[i].erase(itr);
         Cache->remove(tmp_key);
         if (dlist.size() >= read)
           return dlist;
+      }else{
+        itr++;
       }
-      itr++;
     }
   }
   return dlist;
