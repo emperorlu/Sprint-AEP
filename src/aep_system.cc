@@ -422,7 +422,6 @@ string aepsystem::Get(const std::string& key)
             if (Dmark) //至少经历一次倒盘
             {
                 // cout << "[DEBUG] Read Cache!" << endl;
-                cout << is_cache << endl;
                 if(is_cache)
                     Read_Cache();
             }
@@ -500,6 +499,7 @@ void aepsystem::Delete(const std::string& key)
 }
 
 aepsystem::aepsystem(){
+    is_cache = 0;
     buf_size = KEY_SIZE + VALUE_SIZE + 1;
     one = buf_size;
 }

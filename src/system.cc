@@ -6,9 +6,9 @@ using namespace rocksdb;
 
 int main(int argc, char **argv)
 {
-    is_cache = atoi(argv[1]);
+    int to_cache = atoi(argv[1]);
     cout << "is_cache: " << is_cache << endl;
-    
+
     struct timeval begin1,begin2,end1,end2;
     
     rocksdb::aepsystem *db_;
@@ -18,6 +18,7 @@ int main(int argc, char **argv)
     int ops = 1000000;
     db_ = new rocksdb::aepsystem;
     db_->Initialize();
+    db_->is_cache = to_cache;
     char keybuf[KEY_SIZE + 1];
     char valuebuf[VALUE_SIZE + 1];
     printf("******Test Start.******\n");

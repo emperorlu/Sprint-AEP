@@ -39,7 +39,6 @@
 #define VALUEPATH3 "/pmem3/datastruct/value_persistent"
 
 using namespace std;
-static int is_cache = 0;
 
 namespace rocksdb{
     class aepsystem{
@@ -57,7 +56,7 @@ namespace rocksdb{
 
     string Get(const std::string& key);
 
-
+   int is_cache;
     
  private:
     size_t KEY_SIZE = rocksdb::NVM_KeySize;         
