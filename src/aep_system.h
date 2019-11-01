@@ -39,7 +39,7 @@
 #define VALUEPATH3 "/pmem3/datastruct/value_persistent"
 
 using namespace std;
-int is_cache = 0;
+static int is_cache = 0;
 
 namespace rocksdb{
     class aepsystem{
