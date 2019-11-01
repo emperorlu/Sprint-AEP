@@ -360,7 +360,7 @@ string aepsystem::Get(const std::string& key)
     // std::lock_guard<std::mutex> lk(m_mutex);
     get_count++;
     // cout << "[DEBUG] Get (" << get_count << ") key: " << char8toint64(key.c_str()) << " id: " << id << endl;
-    cout << "[DEBUG] Get (" << get_count << ") key: " << key << endl;
+    // cout << "[DEBUG] Get (" << get_count << ") key: " << key << endl;
     if(id == 0)  // primary aep
     {
         // tmp_value = bptree_nvm0->Get(key);
