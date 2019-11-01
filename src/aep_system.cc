@@ -574,6 +574,8 @@ void aepsystem::End()
 
     cout << "[COUNT] insert_count: "  << insert_count << endl;
     cout << "[COUNT] get_count: "  << get_count << endl;
+
+    cout << "[COUNT] update_num1: "  << update_num1 << endl;
     // cout << cache_table1.getSize() << endl;
     // cout << cache_table2.getSize() << endl;
     // cout << cache_table3.getSize() << endl;
