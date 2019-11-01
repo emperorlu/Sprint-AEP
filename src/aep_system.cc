@@ -421,9 +421,9 @@ string aepsystem::Get(const std::string& key)
         if(tmp_value.size() == 0) {
             if (Dmark) //至少经历一次倒盘
             {
-                cout << "[DEBUG] Read Cache!" << endl;
-                
-                Read_Cache();
+                // cout << "[DEBUG] Read Cache!" << endl;
+                if(is_cache)
+                    Read_Cache();
             }
             switch (id)
             {

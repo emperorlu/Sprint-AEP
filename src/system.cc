@@ -4,8 +4,9 @@
 #include <cstdlib>
 using namespace rocksdb;
 
-int main()
+int main(int argc, char **argv)
 {
+    is_cache = atoi(argv[1]);
     struct timeval begin1,begin2,end1,end2;
     
     rocksdb::aepsystem *db_;
