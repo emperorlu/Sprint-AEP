@@ -422,6 +422,7 @@ string aepsystem::Get(const std::string& key)
             if (Dmark) //至少经历一次倒盘
             {
                 // cout << "[DEBUG] Read Cache!" << endl;
+                cout << is_cache << endl;
                 if(is_cache)
                     Read_Cache();
             }
