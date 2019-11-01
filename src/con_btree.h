@@ -271,10 +271,9 @@ class CONRangChain
     }
     uint64_t  maxhot, minhot;
     vector<list<entry_key_t> > theLists;   // The array of Lists
-    
+    int currentSize;
   private:
     int listSize;
-    int currentSize;
     int maxSize;
     vector<list<entry_key_t>>  myList;
     // int hc; //c or h
