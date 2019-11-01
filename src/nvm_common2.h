@@ -12,7 +12,6 @@
 #include "debug.h"
 
 namespace rocksdb {
-    int is_cache = 0;
     const int NVM_NodeSize = 256;
     const int NVM_KeySize = 8;
     const int NVM_ValueSize = 1024;//1024;
