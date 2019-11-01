@@ -7,7 +7,6 @@ using namespace rocksdb;
 int main(int argc, char **argv)
 {
     int to_cache = atoi(argv[1]);
-    cout << "is_cache: " << is_cache << endl;
 
     struct timeval begin1,begin2,end1,end2;
     
