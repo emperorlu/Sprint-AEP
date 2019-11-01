@@ -139,8 +139,11 @@ void btree::btree_updakey(const string key){
   Cache->insert(tmp_key);
 }
 
+static long bcak_count = 0;
 vector<string> btree::btree_back(int hot, size_t read){
   vector<string> dlist;
+  bcak_count++;
+  cout << "[DEBUG] back (" << bcak_count << ") size: " << Cache->currentSize << endl;
   for(int i = HCrchain->theLists.size()-1; i >= 0; i--)
   {
     typename list<entry_key_t>::iterator itr = HCrchain->theLists[i].begin();

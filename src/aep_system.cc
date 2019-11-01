@@ -70,6 +70,8 @@ int out_num = 0;
 
 int cache_find = 0;
 
+int update_num1 = 0;
+
 int Find_aep(string key)
 {
     if(workload > OPEN_T3)
@@ -168,6 +170,7 @@ void* Data_out(void *arg)
                     current_size--;
                 }
             }
+            update_num1 += updakey1.size();
 
             vector<string> outData2;
             // dram_bptree2->CreateChain();

@@ -84,10 +84,10 @@ class HashTable
     {
         return currentSize;
     }
-
+    int  currentSize;
   private:
     vector<list<HashedObj> > theLists;   // The array of Lists
-    int  currentSize;
+    
 
     void rehash()
     {
