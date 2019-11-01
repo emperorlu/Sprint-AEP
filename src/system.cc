@@ -8,6 +8,7 @@ int main(int argc, char **argv)
 {
     is_cache = atoi(argv[1]);
     cout << "is_cache: " << is_cache << endl;
+    
     struct timeval begin1,begin2,end1,end2;
     
     rocksdb::aepsystem *db_;
