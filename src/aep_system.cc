@@ -61,6 +61,9 @@ int flush_size = 0;
 int not_find = 0;
 int dram_find = 0;
 int nvm_find = 0;
+int nvm1_find = 0;
+int nvm2_find = 0;
+int nvm3_find = 0;
 int nvm0_find = 0;
 int workload = 0;
 
@@ -331,12 +334,15 @@ string aepsystem::Get(const std::string& key)
                 case 1:
                     // tmp_value = bptree_nvm1->Get(key);
                     tmp_value = bptree_nvm1->Get(char8toint64(key.c_str()));
+                    nvm1_find++;
                     break;
                 case 2:
                     tmp_value = bptree_nvm2->Get(char8toint64(key.c_str()));
+                    nvm2_find++;
                     break;
                 case 3:
                     tmp_value = bptree_nvm3->Get(char8toint64(key.c_str()));
+                    nvm3_find++;
                     break;
                 default:
                     cout << "error!" << endl;
@@ -347,6 +353,22 @@ string aepsystem::Get(const std::string& key)
             if(tmp_value.size() == 0){
                 // cout << "[DEBUG] Can't find it!" << endl;
                 not_find++;
+                switch (id)
+                {
+                    case 1:
+                        nvm1_find--;
+                        break;
+                    case 2:
+                        nvm2_find--;
+                        break;
+                    case 3:
+                        nvm3_find--;
+                        break;
+                    default:
+                        m_mutex.unlock();
+                        return "";
+                   
+                }
                 m_mutex.unlock();
                 return "";
             }
@@ -464,6 +486,9 @@ void aepsystem::End()
     cout << "[GET] not_find: "  << not_find << endl;
     cout << "[GET] dram_find: "  << dram_find << endl;
     cout << "[GET] nvm_find: "  << nvm_find << endl;
+    cout << "[GET] nvm1_find: "  << nvm1_find << endl;
+    cout << "[GET] nvm2_find: "  << nvm2_find << endl;
+    cout << "[GET] nvm3_find: "  << nvm3_find << endl;
     cout << "[GET] nvm0_find: "  << nvm0_find << endl;
 
     cout << "[COUNT] insert_count: "  << insert_count << endl;
