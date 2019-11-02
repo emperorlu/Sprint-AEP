@@ -87,65 +87,6 @@ int Find_aep(string key)
     return emp_table.f_key(key).getValue();
 }
 
-// void Read_Cache(){
-//     // cout << "begin cache! " << endl;  
-//     bptree_nvm1->CreateChain();
-//     vector<string> backData1;
-//     size_t read = READ_DATA;
-//     backData1 = bptree_nvm1->BacktoDram(dram_bptree1->GetMinHot(), read);
-//     // cout << "size1: " << backData1.size() << endl;
-//     if(backData1.size()!=0){
-//         for(int i=0;i<backData1.size();i++){
-//             if(bptree_nvm1->Get(backData1[i]).size() == 0)
-//                 cout << "cache data empty " << endl;
-//             else{
-//                 Keyvalue data1(backData1[i], bptree_nvm1->Get(backData1[i]));
-//                 cache_table1.insert(data1);
-//             }
-                
-//         }
-//     }
-//     // cout << "cache1 size: ";
-//     // cout << cache_table1.getSize() << endl;
-//     backData1.clear();
-
-//     //aep2   
-//     bptree_nvm2->CreateChain();
-//     vector<string> backData2;
-//     backData2 = bptree_nvm2->BacktoDram(dram_bptree2->GetMinHot(), read);
-//     // cout << "size2: " << backData2.size() << endl;
-//     if(backData2.size()!=0){
-//         for(int i=0;i<backData2.size();i++){
-//             if((bptree_nvm2->Get(backData2[i])).size() == 0)
-//                 cout << "cache2 data empty " << endl;
-//             else{
-//                 // cout << "backData2[i]: " << backData2[i] << endl;
-//                 Keyvalue data2(backData2[i], bptree_nvm2->Get(backData2[i]));
-//                 cache_table2.insert(data2);
-//             }
-//         }
-//     }
-//     // cout << "cache2 size: ";
-//     // cout << cache_table2.getSize() << endl;
-//     backData2.clear();
-
-    
-//     //aep3
-//     bptree_nvm3->CreateChain();
-//     vector<string> backData3;
-//     backData3 = bptree_nvm3->BacktoDram(dram_bptree3->GetMinHot(), read);
-//     // cout << "size3: " << backData3.size() << endl;
-//     if(backData3.size()!=0){
-//         for(int i=0;i<backData3.size();i++){
-//             Keyvalue data3(backData3[i], bptree_nvm3->Get(backData3[i]));
-//             cache_table3.insert(data3);
-//         }
-//     }
-//     // cout << "cache3 size: ";
-//     // cout << cache_table3.getSize() << endl;
-//     backData3.clear();
-// }
-
 void* Data_out(void *arg) 
 {
     while(stop){
@@ -228,9 +169,7 @@ void Read_Cache()     //预取
         }
     }
     backData2.clear();
-    // gettimeofday(&end2, NULL);
-    // double delta2 = (end2.tv_sec-begin.tv_sec) + (end2.tv_usec-begin.tv_usec)/1000000.0;
-    // printf("end\n cache2 timeval 总共时间：%lf us\n",delta2);
+
     
     //aep3
     // bptree_nvm3->CreateChain();
@@ -243,12 +182,6 @@ void Read_Cache()     //预取
         }
     }
     backData3.clear();
-    // gettimeofday(&end3, NULL);
-    // double delta3 = (end3.tv_sec-begin.tv_sec) + (end3.tv_usec-begin.tv_usec)/1000000.0;
-    // printf("end\n cache3 timeval 总共时间：%lf us\n",delta3);
-
-    // m_mutex.unlock();
-    // pthread_exit(NULL);
 }
 
 void Write_Log()    //倒盘
@@ -355,7 +288,6 @@ string aepsystem::Get(const std::string& key)
 {
     string tmp_value;
     int id = Find_aep(key);
-    Keyvalue keyv(key, "");
     m_mutex.lock();
     // std::lock_guard<std::mutex> lk(m_mutex);
     get_count++;
@@ -363,9 +295,7 @@ string aepsystem::Get(const std::string& key)
     // cout << "[DEBUG] Get (" << get_count << ") key: " << key << endl;
     if(id == 0)  // primary aep
     {
-        // tmp_value = bptree_nvm0->Get(key);
         tmp_value = bptree_nvm0->Get(char8toint64(key.c_str()));
-        // cout << "[DEBUG] Get in nvm0! " << endl;
         m_mutex.unlock();
         nvm0_find++;
         return tmp_value;
@@ -375,40 +305,12 @@ string aepsystem::Get(const std::string& key)
         switch (id)
         {
             case 1:
-                // tmp_value = cache_table1.find_key(keyv);
-                // // cout << "value: " << tmp_value;
-                // if(tmp_value.size() == 0) {
-                //     tmp_value = dram_bptree1->Get(key);
-                // }
-                // else{
-                //     cache_find++;
-                //     m_mutex.unlock();
-                //     return tmp_value;
-                // }
                 tmp_value = dram_bptree1->Get(key);
                 break;
             case 2:
-                // tmp_value = cache_table2.find_key(keyv);
-                // if(tmp_value.size() == 0) {
-                //     tmp_value = dram_bptree2->Get(key);
-                // }
-                // else{
-                //     cache_find++;
-                //     m_mutex.unlock();
-                //     return tmp_value;
-                // }
                 tmp_value = dram_bptree2->Get(key);
                 break;
             case 3:
-                // tmp_value = cache_table3.find_key(keyv);
-                // if(tmp_value.size() == 0) {
-                //     tmp_value = dram_bptree3->Get(key);
-                // }
-                // else{
-                //     cache_find++;
-                //     m_mutex.unlock();
-                //     return tmp_value;
-                // }
                 tmp_value = dram_bptree3->Get(key);
                 break;
             default:
@@ -417,7 +319,6 @@ string aepsystem::Get(const std::string& key)
                 return "";
         }
          // 没找到  在其它aep中找，并触发预取
-        // cout << "get tmp_value!" << endl;
         if(tmp_value.size() == 0) {
             if (Dmark) //至少经历一次倒盘
             {
@@ -432,11 +333,9 @@ string aepsystem::Get(const std::string& key)
                     tmp_value = bptree_nvm1->Get(char8toint64(key.c_str()));
                     break;
                 case 2:
-                    // tmp_value = bptree_nvm2->Get(key);
                     tmp_value = bptree_nvm2->Get(char8toint64(key.c_str()));
                     break;
                 case 3:
-                    // tmp_value = bptree_nvm3->Get(key);
                     tmp_value = bptree_nvm3->Get(char8toint64(key.c_str()));
                     break;
                 default:
@@ -520,12 +419,6 @@ void aepsystem::Initialize()
     // bptree_nvm0 = new rocksdb::NVM_BPlusTree_Wrapper();
     // bptree_nvm0->Initialize(PATH0, NVM_SIZE, VALUEPATH0, NVM_VALUE_SIZE, 10, KEY_SIZE, buf_size);
 
-    // bptree_nvm1 = new rocksdb::NVM_BPlusTree_Wrapper();
-    // bptree_nvm1->Initialize(PATH1, NVM_SIZE, VALUEPATH1, NVM_VALUE_SIZE, 10, KEY_SIZE, buf_size);
-    // bptree_nvm2 = new rocksdb::NVM_BPlusTree_Wrapper();
-    // bptree_nvm2->Initialize(PATH2, NVM_SIZE, VALUEPATH2, NVM_VALUE_SIZE, 10, KEY_SIZE, buf_size);
-    // bptree_nvm3 = new rocksdb::NVM_BPlusTree_Wrapper();
-    // bptree_nvm3->Initialize(PATH3, NVM_SIZE, VALUEPATH2, NVM_VALUE_SIZE, 10, KEY_SIZE, buf_size);
     bptree_nvm0= new NVMBtree();
     bptree_nvm0->Initial(PATH0, NVM_SIZE, VALUEPATH0, NVM_VALUE_SIZE);
     bptree_nvm1= new NVMBtree();

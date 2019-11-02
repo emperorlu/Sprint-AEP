@@ -54,31 +54,10 @@ int main(int argc, char **argv)
     //     // }
         
     // }
-    for(int k = 0; k < 10; k ++){
-    for(int j = 0; j < ops; j++) 
-    {   
-        i = rand()%(ops/10) + k * (ops/10);
-        // cout << j << " : " << i << endl;
-        // for (i = 0; i < (ops/100-j); i++){
-        snprintf(keybuf, sizeof(keybuf), "%07d", i);
-        snprintf(valuebuf, sizeof(valuebuf), "%020d", i * i);
-        string data(keybuf, KEY_SIZE);
-        string value(valuebuf, VALUE_SIZE);
-        string tmp_value = db_->Get(data);
-        if(tmp_value.size() == 0) {
-            printf("Error: Get key-value faild.(key:%s)\n", data.c_str());
-        } else if(strncmp(value.c_str(), tmp_value.c_str(), VALUE_SIZE) != 0) {
-            printf("Error: Get key-value faild.(Expect:%s, but Get %s)\n", value.c_str(), tmp_value.c_str());
-        }
-        // }
-        
-    }
-    }
-
+    // for(int k = 0; k < 10; k ++){
     // for(int j = 0; j < ops; j++) 
     // {   
-    //     // i = rand()%(ops/10) + k * (ops/10);
-    //     i = rand()%ops;
+    //     i = rand()%(ops/10) + k * (ops/10);
     //     // cout << j << " : " << i << endl;
     //     // for (i = 0; i < (ops/100-j); i++){
     //     snprintf(keybuf, sizeof(keybuf), "%07d", i);
@@ -94,6 +73,27 @@ int main(int argc, char **argv)
     //     // }
         
     // }
+    // }
+
+    for(int j = 0; j < ops; j++) 
+    {   
+        // i = rand()%(ops/10) + k * (ops/10);
+        i = rand()%ops;
+        // cout << j << " : " << i << endl;
+        // for (i = 0; i < (ops/100-j); i++){
+        snprintf(keybuf, sizeof(keybuf), "%07d", i);
+        snprintf(valuebuf, sizeof(valuebuf), "%020d", i * i);
+        string data(keybuf, KEY_SIZE);
+        string value(valuebuf, VALUE_SIZE);
+        string tmp_value = db_->Get(data);
+        if(tmp_value.size() == 0) {
+            printf("Error: Get key-value faild.(key:%s)\n", data.c_str());
+        } else if(strncmp(value.c_str(), tmp_value.c_str(), VALUE_SIZE) != 0) {
+            printf("Error: Get key-value faild.(Expect:%s, but Get %s)\n", value.c_str(), tmp_value.c_str());
+        }
+        // }
+        
+    }
     printf("******Get test finished.*****\n");
     db_->End();
     delete db_;
