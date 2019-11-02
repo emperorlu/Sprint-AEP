@@ -75,6 +75,11 @@ int cache_find = 0;
 
 int update_num1 = 0;
 
+double nvm1_time = 0;
+double nvm2_time = 0;
+double nvm3_time = 0;
+struct timeval begin,end;
+
 int Find_aep(string key)
 {
     if(workload > OPEN_T3)
@@ -152,7 +157,10 @@ void Read_Cache()     //预取
     // bptree_nvm1->CreateChain();
     vector<string> backData1;
     size_t read = READ_DATA;
+    gettimeofday(&begin, NULL);
     backData1 = bptree_nvm1->BacktoDram(dram_bptree1->MinHot(), read);
+    gettimeofday(&end, NULL);
+    nvm1_time += (end.tv_sec-begin.tv_sec) + (end.tv_usec-begin.tv_usec)/1000000.0;
     // cout << "size1: " << backData1.size();
     if(backData1.size()!=0){
         for(int i=0;i<backData1.size();i++){
@@ -164,7 +172,10 @@ void Read_Cache()     //预取
     //aep2   
     // bptree_nvm2->CreateChain();
     vector<string> backData2;
+    gettimeofday(&begin, NULL);
     backData2 = bptree_nvm2->BacktoDram(dram_bptree2->MinHot(), read);
+    gettimeofday(&end, NULL);
+    nvm1_time += (end.tv_sec-begin.tv_sec) + (end.tv_usec-begin.tv_usec)/1000000.0;
     // cout << "size2: " << backData2.size();
     if(backData2.size()!=0){
         for(int i=0;i<backData2.size();i++){
@@ -177,7 +188,10 @@ void Read_Cache()     //预取
     //aep3
     // bptree_nvm3->CreateChain();
     vector<string> backData3;
+    gettimeofday(&begin, NULL);
     backData3 = bptree_nvm3->BacktoDram(dram_bptree3->MinHot(), read);
+    gettimeofday(&end, NULL);
+    nvm1_time += (end.tv_sec-begin.tv_sec) + (end.tv_usec-begin.tv_usec)/1000000.0;
     // cout << "size3: " << backData3.size() << endl;
     if(backData3.size()!=0){
         for(int i=0;i<backData3.size();i++){
@@ -196,6 +210,7 @@ void Write_Log()    //倒盘
     vector<string> insertData1;
     insertData1 = dram_bptree1->FlushtoNvm();
     // cout << "flush size: " << insertData1.size() << endl;
+    gettimeofday(&begin, NULL);
     for(int i=0;i<insertData1.size();i++){
         int len = insertData1[i].length();
         uint64_t hot = stoi(insertData1[i].substr(len-7, NVM_SignSize-1));
@@ -207,11 +222,14 @@ void Write_Log()    //倒盘
     for(int i=0;i<updakey1.size();i++){
         bptree_nvm1->Updakey(updakey1[i]);
     }
+    gettimeofday(&end, NULL);
+    nvm1_time += (end.tv_sec-begin.tv_sec) + (end.tv_usec-begin.tv_usec)/1000000.0;
     updakey1.clear(); 
 
     //aep2
     vector<string> insertData2;
     insertData2 = dram_bptree2->FlushtoNvm();
+    gettimeofday(&begin, NULL);
     for(int i=0;i<insertData2.size();i++){
         // if (dram_bptree2->Get(insertData2[i]).size() != 0)
         //     bptree_nvm2->Insert(char8toint64(insertData2[i].c_str()), dram_bptree2->Get(insertData2[i]));
@@ -222,11 +240,14 @@ void Write_Log()    //倒盘
     for(int i=0;i<updakey2.size();i++){
         bptree_nvm2->Updakey(updakey2[i]);
     }
+    gettimeofday(&end, NULL);
+    nvm2_time += (end.tv_sec-begin.tv_sec) + (end.tv_usec-begin.tv_usec)/1000000.0; 
     updakey2.clear();
 
     //aep3
     vector<string> insertData3;
     insertData3 = dram_bptree3->FlushtoNvm();
+    gettimeofday(&begin, NULL);
     for(int i=0;i<insertData3.size();i++){
         int len = insertData3[i].length();
         uint64_t hot = stoi(insertData3[i].substr(len-7, NVM_SignSize-1));
@@ -235,6 +256,8 @@ void Write_Log()    //倒盘
     for(int i=0;i<updakey3.size();i++){
         bptree_nvm3->Updakey(updakey3[i]);
     }
+    gettimeofday(&end, NULL);
+    nvm3_time += (end.tv_sec-begin.tv_sec) + (end.tv_usec-begin.tv_usec)/1000000.0;
     updakey3.clear();
 
 
@@ -333,15 +356,24 @@ string aepsystem::Get(const std::string& key)
             {
                 case 1:
                     // tmp_value = bptree_nvm1->Get(key);
+                    gettimeofday(&begin, NULL);
                     tmp_value = bptree_nvm1->Get(char8toint64(key.c_str()));
+                    gettimeofday(&end, NULL);
+                    nvm1_time += (end.tv_sec-begin.tv_sec) + (end.tv_usec-begin.tv_usec)/1000000.0;
                     nvm1_find++;
                     break;
                 case 2:
+                    gettimeofday(&begin, NULL);
                     tmp_value = bptree_nvm2->Get(char8toint64(key.c_str()));
+                    gettimeofday(&end, NULL);
+                    nvm2_time += (end.tv_sec-begin.tv_sec) + (end.tv_usec-begin.tv_usec)/1000000.0;
                     nvm2_find++;
                     break;
                 case 3:
+                    gettimeofday(&begin, NULL);
                     tmp_value = bptree_nvm3->Get(char8toint64(key.c_str()));
+                    gettimeofday(&end, NULL);
+                    nvm3_time += (end.tv_sec-begin.tv_sec) + (end.tv_usec-begin.tv_usec)/1000000.0;
                     nvm3_find++;
                     break;
                 default:
@@ -495,6 +527,9 @@ void aepsystem::End()
     cout << "[COUNT] get_count: "  << get_count << endl;
 
     cout << "[COUNT] update_num1: "  << update_num1 << endl;
+    cout << "[time] nvm1_time: "  << nvm1_time << endl;
+    cout << "[time] nvm2_time: "  << nvm2_time << endl;
+    cout << "[time] nvm3_time: "  << nvm3_time << endl;
     // cout << cache_table1.getSize() << endl;
     // cout << cache_table2.getSize() << endl;
     // cout << cache_table3.getSize() << endl;
