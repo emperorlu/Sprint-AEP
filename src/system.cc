@@ -14,7 +14,7 @@ int main(int argc, char **argv)
     size_t KEY_SIZE = rocksdb::NVM_KeySize;         // 32B
     size_t VALUE_SIZE = rocksdb::NVM_ValueSize;
     int i;
-    int ops = 5000000;
+    int ops = 50000000;
     db_ = new rocksdb::aepsystem;
     db_->Initialize();
     db_->is_cache = to_cache;
