@@ -490,6 +490,7 @@ void aepsystem::Initialize()
     FLUSH_SIZE = OUT_SIZE / 6;
     OUT_DATA = OUT_SIZE / 60;
     READ_DATA = OUT_DATA;
+    cout << "System run!" << endl;
     cout << "[SIZE] FLUSH_SIZE: " << FLUSH_SIZE << endl;
     cout << "[SIZE] OUT_SIZE: " << OUT_SIZE << endl;
     cout << "[SIZE] OUT_DATA: " << OUT_DATA << endl;
@@ -551,6 +552,8 @@ void aepsystem::End()
     cout << "[time] nvm1_time: "  << nvm1_time << endl;
     cout << "[time] nvm2_time: "  << nvm2_time << endl;
     cout << "[time] nvm3_time: "  << nvm3_time << endl;
+    cout << endl;
+    cout << endl;
     // cout << cache_table1.getSize() << endl;
     // cout << cache_table2.getSize() << endl;
     // cout << cache_table3.getSize() << endl;

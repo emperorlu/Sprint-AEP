@@ -1,0 +1,14 @@
+#!/bin/bash
+
+./rm.sh
+numactl --cpunodebind=1 --membind=1 ./src/test 0 1 >> out.out
+./rm.sh
+numactl --cpunodebind=1 --membind=1 ./src/test 1 1 >> out.out
+./rm.sh
+numactl --cpunodebind=1 --membind=1 ./src/test 0 5 >> out.out
+./rm.sh
+numactl --cpunodebind=1 --membind=1 ./src/test 1 5 >> out.out
+./rm.sh
+numactl --cpunodebind=1 --membind=1 ./src/test 0 5 >> out.out
+./rm.sh
+numactl --cpunodebind=1 --membind=1 ./src/test 1 5 >> out.out
