@@ -159,10 +159,10 @@ void Read_Cache()     //预取
     // cache_num++;
     //aep1
     // bptree_nvm1->CreateChain();
+    size_t read = READ_DATA;
     
     if (bptree_nvm1->GetCacheSzie() != 0){
         vector<string> backData1;
-        size_t read = READ_DATA;
         gettimeofday(&be1, NULL);
         backData1 = bptree_nvm1->BacktoDram(dram_bptree1->MinHot(), read);
         gettimeofday(&en1, NULL);
