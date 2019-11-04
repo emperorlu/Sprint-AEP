@@ -56,7 +56,7 @@ const size_t OPEN_T3 = 300;
 //标记
 int Dmark = 0;
 int stop = 1;
-int one = 1;
+// int one = 1;
 int open = 1;
 
 //统计
@@ -165,7 +165,7 @@ void Read_Cache()     //预取
     backData1 = bptree_nvm1->BacktoDram(dram_bptree1->MinHot(), read);
     gettimeofday(&en1, NULL);
     nvm1_time += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
-    // cout << "size1: " << backData1.size();
+    cout << "size1: " << backData1.size();
     if(backData1.size()!=0){
         for(int i=0;i<backData1.size();i++){
             dram_bptree1->Insert(backData1[i], bptree_nvm1->Get(char8toint64(backData1[i].c_str())));
@@ -180,7 +180,7 @@ void Read_Cache()     //预取
     backData2 = bptree_nvm2->BacktoDram(dram_bptree2->MinHot(), read);
     gettimeofday(&en1, NULL);
     nvm2_time += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
-    // cout << "size2: " << backData2.size();
+    cout << "size2: " << backData2.size();
     if(backData2.size()!=0){
         for(int i=0;i<backData2.size();i++){
             dram_bptree2->Insert(backData2[i], bptree_nvm2->Get(char8toint64(backData2[i].c_str())));
@@ -196,7 +196,7 @@ void Read_Cache()     //预取
     backData3 = bptree_nvm3->BacktoDram(dram_bptree3->MinHot(), read);
     gettimeofday(&en1, NULL);
     nvm3_time += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
-    // cout << "size3: " << backData3.size() << endl;
+    cout << "size3: " << backData3.size() << endl;
     if(backData3.size()!=0){
         for(int i=0;i<backData3.size();i++){
             dram_bptree3->Insert(backData3[i], bptree_nvm3->Get(char8toint64(backData3[i].c_str())));
@@ -322,7 +322,7 @@ string aepsystem::Get(const std::string& key)
     // std::lock_guard<std::mutex> lk(m_mutex);
     get_count++;
     // cout << "[DEBUG] Get (" << get_count << ") key: " << char8toint64(key.c_str()) << " id: " << id << endl;
-    // cout << "[DEBUG] Get (" << get_count << ") key: " << key << endl;
+    cout << "[DEBUG] Get (" << get_count << ") key: " << key << endl;
     if(id == 0)  // primary aep
     {
         tmp_value = bptree_nvm0->Get(char8toint64(key.c_str()));
@@ -352,9 +352,10 @@ string aepsystem::Get(const std::string& key)
         if(tmp_value.size() == 0) {
             if (Dmark) //至少经历一次倒盘
             {
-                // cout << "[DEBUG] Read Cache!" << endl;
+                cout << "[DEBUG] Read Cache!" << endl;
                 if(is_cache)
                     Read_Cache();
+                cout << "[DEBUG] Read Cache Over!" << endl;
             }
             switch (id)
             {
@@ -458,7 +459,7 @@ void aepsystem::Delete(const std::string& key)
 aepsystem::aepsystem(){
     is_cache = 0;
     buf_size = KEY_SIZE + VALUE_SIZE + 1;
-    one = buf_size;
+    // one = buf_size;
 }
 aepsystem::~aepsystem(){
     delete bptree_nvm0;
