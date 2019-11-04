@@ -282,7 +282,7 @@ void aepsystem::Insert(const string &key, const string &value)
     }
     else        //其它aep
     {
-        if ( (flush_size * one) >= FLUSH_SIZE)   //触发倒盘
+        if ( flush_size >= FLUSH_SIZE)   //触发倒盘
         {
             Dmark = 1;
             flush_num++;
@@ -477,7 +477,7 @@ void aepsystem::Initialize()
     // bptree_nvm0 = new rocksdb::NVM_BPlusTree_Wrapper();
     // bptree_nvm0->Initialize(PATH0, NVM_SIZE, VALUEPATH0, NVM_VALUE_SIZE, 10, KEY_SIZE, buf_size);
     OUT_SIZE = num_size * 0.6;
-    FLUSH_SIZE = OUT_SIZE / 10;
+    FLUSH_SIZE = OUT_SIZE / 6;
     OUT_DATA = OUT_SIZE / 60;
     READ_DATA = OUT_DATA / 2;
     cout << "[SIZE] FLUSH_SIZE: " << FLUSH_SIZE << endl;
@@ -519,7 +519,7 @@ void aepsystem::End()
     cout << endl;
     cout << "[SIZE] current_size: " << current_size << endl;
     cout << "[SIZE] flush_size: " << flush_size << endl;
-    cout << "[SIZE] one: " << one << endl;
+    // cout << "[SIZE] one: " << one << endl;
     cout << "[SIZE] FLUSH_SIZE: " << FLUSH_SIZE << endl;
     cout << "[SIZE] OUT_SIZE: " << OUT_SIZE << endl;
     cout << "[SIZE] OUT_DATA: " << OUT_DATA << endl;
