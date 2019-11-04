@@ -463,6 +463,10 @@ aepsystem::aepsystem(){
     FLUSH_SIZE = OUT_SIZE / 10;
     OUT_DATA = OUT_SIZE / 60;
     READ_DATA = OUT_DATA / 2;
+    cout << "[SIZE] FLUSH_SIZE: " << FLUSH_SIZE << endl;
+    cout << "[SIZE] OUT_SIZE: " << OUT_SIZE << endl;
+    cout << "[SIZE] OUT_DATA: " << OUT_DATA << endl;
+    cout << "[SIZE] READ_DATA: " << READ_DATA << endl;
 }
 aepsystem::~aepsystem(){
     delete bptree_nvm0;
