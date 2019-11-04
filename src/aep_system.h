@@ -57,6 +57,7 @@ namespace rocksdb{
     string Get(const std::string& key);
 
    int is_cache;
+   int num_size;
     
  private:
     size_t KEY_SIZE = rocksdb::NVM_KeySize;         

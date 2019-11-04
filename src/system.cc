@@ -7,6 +7,7 @@ using namespace rocksdb;
 int main(int argc, char **argv)
 {
     int to_cache = atoi(argv[1]);
+    int num_size = atoi(argv[2]);
 
     struct timeval begin1,begin2,end1,end2;
     
@@ -14,9 +15,10 @@ int main(int argc, char **argv)
     size_t KEY_SIZE = rocksdb::NVM_KeySize;         // 32B
     size_t VALUE_SIZE = rocksdb::NVM_ValueSize;
     int i;
-    int ops = 10000000;
+    int ops = 1000000 * num_size;
     db_ = new rocksdb::aepsystem;
     db_->Initialize();
+    db_->num_size = ops;
     db_->is_cache = to_cache;
     char keybuf[KEY_SIZE + 1];
     char valuebuf[VALUE_SIZE + 1];

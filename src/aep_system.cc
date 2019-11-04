@@ -36,8 +36,11 @@ const size_t NVM_VALUE_SIZE = 40 * (1ULL << 30);         // 180GB
 const size_t CACHE_SIZE = 20 * (1ULL << 30);         // 180GB
 
 //阈值
-const size_t OUT_DATA = 500000;
-const size_t READ_DATA = 100000;
+size_t OUT_DATA = 0;
+size_t READ_DATA = 0;
+size_t FLUSH_SIZE = 0; 
+size_t OUT_SIZE = 0; 
+
 // const size_t OUT_DATA = 1000000;
 // const size_t READ_DATA = 500000;
 
@@ -45,10 +48,9 @@ const size_t OPEN_T1 = 100;
 const size_t OPEN_T2 = 200;
 const size_t OPEN_T3 = 300;
 
-const size_t FLUSH_SIZE = 800 * (1ULL << 20);
-const size_t OUT_SIZE = 8000 * (1ULL << 20);
-// const size_t FLUSH_SIZE = 8 * (1ULL << 30); 
-// const size_t OUT_SIZE = 16 * (1ULL << 30); 
+// const size_t FLUSH_SIZE = 600 * (1ULL << 20);
+// const size_t OUT_SIZE = 6000 * (1ULL << 20);
+
 
 
 //标记
@@ -100,7 +102,7 @@ int Find_aep(string key)
 void* Data_out(void *arg) 
 {
     while(stop){
-        if((current_size * one) >= OUT_SIZE && Dmark)
+        if(current_size  >= OUT_SIZE && Dmark)
         {
             
             
@@ -457,6 +459,10 @@ aepsystem::aepsystem(){
     is_cache = 0;
     buf_size = KEY_SIZE + VALUE_SIZE + 1;
     one = buf_size;
+    OUT_SIZE = num_size * 0.6;
+    FLUSH_SIZE = OUT_SIZE / 10;
+    OUT_DATA = OUT_SIZE / 60;
+    READ_DATA = OUT_DATA / 2;
 }
 aepsystem::~aepsystem(){
     delete bptree_nvm0;
@@ -506,16 +512,15 @@ void aepsystem::End()
     cout << "[NUM] out_num: " << out_num << endl;
     cout << "[NUM] cache_num: " << cache_num << endl;
     cout << "[NUM] flush_num: " << flush_num << endl;
-
+    cout << endl;
     cout << "[SIZE] current_size: " << current_size << endl;
     cout << "[SIZE] flush_size: " << flush_size << endl;
+    cout << "[SIZE] one: " << one << endl;
     cout << "[SIZE] FLUSH_SIZE: " << FLUSH_SIZE << endl;
     cout << "[SIZE] OUT_SIZE: " << OUT_SIZE << endl;
-
     cout << "[SIZE] OUT_DATA: " << OUT_DATA << endl;
     cout << "[SIZE] READ_DATA: " << READ_DATA << endl;
-    cout << "[SIZE] one: " << one << endl;
-
+    cout << endl;
     // cout << "[GET] cache_find: " << cache_find << endl;
     cout << "[GET] not_find: "  << not_find << endl;
     cout << "[GET] dram_find: "  << dram_find << endl;
@@ -524,11 +529,11 @@ void aepsystem::End()
     cout << "[GET] nvm2_find: "  << nvm2_find << endl;
     cout << "[GET] nvm3_find: "  << nvm3_find << endl;
     cout << "[GET] nvm0_find: "  << nvm0_find << endl;
-
+    cout << endl;
     cout << "[COUNT] insert_count: "  << insert_count << endl;
     cout << "[COUNT] get_count: "  << get_count << endl;
-
     cout << "[COUNT] update_num1: "  << update_num1 << endl;
+    cout << endl;
     cout << "[time] nvm1_time: "  << nvm1_time << endl;
     cout << "[time] nvm2_time: "  << nvm2_time << endl;
     cout << "[time] nvm3_time: "  << nvm3_time << endl;
