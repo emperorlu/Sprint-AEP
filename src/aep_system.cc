@@ -36,17 +36,19 @@ const size_t NVM_VALUE_SIZE = 40 * (1ULL << 30);         // 180GB
 const size_t CACHE_SIZE = 20 * (1ULL << 30);         // 180GB
 
 //阈值
-const size_t OUT_DATA = 100000;
-const size_t READ_DATA = 50000;
+// const size_t OUT_DATA = 100000;
+// const size_t READ_DATA = 50000;
+const size_t OUT_DATA = 1000000;
+const size_t READ_DATA = 500000;
 
 const size_t OPEN_T1 = 100;
 const size_t OPEN_T2 = 200;
 const size_t OPEN_T3 = 300;
 
-const size_t FLUSH_SIZE = 600 * (1ULL << 20);
-const size_t OUT_SIZE = 6000 * (1ULL << 20);
-// const size_t FLUSH_SIZE = 3000;
-// const size_t OUT_SIZE = 60000;
+// const size_t FLUSH_SIZE = 600 * (1ULL << 20);
+// const size_t OUT_SIZE = 6000 * (1ULL << 20);
+const size_t FLUSH_SIZE = 8 * (1ULL << 30); 
+const size_t OUT_SIZE = 16 * (1ULL << 30); 
 
 
 //标记
