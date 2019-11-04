@@ -44,6 +44,12 @@ public:
     void FunctionTest(int ops);
     void motivationtest();
 
+    int GetCacheSzie(){
+        if(bt) {
+            return bt->cache_size();
+        }
+        exit(0);
+    }
     void Print();
     void PrintInfo();
 

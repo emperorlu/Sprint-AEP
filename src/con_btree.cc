@@ -122,7 +122,7 @@ void bpnode::linear_search_range(entry_key_t min, entry_key_t max, std::vector<s
 btree::btree(){
   // root = (char*)new bpnode();
   HCrchain = new CONRangChain;
-  Cache = new HashTable<Keyvalue>(30000);
+  Cache = new HashTable<Keyvalue>(1000000);
   height = 1;
   node_alloc = nullptr;
 }

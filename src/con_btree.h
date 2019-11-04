@@ -334,6 +334,9 @@ class btree{
     void chain_insert(entry_key_t key);
     void btree_updakey(const string key);
     vector<string> btree_back(int hot, size_t read);
+    int cache_size(){
+      return Cache->getSize();
+    }
 
     friend class bpnode;
 
