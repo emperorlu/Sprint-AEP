@@ -17,9 +17,9 @@ int main(int argc, char **argv)
     int i;
     int ops = 1000000 * num_size;
     db_ = new rocksdb::aepsystem;
-    db_->Initialize();
     db_->num_size = ops;
     db_->is_cache = to_cache;
+    db_->Initialize();
     char keybuf[KEY_SIZE + 1];
     char valuebuf[VALUE_SIZE + 1];
     printf("******Test Start.******\n");
