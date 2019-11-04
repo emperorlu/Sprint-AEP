@@ -459,14 +459,6 @@ aepsystem::aepsystem(){
     is_cache = 0;
     buf_size = KEY_SIZE + VALUE_SIZE + 1;
     one = buf_size;
-    OUT_SIZE = num_size * 0.6;
-    FLUSH_SIZE = OUT_SIZE / 10;
-    OUT_DATA = OUT_SIZE / 60;
-    READ_DATA = OUT_DATA / 2;
-    cout << "[SIZE] FLUSH_SIZE: " << FLUSH_SIZE << endl;
-    cout << "[SIZE] OUT_SIZE: " << OUT_SIZE << endl;
-    cout << "[SIZE] OUT_DATA: " << OUT_DATA << endl;
-    cout << "[SIZE] READ_DATA: " << READ_DATA << endl;
 }
 aepsystem::~aepsystem(){
     delete bptree_nvm0;
@@ -484,6 +476,10 @@ void aepsystem::Initialize()
     
     // bptree_nvm0 = new rocksdb::NVM_BPlusTree_Wrapper();
     // bptree_nvm0->Initialize(PATH0, NVM_SIZE, VALUEPATH0, NVM_VALUE_SIZE, 10, KEY_SIZE, buf_size);
+    OUT_SIZE = num_size * 0.6;
+    FLUSH_SIZE = OUT_SIZE / 10;
+    OUT_DATA = OUT_SIZE / 60;
+    READ_DATA = OUT_DATA / 2;
 
     bptree_nvm0= new NVMBtree();
     bptree_nvm0->Initial(PATH0, NVM_SIZE, VALUEPATH0, NVM_VALUE_SIZE);
