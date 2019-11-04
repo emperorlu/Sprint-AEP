@@ -175,7 +175,7 @@ void Read_Cache()     //预取
     gettimeofday(&be1, NULL);
     backData2 = bptree_nvm2->BacktoDram(dram_bptree2->MinHot(), read);
     gettimeofday(&en1, NULL);
-    nvm1_time += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
+    nvm2_time += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
     // cout << "size2: " << backData2.size();
     if(backData2.size()!=0){
         for(int i=0;i<backData2.size();i++){
@@ -191,7 +191,7 @@ void Read_Cache()     //预取
     gettimeofday(&be1, NULL);
     backData3 = bptree_nvm3->BacktoDram(dram_bptree3->MinHot(), read);
     gettimeofday(&en1, NULL);
-    nvm1_time += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
+    nvm3_time += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
     // cout << "size3: " << backData3.size() << endl;
     if(backData3.size()!=0){
         for(int i=0;i<backData3.size();i++){
