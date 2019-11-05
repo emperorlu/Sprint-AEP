@@ -1,0 +1,363 @@
+System run!
+[SIZE] FLUSH_SIZE: 100000
+[SIZE] OUT_SIZE: 600000
+[SIZE] OUT_DATA: 10000
+[SIZE] READ_DATA: 10000
+System run!
+[SIZE] FLUSH_SIZE: 100000
+[SIZE] OUT_SIZE: 600000
+[SIZE] OUT_DATA: 10000
+[SIZE] READ_DATA: 10000
+NVMAllocator: map at 0x7f1e00000000 
+NVMAllocator: map at 0x7f13c0000000 
+NVMAllocator: map at 0x7f1100000000 
+NVMAllocator: map at 0x7f06c0000000 
+NVMAllocator: map at 0x7f0400000000 
+NVMAllocator: map at 0x7ef9c0000000 
+NVMAllocator: map at 0x7ef700000000 
+NVMAllocator: map at 0x7eecc0000000 
+PersistentAllocator: map at 0x7ee780000000 
+PersistentAllocator: map at 0x7ee240000000 
+PersistentAllocator: map at 0x7edd00000000 
+******Test Start.******
+******Insert test finished.******
+******Get test finished.*****
+[NUM] out_num: 6
+[NUM] cache_num: 0
+[NUM] flush_num: 10
+
+[SIZE] current_size: 570000
+[SIZE] flush_size: 570000
+[SIZE] FLUSH_SIZE: 100000
+[SIZE] OUT_SIZE: 600000
+[SIZE] OUT_DATA: 10000
+[SIZE] READ_DATA: 10000
+
+[GET] not_find: 0
+[GET] dram_find: 569920
+[GET] nvm_find: 179876
+[GET] nvm1_find: 60317
+[GET] nvm2_find: 59872
+[GET] nvm3_find: 59687
+[GET] nvm0_find: 250204
+
+[COUNT] insert_count: 1000000
+[COUNT] get_count: 1000000
+[COUNT] update_num1: 60000
+
+[time] nvm1_time: 0.856358
+[time] nvm2_time: 0.847122
+[time] nvm3_time: 1.33443
+
+
+end
+ Insert 总共时间：10.205441 s
+end
+ Get 总共时间：2.627002 s
+System run!
+[SIZE] FLUSH_SIZE: 100000
+[SIZE] OUT_SIZE: 600000
+[SIZE] OUT_DATA: 10000
+[SIZE] READ_DATA: 10000
+NVMAllocator: map at 0x7f6280000000 
+NVMAllocator: map at 0x7f5840000000 
+NVMAllocator: map at 0x7f5580000000 
+NVMAllocator: map at 0x7f4b40000000 
+NVMAllocator: map at 0x7f4880000000 
+NVMAllocator: map at 0x7f3e40000000 
+NVMAllocator: map at 0x7f3b80000000 
+NVMAllocator: map at 0x7f3140000000 
+PersistentAllocator: map at 0x7f2c00000000 
+PersistentAllocator: map at 0x7f26c0000000 
+PersistentAllocator: map at 0x7f2180000000 
+******Test Start.******
+******Insert test finished.******
+******Get test finished.*****
+[NUM] out_num: 6
+[NUM] cache_num: 30115
+[NUM] flush_num: 10
+
+[SIZE] current_size: 570000
+[SIZE] flush_size: 570000
+[SIZE] FLUSH_SIZE: 100000
+[SIZE] OUT_SIZE: 600000
+[SIZE] OUT_DATA: 10000
+[SIZE] READ_DATA: 10000
+
+[GET] not_find: 0
+[GET] dram_find: 719681
+[GET] nvm_find: 30115
+[GET] nvm1_find: 9963
+[GET] nvm2_find: 10086
+[GET] nvm3_find: 10066
+[GET] nvm0_find: 250204
+
+[COUNT] insert_count: 1000000
+[COUNT] get_count: 1000000
+[COUNT] update_num1: 60000
+
+[time] nvm1_time: 1.01514
+[time] nvm2_time: 0.982641
+[time] nvm3_time: 1.42892
+
+
+end
+ Insert 总共时间：10.139409 s
+end
+ Get 总共时间：4.068762 s
+System run!
+[SIZE] FLUSH_SIZE: 500000
+[SIZE] OUT_SIZE: 3000000
+[SIZE] OUT_DATA: 50000
+[SIZE] READ_DATA: 50000
+NVMAllocator: map at 0x7f5700000000 
+NVMAllocator: map at 0x7f4cc0000000 
+NVMAllocator: map at 0x7f4a00000000 
+NVMAllocator: map at 0x7f3fc0000000 
+NVMAllocator: map at 0x7f3d00000000 
+NVMAllocator: map at 0x7f32c0000000 
+NVMAllocator: map at 0x7f3000000000 
+NVMAllocator: map at 0x7f25c0000000 
+PersistentAllocator: map at 0x7f2080000000 
+PersistentAllocator: map at 0x7f1b40000000 
+PersistentAllocator: map at 0x7f1600000000 
+******Test Start.******
+******Insert test finished.******
+******Get test finished.*****
+[NUM] out_num: 6
+[NUM] cache_num: 0
+[NUM] flush_num: 10
+
+[SIZE] current_size: 2850000
+[SIZE] flush_size: 2850000
+[SIZE] FLUSH_SIZE: 500000
+[SIZE] OUT_SIZE: 3000000
+[SIZE] OUT_DATA: 50000
+[SIZE] READ_DATA: 50000
+
+[GET] not_find: 0
+[GET] dram_find: 2850315
+[GET] nvm_find: 900169
+[GET] nvm1_find: 299705
+[GET] nvm2_find: 301443
+[GET] nvm3_find: 299021
+[GET] nvm0_find: 1249516
+
+[COUNT] insert_count: 5000000
+[COUNT] get_count: 5000000
+[COUNT] update_num1: 300000
+
+[time] nvm1_time: 4.40793
+[time] nvm2_time: 4.35069
+[time] nvm3_time: 6.89549
+
+
+end
+ Insert 总共时间：51.481548 s
+end
+ Get 总共时间：13.631725 s
+System run!
+[SIZE] FLUSH_SIZE: 500000
+[SIZE] OUT_SIZE: 3000000
+[SIZE] OUT_DATA: 50000
+[SIZE] READ_DATA: 50000
+NVMAllocator: map at 0x7f0280000000 
+NVMAllocator: map at 0x7ef840000000 
+NVMAllocator: map at 0x7ef580000000 
+NVMAllocator: map at 0x7eeb40000000 
+NVMAllocator: map at 0x7ee880000000 
+NVMAllocator: map at 0x7ede40000000 
+NVMAllocator: map at 0x7edb80000000 
+NVMAllocator: map at 0x7ed140000000 
+PersistentAllocator: map at 0x7ecc00000000 
+PersistentAllocator: map at 0x7ec6c0000000 
+PersistentAllocator: map at 0x7ec180000000 
+******Test Start.******
+******Insert test finished.******
+******Get test finished.*****
+[NUM] out_num: 6
+[NUM] cache_num: 150277
+[NUM] flush_num: 10
+
+[SIZE] current_size: 2850000
+[SIZE] flush_size: 2850000
+[SIZE] FLUSH_SIZE: 500000
+[SIZE] OUT_SIZE: 3000000
+[SIZE] OUT_DATA: 50000
+[SIZE] READ_DATA: 50000
+
+[GET] not_find: 0
+[GET] dram_find: 3600207
+[GET] nvm_find: 150277
+[GET] nvm1_find: 50203
+[GET] nvm2_find: 50306
+[GET] nvm3_find: 49768
+[GET] nvm0_find: 1249516
+
+[COUNT] insert_count: 5000000
+[COUNT] get_count: 5000000
+[COUNT] update_num1: 300000
+
+[time] nvm1_time: 5.53854
+[time] nvm2_time: 5.35563
+[time] nvm3_time: 7.64258
+
+
+end
+ Insert 总共时间：51.732249 s
+end
+ Get 总共时间：22.922343 s
+System run!
+[SIZE] FLUSH_SIZE: 1000000
+[SIZE] OUT_SIZE: 6000000
+[SIZE] OUT_DATA: 100000
+[SIZE] READ_DATA: 100000
+NVMAllocator: map at 0x7fc600000000 
+NVMAllocator: map at 0x7fbbc0000000 
+NVMAllocator: map at 0x7fb900000000 
+NVMAllocator: map at 0x7faec0000000 
+NVMAllocator: map at 0x7fac00000000 
+NVMAllocator: map at 0x7fa1c0000000 
+NVMAllocator: map at 0x7f9f00000000 
+NVMAllocator: map at 0x7f94c0000000 
+PersistentAllocator: map at 0x7f8f80000000 
+PersistentAllocator: map at 0x7f8a40000000 
+PersistentAllocator: map at 0x7f8500000000 
+******Test Start.******
+******Insert test finished.******
+******Get test finished.*****
+[NUM] out_num: 6
+[NUM] cache_num: 0
+[NUM] flush_num: 11
+
+[SIZE] current_size: 5700004
+[SIZE] flush_size: 4
+[SIZE] FLUSH_SIZE: 1000000
+[SIZE] OUT_SIZE: 6000000
+[SIZE] OUT_DATA: 100000
+[SIZE] READ_DATA: 100000
+
+[GET] not_find: 0
+[GET] dram_find: 5698366
+[GET] nvm_find: 1803300
+[GET] nvm1_find: 600567
+[GET] nvm2_find: 602166
+[GET] nvm3_find: 600567
+[GET] nvm0_find: 2498334
+
+[COUNT] insert_count: 10000000
+[COUNT] get_count: 10000000
+[COUNT] update_num1: 600000
+
+[time] nvm1_time: 9.73217
+[time] nvm2_time: 9.16356
+[time] nvm3_time: 14.6557
+
+
+end
+ Insert 总共时间：108.486490 s
+end
+ Get 总共时间：28.701652 s
+System run!
+[SIZE] FLUSH_SIZE: 1000000
+[SIZE] OUT_SIZE: 6000000
+[SIZE] OUT_DATA: 100000
+[SIZE] READ_DATA: 100000
+NVMAllocator: map at 0x7f1980000000 
+NVMAllocator: map at 0x7f0f40000000 
+NVMAllocator: map at 0x7f0c80000000 
+NVMAllocator: map at 0x7f0240000000 
+NVMAllocator: map at 0x7eff80000000 
+NVMAllocator: map at 0x7ef540000000 
+NVMAllocator: map at 0x7ef280000000 
+NVMAllocator: map at 0x7ee840000000 
+PersistentAllocator: map at 0x7ee300000000 
+PersistentAllocator: map at 0x7eddc0000000 
+PersistentAllocator: map at 0x7ed880000000 
+******Test Start.******
+******Insert test finished.******
+******Get test finished.*****
+[NUM] out_num: 6
+[NUM] cache_num: 6
+[NUM] flush_num: 11
+
+[SIZE] current_size: 5700004
+[SIZE] flush_size: 4
+[SIZE] FLUSH_SIZE: 1000000
+[SIZE] OUT_SIZE: 6000000
+[SIZE] OUT_DATA: 100000
+[SIZE] READ_DATA: 100000
+
+[GET] not_find: 0
+[GET] dram_find: 7501660
+[GET] nvm_find: 6
+[GET] nvm1_find: 2
+[GET] nvm2_find: 3
+[GET] nvm3_find: 1
+[GET] nvm0_find: 2498334
+
+[COUNT] insert_count: 10000000
+[COUNT] get_count: 10000000
+[COUNT] update_num1: 600000
+
+[time] nvm1_time: 10.3123
+[time] nvm2_time: 9.97671
+[time] nvm3_time: 14.6069
+
+
+end
+ Insert 总共时间：108.358335 s
+end
+ Get 总共时间：45.172009 s
+
+
+System run!
+[SIZE] FLUSH_SIZE: 1500000
+[SIZE] OUT_SIZE: 9000000
+[SIZE] OUT_DATA: 150000
+[SIZE] READ_DATA: 150000
+NVMAllocator: map at 0x7fa7c0000000 
+NVMAllocator: map at 0x7f9d80000000 
+NVMAllocator: map at 0x7f9ac0000000 
+NVMAllocator: map at 0x7f9080000000 
+NVMAllocator: map at 0x7f8dc0000000 
+NVMAllocator: map at 0x7f8380000000 
+NVMAllocator: map at 0x7f80c0000000 
+NVMAllocator: map at 0x7f7680000000 
+PersistentAllocator: map at 0x7f7140000000 
+PersistentAllocator: map at 0x7f6c00000000 
+PersistentAllocator: map at 0x7f66c0000000 
+******Test Start.******
+******Insert test finished.******
+******Get test finished.*****
+[NUM] out_num: 8
+[NUM] cache_num: 0
+[NUM] flush_num: 13
+
+[SIZE] current_size: 8850008
+[SIZE] flush_size: 150008
+[SIZE] FLUSH_SIZE: 1500000
+[SIZE] OUT_SIZE: 9000000
+[SIZE] OUT_DATA: 150000
+[SIZE] READ_DATA: 150000
+
+[GET] not_find: 0
+[GET] dram_find: 8847700
+[GET] nvm_find: 2401900
+[GET] nvm1_find: 800133
+[GET] nvm2_find: 801562
+[GET] nvm3_find: 800205
+[GET] nvm0_find: 3750400
+
+[COUNT] insert_count: 15000000
+[COUNT] get_count: 15000000
+[COUNT] update_num1: 800000
+
+[time] nvm1_time: 13.7
+[time] nvm2_time: 13.5419
+[time] nvm3_time: 22.1601
+       
+end
+ Insert 总共时间：170.509976 s
+end
+ Get 总共时间：43.713906 s
