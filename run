@@ -13,9 +13,9 @@ numactl --cpunodebind=1 --membind=1 ./src/test 0 10 >> out.out
 ./rm.sh
 numactl --cpunodebind=1 --membind=1 ./src/test 1 10 >> out.out
 ./rm.sh
-numactl --cpunodebind=1 --membind=1 ./src/test 1 10 >> out.out
-./rm.sh
 numactl --cpunodebind=1 --membind=1 ./src/test 0 15 >> out.out
+./rm.sh
+numactl --cpunodebind=1 --membind=1 ./src/test 1 15 >> out.out
 ./rm.sh
 numactl --cpunodebind=1 --membind=1 ./src/test 0 20 >> out.out
 ./rm.sh
