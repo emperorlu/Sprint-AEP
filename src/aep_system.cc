@@ -581,12 +581,12 @@ void aepsystem::End()
     cout << "[time] nvm1_itime: "  << nvm1_itime << endl;
     cout << "[time] nvm2_itime: "  << nvm2_itime << endl;
     cout << "[time] nvm3_itime: "  << nvm3_itime << endl;
-    cout << "[time] nvm1_itime: "  << nvm1_gtime << endl;
-    cout << "[time] nvm2_itime: "  << nvm2_gtime << endl;
-    cout << "[time] nvm3_itime: "  << nvm3_gtime << endl;
-    cout << "[time] nvm1_itime: "  << nvm1_ctime << endl;
-    cout << "[time] nvm2_itime: "  << nvm2_ctime << endl;
-    cout << "[time] nvm3_itime: "  << nvm3_ctime << endl;
+    cout << "[time] nvm1_gtime: "  << nvm1_gtime << endl;
+    cout << "[time] nvm2_gtime: "  << nvm2_gtime << endl;
+    cout << "[time] nvm3_gtime: "  << nvm3_gtime << endl;
+    cout << "[time] nvm1_ctime: "  << nvm1_ctime << endl;
+    cout << "[time] nvm2_ctime: "  << nvm2_ctime << endl;
+    cout << "[time] nvm3_ctime: "  << nvm3_ctime << endl;
     cout << endl;
     // cout << cache_table1.getSize() << endl;
     // cout << cache_table2.getSize() << endl;
