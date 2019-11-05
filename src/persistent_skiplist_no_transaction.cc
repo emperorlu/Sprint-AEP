@@ -29,7 +29,7 @@ namespace rocksdb {
         cur_index_ += bytes;
         memused += bytes;
         if(memused > capacity_) {
-            printf("%s: NVM full\n", __FUNCTION__);
+            printf("%s: NVM full %p\n", __FUNCTION__, pmemaddr_);
             return nullptr;
         }
         return result;
