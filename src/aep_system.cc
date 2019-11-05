@@ -558,6 +558,10 @@ void aepsystem::End()
     cout << "[SIZE] OUT_SIZE: " << OUT_SIZE << endl;
     cout << "[SIZE] OUT_DATA: " << OUT_DATA << endl;
     cout << "[SIZE] READ_DATA: " << READ_DATA << endl;
+
+    cout << "[SIZE] cache1_size: " << cache1_size << endl;
+    cout << "[SIZE] cache2_size: " << cache2_size << endl;
+    cout << "[SIZE] cache3_size: " << cache3_size << endl;
     cout << endl;
     // cout << "[GET] cache_find: " << cache_find << endl;
     cout << "[GET] not_find: "  << not_find << endl;
@@ -572,10 +576,12 @@ void aepsystem::End()
     cout << "[COUNT] get_count: "  << get_count << endl;
     cout << "[COUNT] update_num1: "  << update_num1 << endl;
     cout << endl;
-    cout << "[time] nvm1_time: "  << nvm1_time << endl;
-    cout << "[time] nvm2_time: "  << nvm2_time << endl;
-    cout << "[time] nvm3_time: "  << nvm3_time << endl;
-    cout << endl;
+    cout << "[time] nvm1_itime: "  << nvm1_itime << endl;
+    cout << "[time] nvm2_itime: "  << nvm2_itime << endl;
+    cout << "[time] nvm3_itime: "  << nvm3_itime << endl;
+    cout << "[time] nvm1_itime: "  << nvm1_gtime << endl;
+    cout << "[time] nvm2_itime: "  << nvm2_gtime << endl;
+    cout << "[time] nvm3_itime: "  << nvm3_gtime << endl;
     cout << endl;
     // cout << cache_table1.getSize() << endl;
     // cout << cache_table2.getSize() << endl;
