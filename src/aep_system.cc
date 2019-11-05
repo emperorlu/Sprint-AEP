@@ -79,9 +79,17 @@ int cache_find = 0;
 
 int update_num1 = 0;
 
-double nvm1_time = 0;
-double nvm2_time = 0;
-double nvm3_time = 0;
+size_t cache1_size = 0;
+size_t cache2_size = 0;
+size_t cache3_size = 0;
+
+double nvm1_itime = 0;
+double nvm1_gtime = 0;
+double nvm2_itime = 0;
+double nvm2_gtime = 0;
+double nvm3_itime = 0;
+double nvm3_gtime = 0;
+
 struct timeval be1,en1;
 
 int Find_aep(string key)
@@ -168,12 +176,13 @@ void Read_Cache()     //预取
         // gettimeofday(&en1, NULL);
         // nvm1_time += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
         // cout << "size1: " << backData1.size();
+        cache1_size += backData1.size();
         if(backData1.size()!=0){
             for(int i=0;i<backData1.size();i++){
                 gettimeofday(&be1, NULL);
                 string tmp1 = bptree_nvm1->Get(char8toint64(backData1[i].c_str()));
                 gettimeofday(&en1, NULL);
-                nvm1_time += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
+                nvm1_gtime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
                 dram_bptree1->Insert(backData1[i], tmp1);
             }
         }
@@ -190,12 +199,13 @@ void Read_Cache()     //预取
         // gettimeofday(&en1, NULL);
         // nvm2_time += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
         // cout << "size2: " << backData2.size();
+        cache2_size += backData2.size();
         if(backData2.size()!=0){
             for(int i=0;i<backData2.size();i++){
                 gettimeofday(&be1, NULL);
                 string tmp2 = bptree_nvm2->Get(char8toint64(backData2[i].c_str()));
                 gettimeofday(&en1, NULL);
-                nvm2_time += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
+                nvm2_gtime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
                 dram_bptree2->Insert(backData2[i], tmp2);
             }
         }
@@ -212,12 +222,13 @@ void Read_Cache()     //预取
         // gettimeofday(&en1, NULL);
         // nvm3_time += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
         // cout << "size3: " << backData3.size() << endl;
+        cache3_size += backData3.size();
         if(backData3.size()!=0){
             for(int i=0;i<backData3.size();i++){
                 gettimeofday(&be1, NULL);
                 string tmp3 = bptree_nvm3->Get(char8toint64(backData3[i].c_str()));
                 gettimeofday(&en1, NULL);
-                nvm3_time += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
+                nvm3_gtime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
                 dram_bptree3->Insert(backData3[i], tmp3);
             }
         }
@@ -247,7 +258,7 @@ void Write_Log()    //倒盘
         bptree_nvm1->Updakey(updakey1[i]);
     }
     gettimeofday(&en1, NULL);
-    nvm1_time += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
+    nvm1_itime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
     updakey1.clear(); 
 
     //aep2
@@ -265,7 +276,7 @@ void Write_Log()    //倒盘
         bptree_nvm2->Updakey(updakey2[i]);
     }
     gettimeofday(&en1, NULL);
-    nvm2_time += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0; 
+    nvm2_itime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0; 
     updakey2.clear();
 
     //aep3
@@ -281,7 +292,7 @@ void Write_Log()    //倒盘
         bptree_nvm3->Updakey(updakey3[i]);
     }
     gettimeofday(&en1, NULL);
-    nvm3_time += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
+    nvm3_itime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
     updakey3.clear();
 
 
