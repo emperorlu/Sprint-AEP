@@ -8,7 +8,7 @@ int main(int argc, char **argv)
 {
     int to_cache = atoi(argv[1]);
     int num_size = atoi(argv[2]);
-    int cache_size = atoi(argv[3]);
+    // int cache_size = atoi(argv[3]);
 
     struct timeval begin1,begin2,end1,end2;
     
@@ -20,7 +20,7 @@ int main(int argc, char **argv)
     db_ = new rocksdb::aepsystem;
     db_->num_size = ops;
     db_->is_cache = to_cache;
-    db_->cache_size = cache_size;
+    // db_->cache_size = cache_size;
     db_->Initialize();
     char keybuf[KEY_SIZE + 1];
     char valuebuf[VALUE_SIZE + 1];
