@@ -495,6 +495,7 @@ void aepsystem::Delete(const std::string& key)
 
 aepsystem::aepsystem(){
     is_cache = 0;
+    cache_size = 0;
     buf_size = KEY_SIZE + VALUE_SIZE + 1;
     // one = buf_size;
 }
@@ -517,7 +518,8 @@ void aepsystem::Initialize()
     OUT_SIZE = num_size * 0.6;
     FLUSH_SIZE = OUT_SIZE / 6;
     OUT_DATA = OUT_SIZE / 60;
-    READ_DATA = OUT_DATA;
+    READ_DATA = OUT_DATA / 10;
+    // READ_DATA = READ_DATA * cache_size;
     cout << "System run!" << endl;
     cout << "[SIZE] FLUSH_SIZE: " << FLUSH_SIZE << endl;
     cout << "[SIZE] OUT_SIZE: " << OUT_SIZE << endl;

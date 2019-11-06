@@ -58,6 +58,7 @@ namespace rocksdb{
 
    int is_cache;
    int num_size;
+   int cache_size;
     
  private:
     size_t KEY_SIZE = rocksdb::NVM_KeySize;         
