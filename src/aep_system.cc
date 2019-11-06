@@ -186,6 +186,7 @@ void Read_Cache()     //预取
                 gettimeofday(&en1, NULL);
                 nvm1_ctime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
                 dram_bptree1->Insert(backData1[i], tmp1);
+                current_size++;
             }
         }
         backData1.clear();
@@ -209,6 +210,7 @@ void Read_Cache()     //预取
                 gettimeofday(&en1, NULL);
                 nvm2_ctime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
                 dram_bptree2->Insert(backData2[i], tmp2);
+                current_size++;
             }
         }
         backData2.clear();
@@ -232,6 +234,7 @@ void Read_Cache()     //预取
                 gettimeofday(&en1, NULL);
                 nvm3_ctime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
                 dram_bptree3->Insert(backData3[i], tmp3);
+                current_size++;
             }
         }
         backData3.clear();

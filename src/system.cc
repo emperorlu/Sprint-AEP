@@ -24,7 +24,7 @@ int main(int argc, char **argv)
     char valuebuf[VALUE_SIZE + 1];
     printf("******Test Start.******\n");
     gettimeofday(&begin1, NULL);
-    for(i = ops-1; i >= 0; i --) {
+    for(i = 0; i < ops; i ++) {
         snprintf(keybuf, sizeof(keybuf), "%07d", i);
         snprintf(valuebuf, sizeof(valuebuf), "%020d", i * i);
         string data(keybuf, KEY_SIZE);
