@@ -142,7 +142,11 @@ void* Data_out(void *arg)
                     current_size--;
                 }
             }
-            update_num1 += updakey1.size();
+            for(int i=0;i<updakey1.size();i++){
+                bptree_nvm1->Updakey(updakey1[i]);
+            }
+            updakey1.clear();
+            
 
             vector<string> outData2;
             // dram_bptree2->CreateChain();
@@ -155,6 +159,10 @@ void* Data_out(void *arg)
                     current_size--;
                 }
             }
+            for(int i=0;i<updakey2.size();i++){
+                bptree_nvm2->Updakey(updakey2[i]);
+            }
+            updakey2.clear();
 
             vector<string> outData3;
             // dram_bptree3->CreateChain();
@@ -167,6 +175,10 @@ void* Data_out(void *arg)
                     current_size--;
                 }
             }
+            for(int i=0;i<updakey3.size();i++){
+                bptree_nvm3->Updakey(updakey3[i]);
+            }
+            updakey3.clear();
             flush_size = current_size;
             m_mutex.unlock();
         }
@@ -273,12 +285,12 @@ void Write_Log()    //倒盘
         // bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), dram_bptree1->Get(insertData1[i]));
     }
     // cout << "update size: " << updakey1.size() << endl;
-    for(int i=0;i<updakey1.size();i++){
-        bptree_nvm1->Updakey(updakey1[i]);
-    }
+    // for(int i=0;i<updakey1.size();i++){
+    //     bptree_nvm1->Updakey(updakey1[i]);
+    // }
     gettimeofday(&en1, NULL);
     nvm1_itime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
-    updakey1.clear(); 
+    // updakey1.clear(); 
 
     //aep2
     vector<string> insertData2;
