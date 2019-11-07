@@ -83,6 +83,10 @@ int cache_find = 0;
 
 int update_num1 = 0;
 
+size_t out1_size = 0;
+size_t out2_size = 0;
+size_t out3_size = 0;
+
 size_t cache1_size = 0;
 size_t cache2_size = 0;
 size_t cache3_size = 0;
@@ -129,6 +133,7 @@ void* Data_out(void *arg)
             size_t out = OUT_DATA;
             // dram_bptree1->CreateChain();
             outData = dram_bptree1->OutdeData(out);
+            out1_size += outData.size();
             // cout << "outData.size(): " << outData.size() << endl;
             if(outData.size()!=0){
                 for(int i=0;i<outData.size();i++){
@@ -142,6 +147,7 @@ void* Data_out(void *arg)
             vector<string> outData2;
             // dram_bptree2->CreateChain();
             outData2 = dram_bptree2->OutdeData(out);
+            out2_size += outData2.size();
             if(outData2.size()!=0){
                 for(int i=0;i<outData2.size();i++){
                     dram_bptree2->Delete(outData2[i]);
@@ -153,6 +159,7 @@ void* Data_out(void *arg)
             vector<string> outData3;
             // dram_bptree3->CreateChain();
             outData3 = dram_bptree3->OutdeData(out);
+            out3_size += outData3.size();
             if(outData3.size()!=0){
                 for(int i=0;i<outData3.size();i++){
                     dram_bptree3->Delete(outData3[i]);
@@ -567,6 +574,9 @@ void aepsystem::End()
     cout << "[NUM] cache2_num: " << cache2_num << endl;
     cout << "[NUM] cache3_num: " << cache3_num << endl;
     cout << "[NUM] flush_num: " << flush_num << endl;
+    cout << "[NUM] out1_size: " << out1_size << endl;
+    cout << "[NUM] out2_size: " << out2_size << endl;
+    cout << "[NUM] out3_size: " << out3_size << endl;
     cout << endl;
     cout << "[SIZE] current_size: " << current_size << endl;
     cout << "[SIZE] flush_size: " << flush_size << endl;
