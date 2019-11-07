@@ -72,6 +72,10 @@ int nvm0_find = 0;
 int workload = 0;
 
 int cache_num = 0;
+int cache1_num = 0;
+int cache2_num = 0;
+int cache3_num = 0;
+
 int flush_num = 0;
 int out_num = 0;
 
@@ -172,6 +176,7 @@ void Read_Cache()     //预取
     //aep1
     // bptree_nvm1->CreateChain();
     if (bptree_nvm1->GetCacheSzie() != 0){
+        cache1_num++;
         vector<string> backData1;
         // gettimeofday(&be1, NULL);
         backData1 = bptree_nvm1->BacktoDram(dram_bptree1->MinHot(), read);
@@ -196,6 +201,7 @@ void Read_Cache()     //预取
     //aep2   
     // bptree_nvm2->CreateChain();
     if (bptree_nvm2->GetCacheSzie() != 0){
+        cache2_num++;
         vector<string> backData2;
         // gettimeofday(&be1, NULL);
         backData2 = bptree_nvm2->BacktoDram(dram_bptree2->MinHot(), read);
@@ -220,6 +226,7 @@ void Read_Cache()     //预取
     //aep3
     // bptree_nvm3->CreateChain();
     if (bptree_nvm3->GetCacheSzie() != 0){
+        cache3_num++;
         vector<string> backData3;
         // gettimeofday(&be1, NULL);
         backData3 = bptree_nvm3->BacktoDram(dram_bptree3->MinHot(), read);
@@ -556,6 +563,9 @@ void aepsystem::End()
     stop = 0;
     cout << "[NUM] out_num: " << out_num << endl;
     cout << "[NUM] cache_num: " << cache_num << endl;
+    cout << "[NUM] cache1_num: " << cache1_num << endl;
+    cout << "[NUM] cache2_num: " << cache2_num << endl;
+    cout << "[NUM] cache3_num: " << cache3_num << endl;
     cout << "[NUM] flush_num: " << flush_num << endl;
     cout << endl;
     cout << "[SIZE] current_size: " << current_size << endl;
