@@ -9,9 +9,9 @@
 # ./rm.sh
 # numactl --cpunodebind=1 --membind=1 ./src/test 1 5 >> out.out
 # ./rm.sh
-# numactl --cpunodebind=1 --membind=1 ./src/test 0 10 >> out.out
+# numactl --cpunodebind=1 --membind=1 ./src/test 0 20 >> out.out
 # ./rm.sh
-# numactl --cpunodebind=1 --membind=1 ./src/test 1 10 >> out.out
+# numactl --cpunodebind=1 --membind=1 ./src/test 1 20 >> out.out
 # ./rm.sh
 # numactl --cpunodebind=1 --membind=1 ./src/test 0 15 >> out.out
 # ./rm.sh
@@ -22,16 +22,16 @@
 # numactl --cpunodebind=1 --membind=1 ./src/test 1 20 >> out.out
 
 ./rm.sh
-numactl --cpunodebind=1 --membind=1 ./src/test 1 10 1 >> out.out
+numactl --cpunodebind=1 --membind=1 ./src/test 1 20 1 >> out.out
 ./rm.sh
-numactl --cpunodebind=1 --membind=1 ./src/test 1 10 2 >> out.out
+numactl --cpunodebind=1 --membind=1 ./src/test 1 20 2 >> out.out
 ./rm.sh
-numactl --cpunodebind=1 --membind=1 ./src/test 1 10 4 >> out.out
+numactl --cpunodebind=1 --membind=1 ./src/test 1 20 4 >> out.out
 ./rm.sh
-numactl --cpunodebind=1 --membind=1 ./src/test 1 10 8 >> out.out
+numactl --cpunodebind=1 --membind=1 ./src/test 1 20 8 >> out.out
 ./rm.sh
-numactl --cpunodebind=1 --membind=1 ./src/test 1 10 10 >> out.out
+numactl --cpunodebind=1 --membind=1 ./src/test 1 20 10 >> out.out
 ./rm.sh
-numactl --cpunodebind=1 --membind=1 ./src/test 1 10 12 >> out.out
+numactl --cpunodebind=1 --membind=1 ./src/test 1 20 12 >> out.out
 ./rm.sh
-numactl --cpunodebind=1 --membind=1 ./src/test 1 10 20 >> out.out
+numactl --cpunodebind=1 --membind=1 ./src/test 1 20 20 >> out.out
