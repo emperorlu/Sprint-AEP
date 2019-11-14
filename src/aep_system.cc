@@ -212,7 +212,7 @@ void Read_Cache()     //预取
                 gettimeofday(&en1, NULL);
                 nvm1_ctime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
                 gettimeofday(&be1, NULL);
-                dram_bptree1->Insert(backData1[i], tmp1);
+                dram_bptree1->Insert(backData1[i], tmp1, 1);
                 gettimeofday(&en1, NULL);
                 nvm1_inserttime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
                 // current_size++;
@@ -239,7 +239,7 @@ void Read_Cache()     //预取
                 string tmp2 = bptree_nvm2->Get(char8toint64(backData2[i].c_str()));
                 gettimeofday(&en1, NULL);
                 nvm2_ctime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
-                dram_bptree2->Insert(backData2[i], tmp2);
+                dram_bptree2->Insert(backData2[i], tmp2, 1);
                 // current_size++;
             }
         }
@@ -264,7 +264,7 @@ void Read_Cache()     //预取
                 string tmp3 = bptree_nvm3->Get(char8toint64(backData3[i].c_str()));
                 gettimeofday(&en1, NULL);
                 nvm3_ctime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
-                dram_bptree3->Insert(backData3[i], tmp3);
+                dram_bptree3->Insert(backData3[i], tmp3, 1);
                 // current_size++;
             }
         }
@@ -359,17 +359,17 @@ void aepsystem::Insert(const string &key, const string &value)
         switch (id)
         { 
             case 1:
-                dram_bptree1->Insert(key,value);
+                dram_bptree1->Insert(key,value, 0);
                 current_size++; 
                 flush_size++;
                 break;
             case 2:
-                dram_bptree2->Insert(key,value); 
+                dram_bptree2->Insert(key,value, 0); 
                 current_size++;  
                 flush_size++;
                 break;
             case 3:
-                dram_bptree3->Insert(key,value);  
+                dram_bptree3->Insert(key,value, 0);  
                 current_size++; 
                 flush_size++;
                 break;

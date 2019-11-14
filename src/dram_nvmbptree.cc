@@ -577,7 +577,7 @@ void BpTree::InsertChain(string key)
     HCrchain->insert(key);
 }
 
-void BpTree::Insert(string key, string value)
+void BpTree::Insert(string key, string value, int cache)
 {
     uint64_t vpoint;
     char keybuf[NVM_KeyBuf + 1];
@@ -587,8 +587,10 @@ void BpTree::Insert(string key, string value)
     pmem_memcpy_persist(pvalue, value.c_str(), value.size());
     memcpy(keybuf, key.c_str(), key.size());
     memcpy(keybuf + NVM_KeySize, &vpoint, NVM_PointSize);
-
-    snprintf(sign, sizeof(sign), "%07d", 1000000);
+    if(cache)   
+        snprintf(sign, sizeof(sign), "%07d", 0000000);
+    else
+        snprintf(sign, sizeof(sign), "%07d", 1000000);
     string signdata(sign, NVM_SignSize);
     memcpy(keybuf + NVM_KeySize + NVM_PointSize, signdata.c_str(), NVM_SignSize);
     string tmp_key(keybuf, NVM_KeyBuf);

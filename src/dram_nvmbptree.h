@@ -388,7 +388,7 @@ class BpTree
     ~BpTree();
     
     void Initialize(PersistentAllocator* valueAllocator);
-    void Insert(string key, string value);
+    void Insert(string key, string value, int cache);
     string Get(const std::string& key);
     string Geti(const std::string& key);
     void Delete(string key);
