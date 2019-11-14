@@ -550,7 +550,7 @@ void aepsystem::Initialize()
     FLUSH_SIZE = OUT_SIZE / 6;
     OUT_DATA = OUT_SIZE / 60;
     READ_DATA = OUT_DATA / 10;
-    READ_DATA = READ_DATA * cache_size;
+    READ_DATA = 1;
     cout << "System run!" << endl;
     cout << "[SIZE] FLUSH_SIZE: " << FLUSH_SIZE << endl;
     cout << "[SIZE] OUT_SIZE: " << OUT_SIZE << endl;
