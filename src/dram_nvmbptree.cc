@@ -770,8 +770,8 @@ vector<string> BpTree::FlushtoNvm()
                 dlist.push_back(string(p->GetKey(i), NVM_KeyBuf));
                 // HCrchain->update_insert(string(p->GetKey(i), NVM_KeyBuf));
                 p->GetKey(i)[NVM_KeyBuf-8]= '0';
-            }
-            InsertChain(string(p->GetKey(i), NVM_KeyBuf));
+                InsertChain(string(p->GetKey(i), NVM_KeyBuf));
+            }       
         }
         p=p->GetNext();
     }
