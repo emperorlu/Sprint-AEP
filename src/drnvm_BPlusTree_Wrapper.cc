@@ -57,7 +57,7 @@ namespace rocksdb{
             snprintf(valuebuf, sizeof(valuebuf), "%020d", i * i);
             string data(keybuf, NVM_KeySize);
             string value(valuebuf, NVM_ValueSize);
-            Insert(data, value);
+            Insert(data, value, 0);
         }
         printf("******Insert test finished.******\n");
 
