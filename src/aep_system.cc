@@ -101,6 +101,7 @@ double nvm3_itime = 0;
 double nvm3_gtime = 0;
 double nvm3_ctime = 0;
 double nvm1_backtime = 0;
+double nvm1_inserttime = 0;
 struct timeval be1,en1;
 
 int Find_aep(string key)
@@ -210,7 +211,10 @@ void Read_Cache()     //预取
                 string tmp1 = bptree_nvm1->Get(char8toint64(backData1[i].c_str()));
                 gettimeofday(&en1, NULL);
                 nvm1_ctime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
+                gettimeofday(&be1, NULL);
                 dram_bptree1->Insert(backData1[i], tmp1);
+                gettimeofday(&en1, NULL);
+                nvm1_inserttime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
                 // current_size++;
             }
         }
@@ -626,6 +630,7 @@ void aepsystem::End()
     cout << "[time] nvm2_ctime: "  << nvm2_ctime << endl;
     cout << "[time] nvm3_ctime: "  << nvm3_ctime << endl;
     cout << "[time] nvm1_backtime: "  << nvm1_backtime << endl;
+    cout << "[time] nvm1_inserttime: "  << nvm1_inserttime << endl;
     cout << endl;
     // cout << cache_table1.getSize() << endl;
     // cout << cache_table2.getSize() << endl;
