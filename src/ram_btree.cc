@@ -149,7 +149,7 @@ void ram_tree::btree_init() {
 
 void ram_tree::setNewRoot(char *new_root) {
   this->root = (char*)new_root;
-  clflush((char*)&(this->root),sizeof(char*));
+  // clflush((char*)&(this->root),sizeof(char*));
   ++height;
 }
 
