@@ -119,7 +119,11 @@ void ram_node::linear_search_range(ram_entry_key_t min, ram_entry_key_t max, std
     size = off;
 }
 
-
+ram_tree::ram_tree(){
+  // root = (char*)new bpnode();
+  height = 1;
+  node_alloc = nullptr;
+}
 
 
 void* ram_tree::Newram_node() {
