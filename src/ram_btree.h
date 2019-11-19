@@ -183,13 +183,13 @@ class ram_entry{
     friend class ram_tree;
 };
 
-const int cardinality = (RAM_PAGESIZE-sizeof(ram_header))/sizeof(ram_entry);
-const int count_in_line = RAM_CACHE_LINE_SIZE / sizeof(ram_entry);
+const int ram_cardinality = (RAM_PAGESIZE-sizeof(ram_header))/sizeof(ram_entry);
+const int ram_count_in_line = RAM_CACHE_LINE_SIZE / sizeof(ram_entry);
 
 class ram_node{
   private:
     ram_header hdr;  // ram_header in persistent memory, 16 bytes
-    ram_entry records[cardinality]; // slots in persistent memory, 16 bytes * n
+    ram_entry records[ram_cardinality]; // slots in persistent memory, 16 bytes * n
 
 
   public:
@@ -328,7 +328,7 @@ class ram_node{
 
         bool should_rebalance = true;
         // check the node utilization
-        if(num_entries_before - 1 >= (int)((cardinality - 1) * 0.5)) { 
+        if(num_entries_before - 1 >= (int)((ram_cardinality - 1) * 0.5)) { 
           should_rebalance = false;
         }
 
@@ -390,7 +390,7 @@ class ram_node{
 
       ram_entry_key_t parent_key;
 
-      if(total_num_entries > cardinality - 1) { // Redistribution
+      if(total_num_entries > ram_cardinality - 1) { // Redistribution
         register int m = (int) ceil(total_num_entries / 2);
 
         if(num_entries < left_num_entries) { // left -> right
@@ -606,7 +606,7 @@ class ram_node{
         register int num_entries = count();
 
         // FAST
-        if(num_entries < cardinality - 1) {
+        if(num_entries < ram_cardinality - 1) {
           insert_key(key, right, &num_entries, flush);
 
           if(with_lock) {

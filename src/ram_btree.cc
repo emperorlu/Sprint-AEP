@@ -354,6 +354,6 @@ void ram_tree::CalculateSapce(uint64_t &space) {
 
 void ram_tree::PrintInfo() {
     printf("This is a b+ tree.\n");
-    printf("Node size is %lu, M path is %d.\n", sizeof(ram_node), cardinality);
+    printf("Node size is %lu, M path is %d.\n", sizeof(ram_node), ram_cardinality);
     printf("Tree height is %d.\n", height);
 }
