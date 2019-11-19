@@ -137,7 +137,7 @@ class ram_tree{
     // vector<string> BacktoDram(int hot, size_t read);
 };
 
-class header{
+class ram_header{
   private:
     ram_node* leftmost_ptr;         // 8 bytes
     ram_node* sibling_ptr;          // 8 bytes
@@ -153,7 +153,7 @@ class header{
     friend class ram_tree;
 
   public:
-    header() {
+    ram_header() {
       mtx = new std::mutex();
 
       leftmost_ptr = NULL;  
@@ -163,7 +163,7 @@ class header{
       is_deleted = false;
     }
 
-    ~header() {
+    ~ram_header() {
       delete mtx;
     }
 };
@@ -183,12 +183,12 @@ class ram_entry{
     friend class ram_tree;
 };
 
-const int cardinality = (RAM_PAGESIZE-sizeof(header))/sizeof(ram_entry);
+const int cardinality = (RAM_PAGESIZE-sizeof(ram_header))/sizeof(ram_entry);
 const int count_in_line = RAM_CACHE_LINE_SIZE / sizeof(ram_entry);
 
 class ram_node{
   private:
-    header hdr;  // header in persistent memory, 16 bytes
+    ram_header hdr;  // ram_header in persistent memory, 16 bytes
     ram_entry records[cardinality]; // slots in persistent memory, 16 bytes * n
 
 
