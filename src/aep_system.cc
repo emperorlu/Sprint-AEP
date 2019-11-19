@@ -126,63 +126,63 @@ void* Data_out(void *arg)
         {
             
             
-            // std::lock_guard<std::mutex> lk(m_mutex);
-            m_mutex.lock();
-            // cout << "[DEBUG] Begin out data!" << endl;
-            // cout << "[DEBUG] current_size:" << current_size << endl;
-            out_num++;
-            vector<string> outData;
-            size_t out = OUT_DATA;
-            // dram_bptree1->CreateChain();
-            outData = dram_bptree1->OutdeData(out);
-            out1_size += outData.size();
-            // cout << "outData.size(): " << outData.size() << endl;
-            if(outData.size()!=0){
-                for(int i=0;i<outData.size();i++){
-                    dram_bptree1->Delete(outData[i]);
-                    updakey1.push_back(outData[i]);
-                    current_size--;
-                }
-            }
-            for(int i=0;i<updakey1.size();i++){
-                bptree_nvm1->Updakey(updakey1[i]);
-            }
-            updakey1.clear();
+            // // std::lock_guard<std::mutex> lk(m_mutex);
+            // m_mutex.lock();
+            // // cout << "[DEBUG] Begin out data!" << endl;
+            // // cout << "[DEBUG] current_size:" << current_size << endl;
+            // out_num++;
+            // vector<string> outData;
+            // size_t out = OUT_DATA;
+            // // dram_bptree1->CreateChain();
+            // outData = dram_bptree1->OutdeData(out);
+            // out1_size += outData.size();
+            // // cout << "outData.size(): " << outData.size() << endl;
+            // if(outData.size()!=0){
+            //     for(int i=0;i<outData.size();i++){
+            //         dram_bptree1->Delete(outData[i]);
+            //         updakey1.push_back(outData[i]);
+            //         current_size--;
+            //     }
+            // }
+            // for(int i=0;i<updakey1.size();i++){
+            //     bptree_nvm1->Updakey(updakey1[i]);
+            // }
+            // updakey1.clear();
             
 
-            vector<string> outData2;
-            // dram_bptree2->CreateChain();
-            outData2 = dram_bptree2->OutdeData(out);
-            out2_size += outData2.size();
-            if(outData2.size()!=0){
-                for(int i=0;i<outData2.size();i++){
-                    dram_bptree2->Delete(outData2[i]);
-                    updakey2.push_back(outData2[i]);
-                    current_size--;
-                }
-            }
-            for(int i=0;i<updakey2.size();i++){
-                bptree_nvm2->Updakey(updakey2[i]);
-            }
-            updakey2.clear();
+            // vector<string> outData2;
+            // // dram_bptree2->CreateChain();
+            // outData2 = dram_bptree2->OutdeData(out);
+            // out2_size += outData2.size();
+            // if(outData2.size()!=0){
+            //     for(int i=0;i<outData2.size();i++){
+            //         dram_bptree2->Delete(outData2[i]);
+            //         updakey2.push_back(outData2[i]);
+            //         current_size--;
+            //     }
+            // }
+            // for(int i=0;i<updakey2.size();i++){
+            //     bptree_nvm2->Updakey(updakey2[i]);
+            // }
+            // updakey2.clear();
 
-            vector<string> outData3;
-            // dram_bptree3->CreateChain();
-            outData3 = dram_bptree3->OutdeData(out);
-            out3_size += outData3.size();
-            if(outData3.size()!=0){
-                for(int i=0;i<outData3.size();i++){
-                    dram_bptree3->Delete(outData3[i]);
-                    updakey3.push_back(outData3[i]);
-                    current_size--;
-                }
-            }
-            for(int i=0;i<updakey3.size();i++){
-                bptree_nvm3->Updakey(updakey3[i]);
-            }
-            updakey3.clear();
-            flush_size = current_size;
-            m_mutex.unlock();
+            // vector<string> outData3;
+            // // dram_bptree3->CreateChain();
+            // outData3 = dram_bptree3->OutdeData(out);
+            // out3_size += outData3.size();
+            // if(outData3.size()!=0){
+            //     for(int i=0;i<outData3.size();i++){
+            //         dram_bptree3->Delete(outData3[i]);
+            //         updakey3.push_back(outData3[i]);
+            //         current_size--;
+            //     }
+            // }
+            // for(int i=0;i<updakey3.size();i++){
+            //     bptree_nvm3->Updakey(updakey3[i]);
+            // }
+            // updakey3.clear();
+            // flush_size = current_size;
+            // m_mutex.unlock();
         }
     }
     pthread_exit(NULL);
@@ -191,145 +191,145 @@ void* Data_out(void *arg)
 
 void Read_Cache()     //预取
 {     
-    cache_num++;
-    size_t read = READ_DATA;
+    // cache_num++;
+    // size_t read = READ_DATA;
 
-    //aep1
-    // bptree_nvm1->CreateChain();
-    if (bptree_nvm1->GetCacheSzie() != 0){
-        cache1_num++;
-        vector<string> backData1;
-        gettimeofday(&be1, NULL);
-        backData1 = bptree_nvm1->BacktoDram(dram_bptree1->MinHot(), read);
-        gettimeofday(&en1, NULL);
-        nvm1_backtime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
-        // cout << "size1: " << backData1.size();
-        cache1_size += backData1.size();
-        if(backData1.size()!=0){
-            for(int i=0;i<backData1.size();i++){
-                gettimeofday(&be1, NULL);
-                string tmp1 = bptree_nvm1->Get(char8toint64(backData1[i].c_str()));
-                gettimeofday(&en1, NULL);
-                nvm1_ctime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
-                gettimeofday(&be1, NULL);
-                dram_bptree1->Insert(backData1[i], tmp1, 1);
-                gettimeofday(&en1, NULL);
-                nvm1_inserttime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
-                // current_size++;
-            }
-        }
-        backData1.clear();
-    }
+    // //aep1
+    // // bptree_nvm1->CreateChain();
+    // if (bptree_nvm1->GetCacheSzie() != 0){
+    //     cache1_num++;
+    //     vector<string> backData1;
+    //     gettimeofday(&be1, NULL);
+    //     backData1 = bptree_nvm1->BacktoDram(dram_bptree1->MinHot(), read);
+    //     gettimeofday(&en1, NULL);
+    //     nvm1_backtime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
+    //     // cout << "size1: " << backData1.size();
+    //     cache1_size += backData1.size();
+    //     if(backData1.size()!=0){
+    //         for(int i=0;i<backData1.size();i++){
+    //             gettimeofday(&be1, NULL);
+    //             string tmp1 = bptree_nvm1->Get(char8toint64(backData1[i].c_str()));
+    //             gettimeofday(&en1, NULL);
+    //             nvm1_ctime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
+    //             gettimeofday(&be1, NULL);
+    //             dram_bptree1->Insert(backData1[i], tmp1, 1);
+    //             gettimeofday(&en1, NULL);
+    //             nvm1_inserttime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
+    //             // current_size++;
+    //         }
+    //     }
+    //     backData1.clear();
+    // }
 
 
-    //aep2   
-    // bptree_nvm2->CreateChain();
-    if (bptree_nvm2->GetCacheSzie() != 0){
-        cache2_num++;
-        vector<string> backData2;
-        // gettimeofday(&be1, NULL);
-        backData2 = bptree_nvm2->BacktoDram(dram_bptree2->MinHot(), read);
-        // gettimeofday(&en1, NULL);
-        // nvm2_time += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
-        // cout << "size2: " << backData2.size();
-        cache2_size += backData2.size();
-        if(backData2.size()!=0){
-            for(int i=0;i<backData2.size();i++){
-                gettimeofday(&be1, NULL);
-                string tmp2 = bptree_nvm2->Get(char8toint64(backData2[i].c_str()));
-                gettimeofday(&en1, NULL);
-                nvm2_ctime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
-                dram_bptree2->Insert(backData2[i], tmp2, 1);
-                // current_size++;
-            }
-        }
-        backData2.clear();
-    }
+    // //aep2   
+    // // bptree_nvm2->CreateChain();
+    // if (bptree_nvm2->GetCacheSzie() != 0){
+    //     cache2_num++;
+    //     vector<string> backData2;
+    //     // gettimeofday(&be1, NULL);
+    //     backData2 = bptree_nvm2->BacktoDram(dram_bptree2->MinHot(), read);
+    //     // gettimeofday(&en1, NULL);
+    //     // nvm2_time += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
+    //     // cout << "size2: " << backData2.size();
+    //     cache2_size += backData2.size();
+    //     if(backData2.size()!=0){
+    //         for(int i=0;i<backData2.size();i++){
+    //             gettimeofday(&be1, NULL);
+    //             string tmp2 = bptree_nvm2->Get(char8toint64(backData2[i].c_str()));
+    //             gettimeofday(&en1, NULL);
+    //             nvm2_ctime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
+    //             dram_bptree2->Insert(backData2[i], tmp2, 1);
+    //             // current_size++;
+    //         }
+    //     }
+    //     backData2.clear();
+    // }
 
     
-    //aep3
-    // bptree_nvm3->CreateChain();
-    if (bptree_nvm3->GetCacheSzie() != 0){
-        cache3_num++;
-        vector<string> backData3;
-        // gettimeofday(&be1, NULL);
-        backData3 = bptree_nvm3->BacktoDram(dram_bptree3->MinHot(), read);
-        // gettimeofday(&en1, NULL);
-        // nvm3_time += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
-        // cout << "size3: " << backData3.size() << endl;
-        cache3_size += backData3.size();
-        if(backData3.size()!=0){
-            for(int i=0;i<backData3.size();i++){
-                gettimeofday(&be1, NULL);
-                string tmp3 = bptree_nvm3->Get(char8toint64(backData3[i].c_str()));
-                gettimeofday(&en1, NULL);
-                nvm3_ctime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
-                dram_bptree3->Insert(backData3[i], tmp3, 1);
-                // current_size++;
-            }
-        }
-        backData3.clear();
-    }
+    // //aep3
+    // // bptree_nvm3->CreateChain();
+    // if (bptree_nvm3->GetCacheSzie() != 0){
+    //     cache3_num++;
+    //     vector<string> backData3;
+    //     // gettimeofday(&be1, NULL);
+    //     backData3 = bptree_nvm3->BacktoDram(dram_bptree3->MinHot(), read);
+    //     // gettimeofday(&en1, NULL);
+    //     // nvm3_time += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
+    //     // cout << "size3: " << backData3.size() << endl;
+    //     cache3_size += backData3.size();
+    //     if(backData3.size()!=0){
+    //         for(int i=0;i<backData3.size();i++){
+    //             gettimeofday(&be1, NULL);
+    //             string tmp3 = bptree_nvm3->Get(char8toint64(backData3[i].c_str()));
+    //             gettimeofday(&en1, NULL);
+    //             nvm3_ctime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
+    //             dram_bptree3->Insert(backData3[i], tmp3, 1);
+    //             // current_size++;
+    //         }
+    //     }
+    //     backData3.clear();
+    // }
 }
 
 void Write_Log()    //倒盘
 {   
-    // std::lock_guard<std::mutex> lk(m_mutex);
-    // m_mutex.lock();
-    // cout << "[DEBUG] Begin write log!" << endl;
-    //aep1
-    vector<string> insertData1;
-    insertData1 = dram_bptree1->FlushtoNvm();
-    // cout << "flush size: " << insertData1.size() << endl;
-    gettimeofday(&be1, NULL);
-    for(int i=0;i<insertData1.size();i++){
-        int len = insertData1[i].length();
-        uint64_t hot = stoi(insertData1[i].substr(len-7, NVM_SignSize-1));
-        // bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), hot, dram_bptree1->Geti(insertData1[i]));
-        bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), hot, dram_bptree1->Geti(insertData1[i]));
-        // bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), dram_bptree1->Get(insertData1[i]));
-    }
-    // cout << "update size: " << updakey1.size() << endl;
-    // for(int i=0;i<updakey1.size();i++){
-    //     bptree_nvm1->Updakey(updakey1[i]);
+    // // std::lock_guard<std::mutex> lk(m_mutex);
+    // // m_mutex.lock();
+    // // cout << "[DEBUG] Begin write log!" << endl;
+    // //aep1
+    // vector<string> insertData1;
+    // insertData1 = dram_bptree1->FlushtoNvm();
+    // // cout << "flush size: " << insertData1.size() << endl;
+    // gettimeofday(&be1, NULL);
+    // for(int i=0;i<insertData1.size();i++){
+    //     int len = insertData1[i].length();
+    //     uint64_t hot = stoi(insertData1[i].substr(len-7, NVM_SignSize-1));
+    //     // bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), hot, dram_bptree1->Geti(insertData1[i]));
+    //     bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), hot, dram_bptree1->Geti(insertData1[i]));
+    //     // bptree_nvm1->Insert(char8toint64(insertData1[i].c_str()), dram_bptree1->Get(insertData1[i]));
     // }
-    gettimeofday(&en1, NULL);
-    nvm1_itime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
-    // updakey1.clear(); 
+    // // cout << "update size: " << updakey1.size() << endl;
+    // // for(int i=0;i<updakey1.size();i++){
+    // //     bptree_nvm1->Updakey(updakey1[i]);
+    // // }
+    // gettimeofday(&en1, NULL);
+    // nvm1_itime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
+    // // updakey1.clear(); 
 
-    //aep2
-    vector<string> insertData2;
-    insertData2 = dram_bptree2->FlushtoNvm();
-    gettimeofday(&be1, NULL);
-    for(int i=0;i<insertData2.size();i++){
-        // if (dram_bptree2->Get(insertData2[i]).size() != 0)
-        //     bptree_nvm2->Insert(char8toint64(insertData2[i].c_str()), dram_bptree2->Get(insertData2[i]));
-        int len = insertData2[i].length();
-        uint64_t hot = stoi(insertData2[i].substr(len-7, NVM_SignSize-1));
-        bptree_nvm2->Insert(char8toint64(insertData2[i].c_str()), hot, dram_bptree2->Geti(insertData2[i]));
-    }
-    for(int i=0;i<updakey2.size();i++){
-        bptree_nvm2->Updakey(updakey2[i]);
-    }
-    gettimeofday(&en1, NULL);
-    nvm2_itime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0; 
-    updakey2.clear();
+    // //aep2
+    // vector<string> insertData2;
+    // insertData2 = dram_bptree2->FlushtoNvm();
+    // gettimeofday(&be1, NULL);
+    // for(int i=0;i<insertData2.size();i++){
+    //     // if (dram_bptree2->Get(insertData2[i]).size() != 0)
+    //     //     bptree_nvm2->Insert(char8toint64(insertData2[i].c_str()), dram_bptree2->Get(insertData2[i]));
+    //     int len = insertData2[i].length();
+    //     uint64_t hot = stoi(insertData2[i].substr(len-7, NVM_SignSize-1));
+    //     bptree_nvm2->Insert(char8toint64(insertData2[i].c_str()), hot, dram_bptree2->Geti(insertData2[i]));
+    // }
+    // for(int i=0;i<updakey2.size();i++){
+    //     bptree_nvm2->Updakey(updakey2[i]);
+    // }
+    // gettimeofday(&en1, NULL);
+    // nvm2_itime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0; 
+    // updakey2.clear();
 
-    //aep3
-    vector<string> insertData3;
-    insertData3 = dram_bptree3->FlushtoNvm();
-    gettimeofday(&be1, NULL);
-    for(int i=0;i<insertData3.size();i++){
-        int len = insertData3[i].length();
-        uint64_t hot = stoi(insertData3[i].substr(len-7, NVM_SignSize-1));
-        bptree_nvm3->Insert(char8toint64(insertData3[i].c_str()), hot, dram_bptree3->Geti(insertData3[i]));
-    }
-    for(int i=0;i<updakey3.size();i++){
-        bptree_nvm3->Updakey(updakey3[i]);
-    }
-    gettimeofday(&en1, NULL);
-    nvm3_itime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
-    updakey3.clear();
+    // //aep3
+    // vector<string> insertData3;
+    // insertData3 = dram_bptree3->FlushtoNvm();
+    // gettimeofday(&be1, NULL);
+    // for(int i=0;i<insertData3.size();i++){
+    //     int len = insertData3[i].length();
+    //     uint64_t hot = stoi(insertData3[i].substr(len-7, NVM_SignSize-1));
+    //     bptree_nvm3->Insert(char8toint64(insertData3[i].c_str()), hot, dram_bptree3->Geti(insertData3[i]));
+    // }
+    // for(int i=0;i<updakey3.size();i++){
+    //     bptree_nvm3->Updakey(updakey3[i]);
+    // }
+    // gettimeofday(&en1, NULL);
+    // nvm3_itime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
+    // updakey3.clear();
 
 
 }  
