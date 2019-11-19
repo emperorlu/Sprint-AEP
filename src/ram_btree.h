@@ -25,7 +25,7 @@
 #include <mutex>
 #include <vector>
 #include <list>
-#include "hashtable.h"
+// #include "hashtable.h"
 
 #include "nvm_common2.h"
 
