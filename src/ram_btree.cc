@@ -8,7 +8,7 @@ pthread_mutex_t print_mtx;
  * class ram_tree
  */
 
-void ram_node::linear_search_range(entry_key_t min, entry_key_t max, std::vector<std::string> &values, int &size) {
+void ram_node::linear_search_range(ram_entry_key_t min, ram_entry_key_t max, std::vector<std::string> &values, int &size) {
     int i, off = 0;
     uint8_t previous_switch_counter;
     ram_node *current = this;
@@ -19,7 +19,7 @@ void ram_node::linear_search_range(entry_key_t min, entry_key_t max, std::vector
             previous_switch_counter = current->hdr.switch_counter;
             off = old_off;
 
-            entry_key_t tmp_key;
+            ram_entry_key_t tmp_key;
             char *tmp_ptr;
 
             if(RAM_IS_FORWARD(previous_switch_counter)) {
@@ -153,7 +153,7 @@ void ram_tree::setNewRoot(char *new_root) {
   ++height;
 }
 
-char *ram_tree::btree_search(entry_key_t key){
+char *ram_tree::btree_search(ram_entry_key_t key){
   ram_node* p = (ram_node*)root;
 
   while(p->hdr.leftmost_ptr != NULL) {
@@ -177,7 +177,7 @@ char *ram_tree::btree_search(entry_key_t key){
 }
 
 // insert the key in the leaf node
-void ram_tree::btree_insert(entry_key_t key, char* right){ //need to be string
+void ram_tree::btree_insert(ram_entry_key_t key, char* right){ //need to be string
   ram_node* p = (ram_node*)root;
 
   while(p->hdr.leftmost_ptr != NULL) {
@@ -191,7 +191,7 @@ void ram_tree::btree_insert(entry_key_t key, char* right){ //need to be string
 
 // store the key into the node at the given level 
 void ram_tree::btree_insert_internal
-(char *left, entry_key_t key, char *right, uint32_t level) {
+(char *left, ram_entry_key_t key, char *right, uint32_t level) {
   if(level > ((ram_node *)root)->hdr.level)
     return;
 
@@ -205,7 +205,7 @@ void ram_tree::btree_insert_internal
   }
 }
 
-void ram_tree::btree_delete(entry_key_t key) {
+void ram_tree::btree_delete(ram_entry_key_t key) {
   ram_node* p = (ram_node*)root;
 
   while(p->hdr.leftmost_ptr != NULL){
@@ -230,7 +230,7 @@ void ram_tree::btree_delete(entry_key_t key) {
   }
 }
 
-void ram_tree::btree_delete_internal(entry_key_t key, char *ptr, uint32_t level, entry_key_t *deleted_key, 
+void ram_tree::btree_delete_internal(ram_entry_key_t key, char *ptr, uint32_t level, ram_entry_key_t *deleted_key, 
  bool *is_leftmost_node, ram_node **left_sibling) {
   if(level > ((ram_node *)this->root)->hdr.level)
     return;
@@ -276,7 +276,7 @@ void ram_tree::btree_delete_internal(entry_key_t key, char *ptr, uint32_t level,
 }
 
 // Function to search keys from "min" to "max"
-void ram_tree::btree_search_range(entry_key_t min, entry_key_t max, unsigned long *buf) {
+void ram_tree::btree_search_range(ram_entry_key_t min, ram_entry_key_t max, unsigned long *buf) {
   ram_node *p = (ram_node *)root;
 
   while(p) {
@@ -293,7 +293,7 @@ void ram_tree::btree_search_range(entry_key_t min, entry_key_t max, unsigned lon
   }
 }
 
-void ram_tree::btree_search_range(entry_key_t min, entry_key_t max, 
+void ram_tree::btree_search_range(ram_entry_key_t min, ram_entry_key_t max, 
         std::vector<std::string> &values, int &size) {
     ram_node *p = (ram_node *)root;
 

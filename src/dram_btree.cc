@@ -32,7 +32,7 @@ RAMBtree::~RAMBtree() {
 //     if(bt) {
 //         char *pvalue = value_alloc->Allocate(value.size());
 //         nvm_memcpy_persist(pvalue, value.c_str(), value.size(), false);
-//         bt->btree_insert(entry_key_t(key, 0), pvalue);
+//         bt->btree_insert(ram_entry_key_t(key, 0), pvalue);
 //     }
 // }
 
@@ -44,7 +44,7 @@ void RAMBtree::Insert(const unsigned long key, const string &value) {
         nvm_memcpy_persist(pvalue, value.c_str(), value.size(), false);
 
         // bt->btree_insert(key, pvalue);
-        bt->btree_insert(entry_key_t(key, 0), pvalue);
+        bt->btree_insert(ram_entry_key_t(key, 0), pvalue);
     }
 }
 

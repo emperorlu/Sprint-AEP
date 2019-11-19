@@ -496,7 +496,7 @@ void aepsystem::Delete(const std::string& key)
     int id = Find_aep(key);
     if(id == 0)  // primary aep
     {
-        // bptree_nvm0->Delete(key);
+        // bptree_nvm0->Delete(char8toint64(key.c_str()));
         bptree_nvm0->Delete(char8toint64(key.c_str()));
     }
     else        //其它aep
@@ -504,17 +504,17 @@ void aepsystem::Delete(const std::string& key)
         switch (id)
         {
             case 1:
-                dram_bptree1->Delete(key); 
+                dram_bptree1->Delete(char8toint64(key.c_str())); 
                 current_size--; 
                 flush_size--;
                 break;
             case 2:
-                dram_bptree2->Delete(key); 
+                dram_bptree2->Delete(char8toint64(key.c_str())); 
                 current_size--;  
                 flush_size--;
                 break;
             case 3:
-                dram_bptree3->Delete(key);  
+                dram_bptree3->Delete(char8toint64(key.c_str()));  
                 current_size--; 
                 flush_size--;
                 break;
