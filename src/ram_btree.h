@@ -554,7 +554,7 @@ class ram_node{
               records[i+1].key = key;
               records[i+1].ptr = ptr;
 
-              if(flush)
+              // if(flush)
                 // clflush((char*)&records[i+1],sizeof(ram_entry));
               inserted = 1;
               break;
@@ -564,7 +564,7 @@ class ram_node{
             records[0].ptr =(char*) hdr.leftmost_ptr;
             records[0].key = key;
             records[0].ptr = ptr;
-            if(flush)
+            // if(flush)
               // clflush((char*) &records[0], sizeof(ram_entry)); 
           }
         }
