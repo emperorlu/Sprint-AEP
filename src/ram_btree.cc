@@ -1,7 +1,7 @@
 
 #include "ram_btree.h"
 
-pthread_mutex_t print_mtx;
+pthread_mutex_t ram_print_mtx;
 
 
 /*
@@ -316,7 +316,7 @@ void ram_tree::btree_search_range(ram_entry_key_t min, ram_entry_key_t max,
 }
 
 void ram_tree::printAll(){
-  pthread_mutex_lock(&print_mtx);
+  pthread_mutex_lock(&ram_print_mtx);
   int total_keys = 0;
   ram_node *leftmost = (ram_node *)root;
   printf("root: %x\n", root);
@@ -334,7 +334,7 @@ void ram_tree::printAll(){
   } while(leftmost);
 
   printf("total number of keys: %d\n", total_keys);
-  pthread_mutex_unlock(&print_mtx);
+  pthread_mutex_unlock(&ram_print_mtx);
 }
 
 // void ram_tree::for_each() {
