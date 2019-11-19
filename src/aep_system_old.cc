@@ -13,9 +13,9 @@ NVMBtree *bptree_nvm1;
 NVMBtree *bptree_nvm2;
 NVMBtree *bptree_nvm3;
 
-RAMBtree *dram_bptree1;
-RAMBtree *dram_bptree2;
-RAMBtree *dram_bptree3;
+rocksdb::DrNVM_BPlusTree_Wrapper *dram_bptree1;
+rocksdb::DrNVM_BPlusTree_Wrapper *dram_bptree2;
+rocksdb::DrNVM_BPlusTree_Wrapper *dram_bptree3;
 
 Employee e1("aep0",0);
 Employee e2("aep1",1);
@@ -354,22 +354,22 @@ void aepsystem::Insert(const string &key, const string &value)
             Dmark = 1;
             flush_num++;
             flush_size = 0;//重新计数
-            // Write_Log();
+            Write_Log();
         }
         switch (id)
         { 
             case 1:
-                dram_bptree1->Insert(char8toint64(key.c_str()),value);
+                dram_bptree1->Insert(key,value, 0);
                 current_size++; 
                 flush_size++;
                 break;
             case 2:
-                dram_bptree2->Insert(char8toint64(key.c_str()),value); 
+                dram_bptree2->Insert(key,value, 0); 
                 current_size++;  
                 flush_size++;
                 break;
             case 3:
-                dram_bptree3->Insert(char8toint64(key.c_str()),value); 
+                dram_bptree3->Insert(key,value, 0);  
                 current_size++; 
                 flush_size++;
                 break;
@@ -402,13 +402,13 @@ string aepsystem::Get(const std::string& key)
         switch (id)
         {
             case 1:
-                tmp_value = dram_bptree1->Get(char8toint64(key.c_str()));
+                tmp_value = dram_bptree1->Get(key);
                 break;
             case 2:
-                tmp_value = dram_bptree2->Get(char8toint64(key.c_str()));
+                tmp_value = dram_bptree2->Get(key);
                 break;
             case 3:
-                tmp_value = dram_bptree3->Get(char8toint64(key.c_str()));
+                tmp_value = dram_bptree3->Get(key);
                 break;
             default:
                 cout << "error!" << endl;
@@ -428,7 +428,7 @@ string aepsystem::Get(const std::string& key)
             switch (id)
             {
                 case 1:
-                    // tmp_value = bptree_nvm1->Get(char8toint64(key.c_str()));
+                    // tmp_value = bptree_nvm1->Get(key);
                     gettimeofday(&be1, NULL);
                     tmp_value = bptree_nvm1->Get(char8toint64(key.c_str()));
                     gettimeofday(&en1, NULL);
@@ -546,7 +546,7 @@ void aepsystem::Initialize()
     
     // bptree_nvm0 = new rocksdb::NVM_BPlusTree_Wrapper();
     // bptree_nvm0->Initialize(PATH0, NVM_SIZE, VALUEPATH0, NVM_VALUE_SIZE, 10, KEY_SIZE, buf_size);
-    OUT_SIZE = num_size * 1;
+    OUT_SIZE = num_size * 0.8;
     FLUSH_SIZE = OUT_SIZE / 1;
     OUT_DATA = OUT_SIZE / 60;
     READ_DATA = OUT_DATA / 10;
@@ -566,12 +566,13 @@ void aepsystem::Initialize()
     bptree_nvm3= new NVMBtree();
     bptree_nvm3->Initial(PATH3, NVM_SIZE, VALUEPATH3, NVM_VALUE_SIZE);
 
-    dram_bptree1 = new RAMBtree();
-    dram_bptree1->Initial(CACHE1, CACHE_SIZE);
-    dram_bptree2 = new RAMBtree();
-    dram_bptree2->Initial(CACHE2, CACHE_SIZE);
-    dram_bptree3 = new RAMBtree();
-    dram_bptree3->Initial(CACHE3, CACHE_SIZE);
+    dram_bptree1 = new rocksdb::DrNVM_BPlusTree_Wrapper();
+    dram_bptree1->Initialize(CACHE1, CACHE_SIZE, 10, KEY_SIZE, buf_size);
+    // dram_bptree1->PrintInfo();
+    dram_bptree2 = new rocksdb::DrNVM_BPlusTree_Wrapper();
+    dram_bptree2->Initialize(CACHE2, CACHE_SIZE, 10, KEY_SIZE, buf_size);
+    dram_bptree3 = new rocksdb::DrNVM_BPlusTree_Wrapper();
+    dram_bptree3->Initialize(CACHE3, CACHE_SIZE, 10, KEY_SIZE, buf_size);
     pthread_t t2;
     if(pthread_create(&t2, NULL, Data_out, NULL) == -1){
         puts("fail to create pthread t0");

@@ -12,11 +12,12 @@
 #include "nvm_common2.h"
 #include "test_common.h"
 #include "random.h"
-#include "persistent_BPlusTree_Wrapper.h"
-#include "drnvm_BPlusTree_Wrapper.h"
+// #include "persistent_BPlusTree_Wrapper.h"
+// #include "drnvm_BPlusTree_Wrapper.h"
 #include "statistic.h"
 #include <mutex>
 #include "nvm_btree.h"
+#include "dram_btree.h"
 // #include "nvm_nvtree.h"
 
 // #include "statistic.h"
