@@ -139,6 +139,7 @@ static long bcak_count = 0;
 vector<entry_key_t> btree::btree_back(int hot, size_t read){
   vector<entry_key_t> dlist;
   bcak_count++;
+  cout << "begin " << bcak_count << " back" << endl; 
   for(int i = HCrchain->theLists.size()-1; i >= 0; i--)
   {
     typename list<entry_key_t>::iterator itr = HCrchain->theLists[i].begin();

@@ -170,7 +170,7 @@ void Read_Cache()     //预取
 {     
     cache_num++;
     size_t read = READ_DATA;
-
+    cout << "begin " << cache_num << " cache" << endl;
     //aep1
     if (bptree_nvm1->GetCacheSzie() != 0){
         cache1_num++;
