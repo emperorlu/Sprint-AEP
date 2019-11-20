@@ -123,7 +123,7 @@ void* Data_out(void *arg)
         {
             // std::lock_guard<std::mutex> lk(m_mutex);
             m_mutex.lock();
-            cout << "[DEBUG] Begin out data!" << endl;
+            // cout << "[DEBUG] Begin out data!" << endl;
             out_num++;
             vector<ram_entry_key_t> outData;
             size_t out = OUT_DATA;
@@ -223,7 +223,7 @@ void Write_Log()    //倒盘
 {   
 
     //aep1
-    cout << "[DEBUG] Begin write log!" << endl;
+    // cout << "[DEBUG] Begin write log!" << endl;
     vector<ram_entry> insertData1;
     insertData1 = dram_bptree1->FlushtoNvm();
     gettimeofday(&be1, NULL);
