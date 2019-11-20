@@ -50,7 +50,7 @@ public:
     }
 
     vector<ram_entry_key_t> OutdeData(size_t out){
-        return bt->btree_out(out)
+        return bt->btree_out(out);
     }
 
     bool StorageIsFull() {

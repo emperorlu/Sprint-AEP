@@ -184,11 +184,9 @@ class RamChain
 };
 
 class ram_entry{ 
-  private:
+  public:
     ram_entry_key_t key; // 8 bytes
     char* ptr; // 8 bytes
-
-  public:
     ram_entry(){
       key = ram_entry_key_t(ULONG_MAX);
       ptr = NULL;

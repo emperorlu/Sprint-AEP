@@ -200,22 +200,6 @@ class CONRangChain
         return true;
     }
     
-    
-    void update(const entry_key_t &x)
-    {
-      for(std::size_t i = 0; i < theLists.size(); i++)
-      {
-        typename list<entry_key_t>::iterator itr = theLists[i].begin();
-        while(itr != theLists[i].end()){
-          if (x.key == (*itr).key){
-            (*itr).flag = 0;
-            return;
-          }
-          itr++;
-        }
-      }
-      return;
-    }
 
     bool insert(const entry_key_t &x)
     {   
