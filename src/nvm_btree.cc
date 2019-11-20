@@ -38,7 +38,7 @@ void NVMBtree::Insert(const unsigned long key, const unsigned long hot, const st
     }
 }
 
-vector<string> NVMBtree::BacktoDram(int hot, size_t read)
+vector<entry_key_t> NVMBtree::BacktoDram(int hot, size_t read)
 {
     if(bt) {
         return bt->btree_back(hot, read);

@@ -34,7 +34,7 @@ public:
     void Insert(const unsigned long key, const unsigned long hot, const string &value);
 
     void Delete(const unsigned long key);
-    vector<string> BacktoDram(int hot, size_t read);
+    vector<entry_key_t> BacktoDram(int hot, size_t read);
 
     const std::string Get(const unsigned long key);
     void Updakey(const uint64_t key);

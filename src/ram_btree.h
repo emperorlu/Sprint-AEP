@@ -215,6 +215,9 @@ class ram_tree{
     void PrintInfo();
     void CalculateSapce(uint64_t &space);
     vector<ram_entry> range_leafs();
+    int minHot(){
+      return HCrchain->minhot; 
+    }
     vector<ram_entry_key_t> btree_out(size_t out)
 
     friend class ram_node;

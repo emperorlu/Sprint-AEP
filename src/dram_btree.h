@@ -42,6 +42,9 @@ public:
     void motivationtest();
     void Print();
     void PrintInfo();
+    int MinHot(){
+        return bt->minHot();
+    }
     vector<ram_entry> FlushtoNvm(){
         return bt->range_leafs();
     }

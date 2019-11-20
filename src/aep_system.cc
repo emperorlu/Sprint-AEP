@@ -175,88 +175,56 @@ void Read_Cache()     //预取
     size_t read = READ_DATA;
 
     //aep1
-    // bptree_nvm1->CreateChain();
     if (bptree_nvm1->GetCacheSzie() != 0){
         cache1_num++;
-        vector<string> backData1;
+        vector<entry_key_t> backData1;
         gettimeofday(&be1, NULL);
         backData1 = bptree_nvm1->BacktoDram(dram_bptree1->MinHot(), read);
         gettimeofday(&en1, NULL);
         nvm1_backtime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
-        // cout << "size1: " << backData1.size();
         cache1_size += backData1.size();
         if(backData1.size()!=0){
             for(int i=0;i<backData1.size();i++){
                 gettimeofday(&be1, NULL);
-                string tmp1 = bptree_nvm1->Get(char8toint64(backData1[i].c_str()));
-                gettimeofday(&en1, NULL);
-                nvm1_ctime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
-                gettimeofday(&be1, NULL);
-                dram_bptree1->Insert(backData1[i], tmp1, 1);
+                dram_bptree1->Insert(backData1[i].key, backData1[i].hot, bptree_nvm1->Get(backData1[i].key));
                 gettimeofday(&en1, NULL);
                 nvm1_inserttime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
-                // current_size++;
             }
         }
-        backData1.clear();
     }
 
 
     //aep2   
-    // bptree_nvm2->CreateChain();
     if (bptree_nvm2->GetCacheSzie() != 0){
         cache2_num++;
-        vector<string> backData2;
-        // gettimeofday(&be1, NULL);
+        vector<entry_key_t> backData2;
         backData2 = bptree_nvm2->BacktoDram(dram_bptree2->MinHot(), read);
-        // gettimeofday(&en1, NULL);
-        // nvm2_time += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
-        // cout << "size2: " << backData2.size();
         cache2_size += backData2.size();
         if(backData2.size()!=0){
             for(int i=0;i<backData2.size();i++){
-                gettimeofday(&be1, NULL);
-                string tmp2 = bptree_nvm2->Get(char8toint64(backData2[i].c_str()));
-                gettimeofday(&en1, NULL);
-                nvm2_ctime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
-                dram_bptree2->Insert(backData2[i], tmp2, 1);
-                // current_size++;
+                dram_bptree2->Insert(backData2[i].key, backData2[i].hot, bptree_nvm1->Get(backData2[i].key));
             }
         }
-        backData2.clear();
     }
 
     
     //aep3
-    // bptree_nvm3->CreateChain();
     if (bptree_nvm3->GetCacheSzie() != 0){
         cache3_num++;
-        vector<string> backData3;
-        // gettimeofday(&be1, NULL);
+        vector<entry_key_t> backData3;
         backData3 = bptree_nvm3->BacktoDram(dram_bptree3->MinHot(), read);
-        // gettimeofday(&en1, NULL);
-        // nvm3_time += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
-        // cout << "size3: " << backData3.size() << endl;
         cache3_size += backData3.size();
         if(backData3.size()!=0){
             for(int i=0;i<backData3.size();i++){
-                gettimeofday(&be1, NULL);
-                string tmp3 = bptree_nvm3->Get(char8toint64(backData3[i].c_str()));
-                gettimeofday(&en1, NULL);
-                nvm3_ctime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
-                dram_bptree3->Insert(backData3[i], tmp3, 1);
-                // current_size++;
+                dram_bptree3->Insert(backData3[i].key, backData3[i].hot, bptree_nvm1->Get(backData3[i].key));
             }
         }
-        backData3.clear();
     }
 }
 
 void Write_Log()    //倒盘
 {   
-    // std::lock_guard<std::mutex> lk(m_mutex);
-    // m_mutex.lock();
-    // cout << "[DEBUG] Begin write log!" << endl;
+
     //aep1
     vector<ram_entry> insertData1;
     insertData1 = dram_bptree1->FlushtoNvm();
@@ -499,11 +467,11 @@ void aepsystem::Initialize()
     
     // bptree_nvm0 = new rocksdb::NVM_BPlusTree_Wrapper();
     // bptree_nvm0->Initialize(PATH0, NVM_SIZE, VALUEPATH0, NVM_VALUE_SIZE, 10, KEY_SIZE, buf_size);
-    OUT_SIZE = num_size * 1;
-    FLUSH_SIZE = OUT_SIZE / 1;
+    OUT_SIZE = num_size * 0.6;
+    FLUSH_SIZE = OUT_SIZE / 6;
     OUT_DATA = OUT_SIZE / 60;
     READ_DATA = OUT_DATA / 10;
-    READ_DATA = 1;
+    // READ_DATA = 1;
     cout << "System run!" << endl;
     cout << "[SIZE] FLUSH_SIZE: " << FLUSH_SIZE << endl;
     cout << "[SIZE] OUT_SIZE: " << OUT_SIZE << endl;

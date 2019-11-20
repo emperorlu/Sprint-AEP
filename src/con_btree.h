@@ -43,10 +43,9 @@ using namespace rocksdb;
 // using entry_key_t = uint64_t;
 struct entry_key_t {
     uint64_t key;
-    uint32_t hot;
-    uint32_t flag;
-    entry_key_t() :key(ULONG_MAX), hot(0), flag(0) {}
-    entry_key_t(uint64_t key_, uint64_t hot_ = 0, uint32_t flag_ = 0) :key(key_), hot(hot_), flag(flag_){}
+    uint64_t hot;
+    entry_key_t() :key(ULONG_MAX), hot(0) {}
+    entry_key_t(uint64_t key_, uint64_t hot_ = 0) :key(key_), hot(hot_){}
     entry_key_t & operator = (const entry_key_t &entry) {
         if(this == &entry) {
             return *this;
@@ -54,7 +53,6 @@ struct entry_key_t {
 
         key = entry.key;
         hot = entry.hot;
-        flag = entry.flag;
         return *this;
     }
 
@@ -221,7 +219,7 @@ class CONRangChain
 
     bool insert(const entry_key_t &x)
     {   
-      uint32_t value = x.hot;
+      uint64_t value = x.hot;
       if(currentSize >= maxSize){
           if(value <= minhot){
             return false;
@@ -234,14 +232,14 @@ class CONRangChain
       currentSize++;
       return true;  
     }
-    uint32_t  minhot;
+    uint64_t  minhot;
     vector<list<entry_key_t> > theLists;   // The array of Lists
     int currentSize;
   private:
     int listSize;
     int maxSize;
 
-    int myid(uint32_t value)
+    int myid(uint64_t value)
     {
         if(value <= 0 ) return 0;
         int id = log(value)/ log(2);
