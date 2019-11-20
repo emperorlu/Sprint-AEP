@@ -465,9 +465,9 @@ void aepsystem::Initialize()
     
     // bptree_nvm0 = new rocksdb::NVM_BPlusTree_Wrapper();
     // bptree_nvm0->Initialize(PATH0, NVM_SIZE, VALUEPATH0, NVM_VALUE_SIZE, 10, KEY_SIZE, buf_size);
-    OUT_SIZE = 10000000 * 0.8;
-    FLUSH_SIZE = OUT_SIZE / 8;
-    OUT_DATA = OUT_SIZE / 80;
+    OUT_SIZE = 10000000 * 0.7;
+    FLUSH_SIZE = OUT_SIZE / 7;
+    OUT_DATA = OUT_SIZE / 70;
     READ_DATA = OUT_DATA / 100;
     // READ_DATA = 1;
     cout << "System run!" << endl;
