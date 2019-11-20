@@ -32,7 +32,7 @@ int main(int argc, char **argv)
         string data(keybuf, KEY_SIZE);
         string value(valuebuf, VALUE_SIZE);
         db_->Insert(data, value);
-        usleep(0);
+        // usleep(0);
     }
     printf("******Insert test finished.******\n");
 
@@ -97,7 +97,7 @@ int main(int argc, char **argv)
             printf("Error: Get key-value faild.(Expect:%s, but Get %s)\n", value.c_str(), tmp_value.c_str());
         }
         // }
-        usleep(0);
+        // usleep(0);
     }
     printf("******Get test finished.*****\n");
     db_->End();
