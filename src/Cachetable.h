@@ -5,13 +5,17 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
-using namespace rocksdb;
 
 class CashTable 
 {
   public:
     // explicit CashTable(int size = 101);
-    CashTable(int size = 30000);
+    // CashTable(int size = 30000);
+    CashTable(int size)
+    {
+        theLists = vector<list<uint64_t> >(size);
+        currentSize = 0;
+    }
     void display()const;
 
     void makeEmpty()
@@ -106,28 +110,6 @@ class CashTable
     }
 };
 
-
-CashTable::CashTable(int size)
-{
-    theLists = vector<list<uint64_t> >(size);
-    currentSize = 0;
-}
-
-
-void CashTable::display()const
-{
-    for(int i=0;i<theLists.size();i++)
-    {
-        cout<<i<<": ";
-        typename std::list<uint64_t>::const_iterator iter = theLists[i].begin();
-        while(iter != theLists[i].end())
-        {
-            cout<<*iter<<" ";
-            ++iter;
-        }
-        cout<<endl;
-    }
-}
 
 
 
