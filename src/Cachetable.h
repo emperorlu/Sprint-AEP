@@ -63,17 +63,6 @@ class CashTable
         return true;
     }
 
-    const string find_key(const uint64_t & x){
-        // cout << "[DEBUG] find  key: " << char8toint64(x.getName().c_str()) <<  endl;
-        list<uint64_t> & whichList = theLists[myhash(x)];
-        typename list<uint64_t>::iterator itr = whichList.begin();
-        while(itr != whichList.end()){
-            if (*itr == x)
-                return (*itr).getValue();
-            itr++;
-        }
-        return "";
-    }
 
     const uint64_t & f_key(const uint64_t & x){
         list<uint64_t> & whichList = theLists[myhash(x)];
@@ -119,14 +108,14 @@ class CashTable
 };
 
 
-CashTable<uint64_t>::CashTable(int size)
+CashTable::CashTable(int size)
 {
     theLists = vector<list<uint64_t> >(size);
     currentSize = 0;
 }
 
 
-void CashTable<uint64_t>::display()const
+void CashTable::display()const
 {
     for(int i=0;i<theLists.size();i++)
     {
