@@ -273,7 +273,7 @@ void aepsystem::Insert(const string &key, const string &value)
             Dmark = 1;
             flush_num++;
             flush_size = 0;//重新计数
-            // Write_Log();
+            Write_Log();
         }
         switch (id)
         { 
