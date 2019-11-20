@@ -132,7 +132,7 @@ void* Data_out(void *arg)
             // cout << "outData.size(): " << outData.size() << endl;
             if(outData.size()!=0){
                 for(int i=0;i<outData.size();i++){
-                    bptree_nvm1->Updakey(outData[i]);
+                    bptree_nvm1->Updakey(outData[i].key,outData[i].hot);
                     current_size--;
                 }
             }
@@ -143,7 +143,7 @@ void* Data_out(void *arg)
             out2_size += outData2.size();
             if(outData2.size()!=0){
                 for(int i=0;i<outData2.size();i++){
-                    bptree_nvm2->Updakey(outData2[i]);
+                    bptree_nvm2->Updakey(outData2[i].key, outData2[i].hot);
                     current_size--;
                 }
             }
@@ -154,7 +154,7 @@ void* Data_out(void *arg)
             out3_size += outData3.size();
             if(outData3.size()!=0){
                 for(int i=0;i<outData3.size();i++){
-                    bptree_nvm3->Updakey(outData3[i]);
+                    bptree_nvm3->Updakey(outData3[i].key, outData3[i].hot);
                     current_size--;
                 }
             }
