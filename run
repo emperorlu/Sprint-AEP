@@ -1,44 +1,44 @@
 #!/bin/bash
 
 ./rm.sh
-numactl --cpunodebind=1 --membind=1 ./src/test 0 10 10 >> out1.out
+numactl --cpunodebind=1 --membind=1 ./src/test 0 1 0 >> out1.out
 ./rm.sh
-numactl --cpunodebind=1 --membind=1 ./src/test 1 10 10 >> out1.out
+numactl --cpunodebind=1 --membind=1 ./src/test 1 1 0 >> out1.out
 ./rm.sh
-numactl --cpunodebind=1 --membind=1 ./src/test 0 20 10 >> out1.out
+numactl --cpunodebind=1 --membind=1 ./src/test 0 5 0 >> out1.out
 ./rm.sh
-numactl --cpunodebind=1 --membind=1 ./src/test 1 20 10 >> out1.out
+numactl --cpunodebind=1 --membind=1 ./src/test 1 5 0 >> out1.out
 ./rm.sh
-# numactl --cpunodebind=1 --membind=1 ./src/test 0 20 10 >> out1.out
-# ./rm.sh
-# numactl --cpunodebind=1 --membind=1 ./src/test 1 20 10 >> out1.out
-# ./rm.sh
-# numactl --cpunodebind=1 --membind=1 ./src/test 0 15 10 >> out1.out
-# ./rm.sh
-# numactl --cpunodebind=1 --membind=1 ./src/test 1 15 10 >> out1.out
-# ./rm.sh
-# numactl --cpunodebind=1 --membind=1 ./src/test 0 20 10 >> out1.out
-# ./rm.sh
-# numactl --cpunodebind=1 --membind=1 ./src/test 1 20 10 >> out1.out
+numactl --cpunodebind=1 --membind=1 ./src/test 0 10 0 >> out1.out
+./rm.sh
+numactl --cpunodebind=1 --membind=1 ./src/test 1 10 0 >> out1.out
+./rm.sh
+numactl --cpunodebind=1 --membind=1 ./src/test 0 15 0 >> out1.out
+./rm.sh
+numactl --cpunodebind=1 --membind=1 ./src/test 1 15 0 >> out1.out
+./rm.sh
+numactl --cpunodebind=1 --membind=1 ./src/test 0 20 0 >> out1.out
+./rm.sh
+numactl --cpunodebind=1 --membind=1 ./src/test 1 20 0 >> out1.out
 
-# ./rm.sh
-# numactl --cpunodebind=1 --membind=1 ./src/test 1 20 1 >> out2.out
-# ./rm.sh
-# numactl --cpunodebind=1 --membind=1 ./src/test 1 20 2 >> out2.out
-# ./rm.sh
-# numactl --cpunodebind=1 --membind=1 ./src/test 1 20 4 >> out2.out
-# ./rm.sh
-# numactl --cpunodebind=1 --membind=1 ./src/test 1 20 8 >> out2.out
-# ./rm.sh
-# numactl --cpunodebind=1 --membind=1 ./src/test 1 20 10 >> out2.out
-# ./rm.sh
-# numactl --cpunodebind=1 --membind=1 ./src/test 1 20 12 >> out2.out
-# ./rm.sh
-# numactl --cpunodebind=1 --membind=1 ./src/test 1 20 14 >> out2.out
-# ./rm.sh
-# numactl --cpunodebind=1 --membind=1 ./src/test 1 20 16 >> out2.out
-# ./rm.sh
-# numactl --cpunodebind=1 --membind=1 ./src/test 1 20 18 >> out2.out
-# ./rm.sh
-# numactl --cpunodebind=1 --membind=1 ./src/test 1 20 20 >> out2.out
-# ./rm.sh
+./rm.sh
+numactl --cpunodebind=1 --membind=1 ./src/test 0 1 1 >> out2.out
+./rm.sh
+numactl --cpunodebind=1 --membind=1 ./src/test 1 1 1 >> out2.out
+./rm.sh
+numactl --cpunodebind=1 --membind=1 ./src/test 0 5 1 >> out2.out
+./rm.sh
+numactl --cpunodebind=1 --membind=1 ./src/test 1 5 1 >> out2.out
+./rm.sh
+numactl --cpunodebind=1 --membind=1 ./src/test 0 10 1 >> out2.out
+./rm.sh
+numactl --cpunodebind=1 --membind=1 ./src/test 1 10 1 >> out2.out
+./rm.sh
+numactl --cpunodebind=1 --membind=1 ./src/test 0 15 1 >> out2.out
+./rm.sh
+numactl --cpunodebind=1 --membind=1 ./src/test 1 15 1 >> out2.out
+./rm.sh
+numactl --cpunodebind=1 --membind=1 ./src/test 0 20 1 >> out2.out
+./rm.sh
+numactl --cpunodebind=1 --membind=1 ./src/test 1 20 1 >> out2.out
+./rm.sh
