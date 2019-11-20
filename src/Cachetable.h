@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
-
+using namespace std;
 class CashTable 
 {
   public:
