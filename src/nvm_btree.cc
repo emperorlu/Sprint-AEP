@@ -46,7 +46,7 @@ vector<entry_key_t> NVMBtree::BacktoDram(int hot, size_t read)
     exit(0);
 }
 
-void NVMBtree::Updakey(entry_key_t key){
+void NVMBtree::Updakey(const entry_key_t key){
     if(bt) {
         bt->btree_updakey(key);
     }  
