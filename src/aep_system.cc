@@ -123,7 +123,7 @@ void* Data_out(void *arg)
         {
             // std::lock_guard<std::mutex> lk(m_mutex);
             m_mutex.lock();
-            // cout << "[DEBUG] Begin out data!" << endl;
+            cout << "[DEBUG] Begin out data!" << endl;
             out_num++;
             vector<ram_entry_key_t> outData;
             size_t out = OUT_DATA;
@@ -223,6 +223,7 @@ void Write_Log()    //倒盘
 {   
 
     //aep1
+    cout << "[DEBUG] Begin write log!" << endl;
     vector<ram_entry> insertData1;
     insertData1 = dram_bptree1->FlushtoNvm();
     gettimeofday(&be1, NULL);
@@ -260,7 +261,7 @@ void aepsystem::Insert(const string &key, const string &value)
     m_mutex.lock();
     // std::lock_guard<std::mutex> lk(m_mutex);
     insert_count++;
-    // cout << "[DEBUG] Insert (" << insert_count << ") key: " << key << endl;
+    cout << "[DEBUG] Insert (" << insert_count << ") key: " << key << endl;
     if(id == 0)  // primary aep
     {
         bptree_nvm0->Insert(char8toint64(key.c_str()),value);
@@ -307,7 +308,7 @@ string aepsystem::Get(const std::string& key)
     // std::lock_guard<std::mutex> lk(m_mutex);
     get_count++;
     // cout << "[DEBUG] Get (" << get_count << ") key: " << char8toint64(key.c_str()) << " id: " << id << endl;
-    // cout << "[DEBUG] Get (" << get_count << ") key: " << key << endl;
+    cout << "[DEBUG] Get (" << get_count << ") key: " << key << endl;
     if(id == 0)  // primary aep
     {
         tmp_value = bptree_nvm0->Get(char8toint64(key.c_str()));
