@@ -361,7 +361,7 @@ vector<ram_entry> ram_tree::range_leafs(){
 
 vector<ram_entry_key_t> ram_tree::btree_out(size_t out){
     vector<ram_entry_key_t> dlist;
-    cout << "begin btree_out!" << endl;
+    // cout << "begin btree_out!" << endl;
     for(int i = 0; i < HCrchain->theLists.size(); i++)
     {
       typename list<ram_entry_key_t>::iterator itr = HCrchain->theLists[i].begin();
@@ -373,7 +373,7 @@ vector<ram_entry_key_t> ram_tree::btree_out(size_t out){
           itr++;
       }
     }
-    cout << "end btree_out!" << endl;
+    // cout << "end btree_out!" << endl;
     return dlist;
 }
 
