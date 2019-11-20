@@ -199,7 +199,7 @@ void Read_Cache()     //预取
         cache2_size += backData2.size();
         if(backData2.size()!=0){
             for(int i=0;i<backData2.size();i++){
-                dram_bptree2->Insert(backData2[i].key, backData2[i].hot, bptree_nvm1->Get(backData2[i].key));
+                dram_bptree2->Insert(backData2[i].key, backData2[i].hot, bptree_nvm2->Get(backData2[i].key));
             }
         }
     }
@@ -213,7 +213,7 @@ void Read_Cache()     //预取
         cache3_size += backData3.size();
         if(backData3.size()!=0){
             for(int i=0;i<backData3.size();i++){
-                dram_bptree3->Insert(backData3[i].key, backData3[i].hot, bptree_nvm1->Get(backData3[i].key));
+                dram_bptree3->Insert(backData3[i].key, backData3[i].hot, bptree_nvm3->Get(backData3[i].key));
             }
         }
     }
