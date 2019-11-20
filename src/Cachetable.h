@@ -5,7 +5,6 @@
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
-#include "nvm_common2.h"
 using namespace rocksdb;
 
 class CashTable 
