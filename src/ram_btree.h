@@ -183,6 +183,21 @@ class RamChain
     }
 };
 
+class ram_entry{ 
+  private:
+    ram_entry_key_t key; // 8 bytes
+    char* ptr; // 8 bytes
+
+  public:
+    ram_entry(){
+      key = ram_entry_key_t(ULONG_MAX);
+      ptr = NULL;
+    }
+
+    friend class ram_node;
+    friend class ram_tree;
+};
+
 
 class ram_tree{
   private:
@@ -218,7 +233,7 @@ class ram_tree{
     int minHot(){
       return HCrchain->minhot; 
     }
-    vector<ram_entry_key_t> btree_out(size_t out)
+    vector<ram_entry_key_t> btree_out(size_t out);
 
     friend class ram_node;
 
@@ -258,20 +273,6 @@ class ram_header{
     }
 };
 
-class ram_entry{ 
-  private:
-    ram_entry_key_t key; // 8 bytes
-    char* ptr; // 8 bytes
-
-  public:
-    ram_entry(){
-      key = ram_entry_key_t(ULONG_MAX);
-      ptr = NULL;
-    }
-
-    friend class ram_node;
-    friend class ram_tree;
-};
 
 const int ram_cardinality = (RAM_PAGESIZE-sizeof(ram_header))/sizeof(ram_entry);
 const int ram_count_in_line = RAM_CACHE_LINE_SIZE / sizeof(ram_entry);
