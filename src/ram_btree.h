@@ -198,7 +198,6 @@ class ram_entry{
     friend class ram_tree;
 };
 
-
 class ram_tree{
   private:
     NVMAllocator *node_alloc;
@@ -272,6 +271,7 @@ class ram_header{
       delete mtx;
     }
 };
+
 
 
 const int ram_cardinality = (RAM_PAGESIZE-sizeof(ram_header))/sizeof(ram_entry);

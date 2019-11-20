@@ -349,7 +349,7 @@ vector<ram_entry> ram_tree::range_leafs(){
     for(i = 0; sibling->records[i].ptr != NULL;i++){
       if(sibling->records[i].key.flag == 0){
           sibling->records[i].key.flag = 1;
-          HCrchain->insert(sibling->records[i]);
+          HCrchain->insert(sibling->records[i].key);
           dlist.push_back(sibling->records[i]);
       }
     }
