@@ -250,7 +250,7 @@ class btree{
             delete node_alloc;
         }
         delete HCrchain;
-        delete Cache;
+        // delete Cache;
     }
     void *NewBpNode();
     void setNewRoot(char *);
@@ -265,11 +265,11 @@ class btree{
     void printAll();
     void PrintInfo();
     void CalculateSapce(uint64_t &space);
-    void chain_insert(entry_key_t key);
-    void btree_updakey(const uint64_t key);
+    // void chain_insert(entry_key_t key);
+    void btree_updakey(entry_key_t key);
     vector<entry_key_t> btree_back(int hot, size_t read);
     int cache_size(){
-      return Cache->getSize();
+      return HCrchain->getSize();
     }
 
     friend class bpnode;
@@ -278,7 +278,7 @@ class btree{
 
     // vector<string> BacktoDram(int hot, size_t read);
     CONRangChain *HCrchain;
-    CashTable *Cache;
+    // CashTable *Cache;
 };
 
 class header{

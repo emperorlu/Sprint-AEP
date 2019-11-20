@@ -33,7 +33,7 @@ void NVMBtree::Insert(const unsigned long key, const unsigned long hot, const st
     if(bt) {
         char *pvalue = value_alloc->Allocate(value.size());
         nvm_memcpy_persist(pvalue, value.c_str(), value.size(), false);
-        bt->chain_insert(entry_key_t(key, hot));
+        // bt->chain_insert(entry_key_t(key, hot));
         bt->btree_insert(entry_key_t(key, hot), pvalue);
     }
 }
@@ -46,7 +46,7 @@ vector<entry_key_t> NVMBtree::BacktoDram(int hot, size_t read)
     exit(0);
 }
 
-void NVMBtree::Updakey(const uint64_t key){
+void NVMBtree::Updakey(entry_key_t key){
     if(bt) {
         bt->btree_updakey(key);
     }  

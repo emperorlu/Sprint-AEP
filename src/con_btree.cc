@@ -122,17 +122,18 @@ void bpnode::linear_search_range(entry_key_t min, entry_key_t max, std::vector<s
 btree::btree(){
   // root = (char*)new bpnode();
   HCrchain = new CONRangChain;
-  Cache = new CashTable(10000000);
+  // Cache = new CashTable(10000000);
   height = 1;
   node_alloc = nullptr;
 }
 
-void btree::chain_insert(entry_key_t key){
-  HCrchain->insert(key);
-}
+// void btree::chain_insert(entry_key_t key){
+//   HCrchain->insert(key);
+// }
 
-void btree::btree_updakey(const uint64_t key){
-  Cache->insert(key);
+void btree::btree_updakey(entry_key_t key){
+  // Cache->insert(key);
+  HCrchain->insert(key);
 }
 
 static long bcak_count = 0;
@@ -147,15 +148,10 @@ vector<entry_key_t> btree::btree_back(int hot, size_t read){
       if((*itr).hot < hot){
         return dlist;
       }
-      if(Cache->contains((*itr).key)){
-        dlist.push_back((*itr));
-        itr = HCrchain->theLists[i].erase(itr);
-        Cache->remove((*itr).key);
-        if (dlist.size() >= read)
-          return dlist;
-      }else{
-        itr++;
-      }
+      dlist.push_back((*itr));
+      itr = HCrchain->theLists[i].erase(itr);
+      if (dlist.size() >= read)
+        return dlist; 
     }
   }
   return dlist;
