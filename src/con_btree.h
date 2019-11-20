@@ -160,7 +160,7 @@ class CONRangChain
         listSize = 10;
         theLists = vector<list<entry_key_t> >(listSize);
         minhot = 10;
-        maxSize = 100000;
+        maxSize = 10000000;
         currentSize = 0;
     }
 
