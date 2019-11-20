@@ -25,7 +25,7 @@
 #include <mutex>
 #include <vector>
 #include <list>
-#include "Cashtable.h"
+#include "Cachetable.h"
 #include <map>
 #include "nvm_common2.h"
 
