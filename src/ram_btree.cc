@@ -123,6 +123,7 @@ ram_tree::ram_tree(){
   // root = (char*)new bpnode();
   height = 1;
   node_alloc = nullptr;
+  HCrchain = new RamChain;
 }
 
 
