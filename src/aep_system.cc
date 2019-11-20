@@ -26,9 +26,6 @@ HashTable<Employee> emp_table(4);
 // HashTable<Keyvalue> cache_table2(3000);
 // HashTable<Keyvalue> cache_table3(3000);
 
-vector<string> updakey1;
-vector<string> updakey2;
-vector<string> updakey3;
 
 //大小参数
 const size_t NVM_SIZE = 10 * (1ULL << 30);               // 45GB
