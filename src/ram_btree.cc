@@ -360,22 +360,21 @@ vector<ram_entry> ram_tree::range_leafs(){
 
 vector<ram_entry_key_t> ram_tree::btree_out(size_t out){
     vector<ram_entry_key_t> dlist;
+    cout << "begin btree_out!" << endl;
     for(int i = 0; i < HCrchain->theLists.size(); i++)
     {
-        typename list<ram_entry_key_t>::iterator itr = HCrchain->theLists[i].begin();
-        while(itr != HCrchain->theLists[i].end()){
-            dlist.push_back((*itr));
-            btree_delete(*itr);
-            if (dlist.size() >= out)
-              return dlist;
-            itr++;
-        }
+      typename list<ram_entry_key_t>::iterator itr = HCrchain->theLists[i].begin();
+      while(itr != HCrchain->theLists[i].end()){
+          dlist.push_back((*itr));
+          btree_delete(*itr);
+          if (dlist.size() >= out)
+            return dlist;
+          itr++;
+      }
     }
+    cout << "end btree_out!" << endl;
     return dlist;
 }
-
-
-
 
 
 void ram_tree::CalculateSapce(uint64_t &space) {
