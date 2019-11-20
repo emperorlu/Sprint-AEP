@@ -30,7 +30,7 @@ public:
     void Initial(const std::string &valuepath, uint64_t valuesize);
 
     void Insert(const unsigned long key, const string &value);
-    // void Insert(const unsigned long key, const unsigned long hot, const string &value);
+    void Insert(const unsigned long key, const unsigned long hot, const string &value);
 
     void Delete(const unsigned long key);
 
@@ -42,6 +42,13 @@ public:
     void motivationtest();
     void Print();
     void PrintInfo();
+    vector<ram_entry> FlushtoNvm(){
+        return bt->range_leafs();
+    }
+
+    vector<ram_entry_key_t> OutdeData(size_t out){
+        return bt->btree_out(out)
+    }
 
     bool StorageIsFull() {
         return node_alloc->StorageIsFull() || value_alloc->StorageIsFull();

@@ -337,16 +337,45 @@ void ram_tree::printAll(){
   pthread_mutex_unlock(&ram_print_mtx);
 }
 
-// void ram_tree::for_each() {
-//   ram_node *node = (ram_node *)root;
-//   while(node->hdr.leftmost_ptr) {
-//     node = node->hdr.leftmost_ptr;
-//   }
-//   while(node) {
-//     // hhjbkjkjj
-//     node = node->hdr.sibling_ptr;
-//   }
-// }
+vector<ram_entry> ram_tree::range_leafs(){
+  vector<ram_entry> dlist;
+  ram_node *sibling = (ram_node *)root;
+  int i;
+  while(sibling->hdr.leftmost_ptr != NULL) {
+    sibling = sibling->hdr.leftmost_ptr;
+  }
+
+  while(sibling) {
+    for(i = 0; sibling->records[i].ptr != NULL;i++){
+      if(sibling->records[i].key.flag == 0){
+          sibling->records[i].key.flag = 1;
+          HCrchain->insert(sibling->records[i]);
+          dlist.push_back(sibling->records[i]);
+      }
+    }
+    sibling = sibling->hdr.sibling_ptr;
+  }
+  return dlist;
+}
+
+vector<ram_entry_key_t> ram_tree::btree_out(size_t out){
+    vector<ram_entry_key_t> dlist;
+    for(int i = 0; i < HCrchain->theLists.size(); i++)
+    {
+        typename list<ram_entry_key_t>::iterator itr = HCrchain->theLists[i].begin();
+        while(itr != HCrchain->theLists[i].end()){
+            dlist.push_back((*itr));
+            btree_delete(*itr);
+            if (dlist.size() >= out)
+              return dlist;
+            itr++;
+        }
+    }
+    return dlist;
+}
+
+
+
 
 
 void ram_tree::CalculateSapce(uint64_t &space) {

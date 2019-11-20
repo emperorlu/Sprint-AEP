@@ -8,7 +8,6 @@
 #include "nvm_common2.h"
 using namespace rocksdb;
 
-template <class HashedObj>
 class HashTable 
 {
   public:
@@ -26,22 +25,22 @@ class HashTable
     {
         for(int i = 0; i < theLists.size(); i++)
         {
-            typename list<HashedObj>::iterator itr = theLists[i].begin();
+            typename list<uint64_t>::iterator itr = theLists[i].begin();
             while(itr != theLists[i].end())
                 cout << *itr++ << endl;
         }
     }
 
-    bool contains(const HashedObj & x) 
+    bool contains(const uint64_t & x) 
     {
-        list<HashedObj> & whichList = theLists[myhash(x)];
+        list<uint64_t> & whichList = theLists[myhash(x)];
         return find(whichList.begin(), whichList.end(), x) != whichList.end();
     }
 
-    bool remove(const HashedObj & x)
+    bool remove(const uint64_t & x)
     {
-        list<HashedObj> & whichList = theLists[myhash(x)];
-        typename list<HashedObj>::iterator itr = find(whichList.begin(), whichList.end(), x);
+        list<uint64_t> & whichList = theLists[myhash(x)];
+        typename list<uint64_t>::iterator itr = find(whichList.begin(), whichList.end(), x);
         if(itr == whichList.end())
             return false;
         whichList.erase(itr);
@@ -49,11 +48,11 @@ class HashTable
         return true;
     }
 
-    bool insert(const HashedObj & x)
+    bool insert(const uint64_t & x)
     {
         // cout << "[DEBUG] insert  key: " << char8toint64(x.getName().c_str());
         // cout << "value: " << x.getValue() <<  endl;
-        list<HashedObj> & whichList = theLists[myhash(x)];
+        list<uint64_t> & whichList = theLists[myhash(x)];
         if(find(whichList.begin(), whichList.end(), x) != whichList.end())
             return false;
         whichList.push_back(x);
@@ -64,10 +63,10 @@ class HashTable
         return true;
     }
 
-    const string find_key(const HashedObj & x){
+    const string find_key(const uint64_t & x){
         // cout << "[DEBUG] find  key: " << char8toint64(x.getName().c_str()) <<  endl;
-        list<HashedObj> & whichList = theLists[myhash(x)];
-        typename list<HashedObj>::iterator itr = whichList.begin();
+        list<uint64_t> & whichList = theLists[myhash(x)];
+        typename list<uint64_t>::iterator itr = whichList.begin();
         while(itr != whichList.end()){
             if (*itr == x)
                 return (*itr).getValue();
@@ -76,8 +75,8 @@ class HashTable
         return "";
     }
 
-    const HashedObj & f_key(const HashedObj & x){
-        list<HashedObj> & whichList = theLists[myhash(x)];
+    const uint64_t & f_key(const uint64_t & x){
+        list<uint64_t> & whichList = theLists[myhash(x)];
         return *whichList.begin();
     }
     int getSize()
@@ -86,12 +85,12 @@ class HashTable
     }
     int  currentSize;
   private:
-    vector<list<HashedObj> > theLists;   // The array of Lists
+    vector<list<uint64_t> > theLists;   // The array of Lists
     
 
     void rehash()
     {
-        vector<list<HashedObj> > oldLists = theLists;
+        vector<list<uint64_t> > oldLists = theLists;
 
         // Create new double-sized, empty table
         theLists.resize(2 * theLists.size());
@@ -102,20 +101,16 @@ class HashTable
         currentSize = 0;
         for(int i = 0; i < oldLists.size(); i++)
         {
-            typename list<HashedObj>::iterator itr = oldLists[i].begin();
+            typename list<uint64_t>::iterator itr = oldLists[i].begin();
             while(itr != oldLists[i].end())
                 insert(*itr++);
         }
     }
 
-    int myhash(const HashedObj & x) const
+    int myhash(const uint64_t & x) const
     {
         int hashVal = 0;
-        string key = x.getName();
-        for(int i = 0; i < key.length(); i++)
-            hashVal = 37 * hashVal + key[i];
-
-        hashVal %= theLists.size();
+        hashVal = x % theLists.size();
         if(hashVal < 0)
             hashVal += theLists.size();
 
@@ -123,20 +118,20 @@ class HashTable
     }
 };
 
-template <class T>
-HashTable<T>::HashTable(int size)
+
+HashTable<uint64_t>::HashTable(int size)
 {
-    theLists = vector<list<T> >(size);
+    theLists = vector<list<uint64_t> >(size);
     currentSize = 0;
 }
 
-template <class T>
-void HashTable<T>::display()const
+
+void HashTable<uint64_t>::display()const
 {
     for(int i=0;i<theLists.size();i++)
     {
         cout<<i<<": ";
-        typename std::list<T>::const_iterator iter = theLists[i].begin();
+        typename std::list<uint64_t>::const_iterator iter = theLists[i].begin();
         while(iter != theLists[i].end())
         {
             cout<<*iter<<" ";
@@ -146,57 +141,5 @@ void HashTable<T>::display()const
     }
 }
 
-class Employee
-{
-public:
-    Employee(){}
-    Employee(const string n,int s=0):name(n),salary(s){ }
-    const string & getName()const  { return name; }
-    const int & getValue()const  { return salary; }
-    bool operator == (const Employee &rhs) const
-    {
-        return getName() == rhs.getName();
-    }
-    bool operator != (const Employee &rhs) const
-    {
-        return !(*this == rhs);
-    }
-    // friend ostream& operator <<(ostream& out,const Employee& e)
-    // {
-    //     out<<"("<<e.name<<","<<e.salary<<") ";
-    //     return out;
-    // }
-private:
-    string name;
-    int salary;
-};
 
-class Keyvalue
-{
-public:
-    Keyvalue(){}
-    Keyvalue(const string n, const string s):key(n),value(s){ }
-    const string & getName()const  { return key; }
-    const string & getValue()const  { return value; }
-    bool operator == (const Keyvalue &rhs) const
-    {
-        // bool r = getName() == rhs.getName();
-        // cout << "[Debug] operator ==:  " << r << endl;
-        bool r = strncmp(getName().c_str(), rhs.getName().c_str(), NVM_KeySize);
-        return !r;
-        // return getName() == rhs.getName();
-    }
-    bool operator != (const Keyvalue &rhs) const
-    {
-        return !(*this == rhs);
-    }
-    friend ostream& operator <<(ostream& out,const Keyvalue& e)
-    {
-        out<<"("<<e.key<<","<<e.value<<") ";
-        return out;
-    }
-private:
-    string key;
-    string value;
-};
 

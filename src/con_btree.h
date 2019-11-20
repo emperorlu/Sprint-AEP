@@ -26,7 +26,7 @@
 #include <vector>
 #include <list>
 #include "hashtable.h"
-
+#include <map>
 #include "nvm_common2.h"
 
 using namespace rocksdb;
@@ -43,9 +43,10 @@ using namespace rocksdb;
 // using entry_key_t = uint64_t;
 struct entry_key_t {
     uint64_t key;
-    uint64_t hot;
-    entry_key_t() :key(ULONG_MAX), hot(0) {}
-    entry_key_t(uint64_t key_, uint64_t hot_ = 0) :key(key_), hot(hot_){}
+    uint32_t hot;
+    uint32_t flag;
+    entry_key_t() :key(ULONG_MAX), hot(0), flag(0) {}
+    entry_key_t(uint64_t key_, uint64_t hot_ = 0, uint32_t flag_ = 0) :key(key_), hot(hot_), flag(flag_){}
     entry_key_t & operator = (const entry_key_t &entry) {
         if(this == &entry) {
             return *this;
@@ -53,6 +54,7 @@ struct entry_key_t {
 
         key = entry.key;
         hot = entry.hot;
+        flag = entry.flag;
         return *this;
     }
 
@@ -152,7 +154,6 @@ static void alloc_memalign(void **ret, size_t alignment, size_t size) {
 
 class bpnode;
 
-
 class CONRangChain 
 {
   public:
@@ -160,17 +161,9 @@ class CONRangChain
     {
         listSize = 10;
         theLists = vector<list<entry_key_t> >(listSize);
-        myList = vector<list<entry_key_t> >(listSize);
-        maxhot = 30;
-        minhot = 0;
-        maxSize = 10000000;
+        minhot = 10;
+        maxSize = 100000;
         currentSize = 0;
-    }
-
-    void initialize(int minValue, int maxValue)
-    {
-        maxhot = maxValue;
-        minhot = minValue;
     }
 
     int getSize()
@@ -209,43 +202,26 @@ class CONRangChain
         return true;
     }
     
-    void relist()
-    {   
-        // cout << "before relist: " << endl;
-        // traver();
-        for(std::size_t i = 0; i < theLists.size(); i++)
-        {
-            typename list<entry_key_t>::iterator itr = theLists[i].begin();
-            while(itr != theLists[i].end()){
-                myinsert(*itr, (*itr).hot);
-                itr++;
-            }
-        }
-        theLists = myList;
-        // cout << "relist: " << endl;
-        // traver();
-    }
     
-    // void update(const string &x)
-    // {
-    //     for(std::size_t i = 0; i < theLists.size(); i++)
-    //     {
-    //         typename list<entry_key_t>::iterator itr = theLists[i].begin();
-    //         while(itr != theLists[i].end()){
-    //             int res = memcmp(x.c_str(), to_string((*itr).key).c_str(), NVM_KeySize);
-    //             if (res == 0){
-    //                 (*itr).sign = '0';
-    //                 return;
-    //             }
-    //             itr++;
-    //         }
-    //     }
-    //     return;
-    // }
+    void update(const entry_key_t &x)
+    {
+      for(std::size_t i = 0; i < theLists.size(); i++)
+      {
+        typename list<entry_key_t>::iterator itr = theLists[i].begin();
+        while(itr != theLists[i].end()){
+          if (x.key == (*itr).key){
+            (*itr).flag = 0;
+            return;
+          }
+          itr++;
+        }
+      }
+      return;
+    }
 
     bool insert(const entry_key_t &x)
     {   
-      uint64_t value = x.hot;
+      uint32_t value = x.hot;
       if(currentSize >= maxSize){
           if(value <= minhot){
             return false;
@@ -253,49 +229,25 @@ class CONRangChain
           else
             remove();
       }
-
-      if (value < minhot){
-        minhot = value;
-        relist();
-      }else if (value > maxhot)
-      {
-        maxhot = value;
-        relist();
-      }
-
-      list<entry_key_t> & whichList = theLists[myid(value)];
-      whichList.push_front(x);
-
+      if(minhot > value) minhot = value;
+      theLists[myid(value)].push_front(x);
       currentSize++;
       return true;  
     }
-    uint64_t  maxhot, minhot;
+    uint32_t  minhot;
     vector<list<entry_key_t> > theLists;   // The array of Lists
     int currentSize;
   private:
     int listSize;
     int maxSize;
-    vector<list<entry_key_t>>  myList;
-    // int hc; //c or h
 
-    int myid(uint64_t value)
+    int myid(uint32_t value)
     {
-        if(maxhot == minhot) {
-            return 0;
-        } 
-        if(value >= maxhot) {
-            return listSize - 1;
-        }
-        return 1.0 * (value - minhot) / (maxhot - minhot) * listSize;
+        if(value <= 0 ) return 0;
+        int id = log(value)/ log(2);
+        if(id >= listSize) id = listSize -1;
+        return id;
     }
-
-    bool myinsert(const entry_key_t x, uint64_t value)
-    {   
-        list<entry_key_t  > & whichList = myList[myid(value)];
-        whichList.push_front(x);
-        return true;   
-    }
-
 };
 
 
@@ -332,8 +284,8 @@ class btree{
     void PrintInfo();
     void CalculateSapce(uint64_t &space);
     void chain_insert(entry_key_t key);
-    void btree_updakey(const string key);
-    vector<string> btree_back(int hot, size_t read);
+    void btree_updakey(const uint64_t key);
+    vector<entry_key_t> btree_back(int hot, size_t read);
     int cache_size(){
       return Cache->getSize();
     }
@@ -344,7 +296,7 @@ class btree{
 
     // vector<string> BacktoDram(int hot, size_t read);
     CONRangChain *HCrchain;
-    HashTable<Keyvalue> *Cache;
+    HashTable *Cache;
 };
 
 class header{

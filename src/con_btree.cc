@@ -122,29 +122,23 @@ void bpnode::linear_search_range(entry_key_t min, entry_key_t max, std::vector<s
 btree::btree(){
   // root = (char*)new bpnode();
   HCrchain = new CONRangChain;
-  Cache = new HashTable<Keyvalue>(10000000);
+  Cache = new HashTable(100000);
   height = 1;
   node_alloc = nullptr;
 }
 
 void btree::chain_insert(entry_key_t key){
-  // HCrchain->makeEmpty();
   HCrchain->insert(key);
-  // HCrchain->traver();
 }
 
-void btree::btree_updakey(const string key){
-  string ikey = key.substr(0,NVM_KeySize);
-  Keyvalue tmp_key(ikey, ikey);
-  Cache->insert(tmp_key);
+void btree::btree_updakey(const uint64_t key){
+  Cache->insert(key);
 }
 
 static long bcak_count = 0;
-vector<string> btree::btree_back(int hot, size_t read){
-  vector<string> dlist;
+vector<entry_key_t> btree::btree_back(int hot, size_t read){
+  vector<entry_key_t> dlist;
   bcak_count++;
-  // cout << "[DEBUG] back (" << bcak_count << ") Ca size: " << Cache->currentSize;
-  // cout << "HC size: " << HCrchain->currentSize << endl;
   for(int i = HCrchain->theLists.size()-1; i >= 0; i--)
   {
     typename list<entry_key_t>::iterator itr = HCrchain->theLists[i].begin();
@@ -152,14 +146,10 @@ vector<string> btree::btree_back(int hot, size_t read){
       if((*itr).hot < hot){
         return dlist;
       }
-      char tmp[8];
-      fillchar8wirhint64(tmp, (*itr).key);
-      string str(tmp, 8);
-      Keyvalue tmp_key(str, str);
-      if(Cache->contains(tmp_key)){
-        dlist.push_back(str);
+      if(Cache->contains((*itr).key)){
+        dlist.push_back((*itr));
         itr = HCrchain->theLists[i].erase(itr);
-        Cache->remove(tmp_key);
+        Cache->remove((*itr).key);
         if (dlist.size() >= read)
           return dlist;
       }else{

@@ -46,7 +46,7 @@ vector<string> NVMBtree::BacktoDram(int hot, size_t read)
     exit(0);
 }
 
-void NVMBtree::Updakey(const string key){
+void NVMBtree::Updakey(const uint64_t key){
     if(bt) {
         bt->btree_updakey(key);
     }  

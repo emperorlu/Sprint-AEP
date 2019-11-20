@@ -362,13 +362,17 @@ class RangChain
 
     int myid(int value)
     {
-        if(maxhot == minhot) {
-            return 0;
-        } 
-        if(value >= maxhot) {
-            return listSize - 1;
-        }
-        return 1.0 * (value - minhot) / (maxhot - minhot) * listSize;
+        // if(maxhot == minhot) {
+        //     return 0;
+        // } 
+        // if(value >= maxhot) {
+        //     return listSize - 1;
+        // }
+        // return 1.0 * (value - minhot) / (maxhot - minhot) * listSize;
+        if(value <= 0 ) return 0;
+        int id = log(value)/ log(2);
+        if(id >= listSize) id = listSize -1;
+        return id;
     }
 
     bool myinsert(const string x, int value)

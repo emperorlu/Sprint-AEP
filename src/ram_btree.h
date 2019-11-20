@@ -43,9 +43,10 @@ using namespace rocksdb;
 // using ram_entry_key_t = uint64_t;
 struct ram_entry_key_t {
     uint64_t key;
-    uint64_t hot;
-    ram_entry_key_t() :key(ULONG_MAX), hot(0) {}
-    ram_entry_key_t(uint64_t key_, uint64_t hot_ = 0) :key(key_), hot(hot_){}
+    uint32_t hot;
+    uint32_t flag;
+    ram_entry_key_t() :key(ULONG_MAX), hot(0), flag(0) {}
+    ram_entry_key_t(uint64_t key_, uint32_t hot_ = 0, uint32_t flag_ = 0) :key(key_), hot(hot_), flag(flag_){}
     ram_entry_key_t & operator = (const ram_entry_key_t &ram_entry) {
         if(this == &ram_entry) {
             return *this;
@@ -53,6 +54,7 @@ struct ram_entry_key_t {
 
         key = ram_entry.key;
         hot = ram_entry.hot;
+        flag = ram_entry.flag;
         return *this;
     }
 
@@ -100,6 +102,88 @@ struct ram_entry_key_t {
 
 class ram_node;
 
+
+
+class RamChain 
+{
+  public:
+    RamChain()
+    {
+        listSize = 10;
+        theLists = vector<list<ram_entry_key_t> >(listSize);
+        minhot = 10;
+        maxSize = 100000;
+        currentSize = 0;
+    }
+
+    int getSize()
+    {
+        return currentSize;
+    }
+
+    void makeEmpty()
+    {
+        for(std::size_t i = 0; i < theLists.size(); i++)
+            theLists[i].clear();
+    }
+
+    void traver()
+    {
+        for(std::size_t i = 0; i < theLists.size(); i++)
+        {
+            cout << i << ":";
+            typename list<ram_entry_key_t>::iterator itr = theLists[i].begin();
+            while(itr != theLists[i].end()){
+                cout << (*itr).hot << "\t";
+                itr++;
+            }
+            cout << endl;
+        }
+    }
+    
+    bool remove()
+    {   
+        int i = theLists.size()-1;
+        while (theLists[i].size() == 0){
+            i--;
+        }
+        theLists[i].pop_front();
+        currentSize--;
+        return true;
+    }
+    
+    bool insert(const ram_entry_key_t &x)
+    {   
+      uint32_t value = x.hot;
+      if(currentSize >= maxSize){
+          if(value <= minhot){
+            return false;
+          }
+          else
+            remove();
+      }
+      if(minhot > value) minhot = value;
+      theLists[myid(value)].push_front(x);
+      currentSize++;
+      return true;  
+    }
+    uint32_t minhot;
+    vector<list<ram_entry_key_t> > theLists;   // The array of Lists
+    int currentSize;
+  private:
+    int listSize;
+    int maxSize;
+
+    int myid(uint32_t value)
+    {
+        if(value <= 0 ) return 0;
+        int id = log(value)/ log(2);
+        if(id >= listSize) id = listSize -1;
+        return id;
+    }
+};
+
+
 class ram_tree{
   private:
     NVMAllocator *node_alloc;
@@ -115,6 +199,7 @@ class ram_tree{
         if(node_alloc) {
             delete node_alloc;
         }
+        delete HCrchain;
     }
     void *Newram_node();
     void setNewRoot(char *);
@@ -129,11 +214,13 @@ class ram_tree{
     void printAll();
     void PrintInfo();
     void CalculateSapce(uint64_t &space);
+    vector<ram_entry> range_leafs();
+    vector<ram_entry_key_t> btree_out(size_t out)
 
     friend class ram_node;
 
     // void CreateChain();
-
+    RamChain *HCrchain;
     // vector<string> BacktoDram(int hot, size_t read);
 };
 
