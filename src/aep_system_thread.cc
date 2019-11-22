@@ -165,92 +165,89 @@ void* Data_out(void *arg)
     pthread_exit(NULL);
 }
 
-void Read_Cache()     //预取
+void Read_Cache(int id)     //预取
 {     
     cache_num++;
     size_t read = READ_DATA;
-    // cout << "begin " << cache_num << " cache" << endl;
-    //aep1
-    if (bptree_nvm1->GetCacheSzie() != 0){
-        cache1_num++;
-        vector<entry_key_t> backData1;
-        gettimeofday(&be1, NULL);
-        backData1 = bptree_nvm1->BacktoDram(dram_bptree1->MinHot(), read);
-        gettimeofday(&en1, NULL);
-        nvm1_backtime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
-        cache1_size += backData1.size();
-        if(backData1.size()!=0){
-            for(int i=0;i<backData1.size();i++){
-                gettimeofday(&be1, NULL);
-                dram_bptree1->Insert(backData1[i].key, backData1[i].hot, bptree_nvm1->Get(backData1[i].key));
-                gettimeofday(&en1, NULL);
-                nvm1_inserttime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
+    vector<entry_key_t> backData;
+    switch (id)
+    { 
+        case 1:
+            if (bptree_nvm1->GetCacheSzie() != 0){
+                cache1_num++;
+                backData = bptree_nvm1->BacktoDram(dram_bptree1->MinHot(), read);
+                cache1_size += backData.size();
+                if(backData.size()!=0){
+                    for(int i=0;i<backData.size();i++){
+                        dram_bptree1->Insert(backData[i].key, backData[i].hot, bptree_nvm1->Get(backData[i].key));
+                    }
+                }
             }
-        }
-    }
-    
-    //aep2
-    if (bptree_nvm2->GetCacheSzie() != 0){
-        cache2_num++;
-        vector<entry_key_t> backData2;
-        backData2 = bptree_nvm2->BacktoDram(dram_bptree2->MinHot(), read);
-        cache2_size += backData2.size();
-        if(backData2.size()!=0){
-            for(int i=0;i<backData2.size();i++){
-                dram_bptree2->Insert(backData2[i].key, backData2[i].hot, bptree_nvm2->Get(backData2[i].key));
+            break;
+        case 2:
+            if (bptree_nvm2->GetCacheSzie() != 0){
+                cache2_num++;
+                backData = bptree_nvm2->BacktoDram(dram_bptree2->MinHot(), read);
+                cache2_size += backData.size();
+                if(backData.size()!=0){
+                    for(int i=0;i<backData.size();i++){
+                        dram_bptree2->Insert(backData[i].key, backData[i].hot, bptree_nvm2->Get(backData[i].key));
+                    }
+                }
             }
-        }
-    }
-
-    
-    //aep3
-    if (bptree_nvm3->GetCacheSzie() != 0){
-        cache3_num++;
-        vector<entry_key_t> backData3;
-        backData3 = bptree_nvm3->BacktoDram(dram_bptree3->MinHot(), read);
-        cache3_size += backData3.size();
-        if(backData3.size()!=0){
-            for(int i=0;i<backData3.size();i++){
-                dram_bptree3->Insert(backData3[i].key, backData3[i].hot, bptree_nvm3->Get(backData3[i].key));
+            break;
+        case 3:
+            if (bptree_nvm3->GetCacheSzie() != 0){
+                cache3_num++;
+                backData = bptree_nvm3->BacktoDram(dram_bptree3->MinHot(), read);
+                cache3_size += backData.size();
+                if(backData.size()!=0){
+                    for(int i=0;i<backData.size();i++){
+                        dram_bptree3->Insert(backData[i].key, backData[i].hot, bptree_nvm3->Get(backData[i].key));
+                    }
+                }
             }
-        }
+            break;
+        default:
+            cout << "error!" << endl;
     }
 }
 
-
-
-void Write_Log()    //倒盘
+void Write_Log(int id)    //倒盘
 {   
-    //aep1
-    vector<ram_entry> insertData1;
-    insertData1 = dram_bptree1->FlushtoNvm();
-    gettimeofday(&be1, NULL);
-    for(int i=0;i<insertData1.size();i++){
-        bptree_nvm1->Insert(insertData1[i].key.key, insertData1[i].key.hot, string(insertData1[i].ptr, NVM_ValueSize));
+    vector<ram_entry> insertData;
+    switch (id)
+    { 
+        case 1:    
+            insertData = dram_bptree1->FlushtoNvm();
+            gettimeofday(&be1, NULL);
+            for(int i=0;i<insertData.size();i++){
+                bptree_nvm1->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
+            }
+            gettimeofday(&en1, NULL);
+            nvm1_itime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
+            break;
+        case 2:
+            insertData = dram_bptree2->FlushtoNvm();
+            gettimeofday(&be1, NULL);
+            for(int i=0;i<insertData.size();i++){
+                bptree_nvm2->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
+            }
+            gettimeofday(&en1, NULL);
+            nvm2_itime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
+            break;
+        case 3:
+            insertData = dram_bptree3->FlushtoNvm();
+            gettimeofday(&be1, NULL);
+            for(int i=0;i<insertData.size();i++){
+                bptree_nvm3->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
+            }
+            gettimeofday(&en1, NULL);
+            nvm3_itime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
+            break;
+        default:
+            cout << "error!" << endl;
     }
-    gettimeofday(&en1, NULL);
-    nvm1_itime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
-
-    //aep2
-    vector<ram_entry> insertData2;
-    insertData2 = dram_bptree2->FlushtoNvm();
-    gettimeofday(&be1, NULL);
-    for(int i=0;i<insertData2.size();i++){
-        bptree_nvm2->Insert(insertData2[i].key.key, insertData2[i].key.hot, string(insertData2[i].ptr, NVM_ValueSize));
-    }
-    gettimeofday(&en1, NULL);
-    nvm2_itime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0; 
-
-    //aep3
-    vector<ram_entry> insertData3;
-    insertData3 = dram_bptree3->FlushtoNvm();
-    gettimeofday(&be1, NULL);
-    for(int i=0;i<insertData3.size();i++){
-        bptree_nvm3->Insert(insertData3[i].key.key, insertData3[i].key.hot, string(insertData3[i].ptr, NVM_ValueSize));
-    }
-    gettimeofday(&en1, NULL);
-    nvm3_itime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
-    
 }  
 
 static long insert_count = 0;
@@ -272,7 +269,12 @@ void aepsystem::Insert(const string &key, const string &value)
             Dmark = 1;
             flush_num++;
             flush_size = 0;//重新计数
-            Write_Log();
+            thread w1(Write_Log, 1);
+            thread w2(Write_Log, 2);
+            thread w3(Write_Log, 3);
+            w1.join();
+            w2.join();
+            w3.join();
         }
         switch (id)
         { 
@@ -338,10 +340,15 @@ string aepsystem::Get(const std::string& key)
             if (Dmark) //至少经历一次倒盘
             {
                 // cache_num++;
-                // cout << "[DEBUG] Read Cache!" << endl;
-                if(is_cache)
-                    Read_Cache();
-                // cout << "[DEBUG] Read Cache Over!" << endl;
+                if(is_cache){
+                    thread r1(Read_Cache, 1);
+                    thread r2(Read_Cache, 2);
+                    thread r3(Read_Cache, 3);
+                    r1.join();
+                    r2.join();
+                    r3.join();
+                }
+                    // Read_Cache();
             }
             switch (id)
             {
