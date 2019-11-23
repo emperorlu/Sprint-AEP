@@ -62,7 +62,7 @@ int flush_size = 0;
 int not_find = 0;
 int dram_find = 0;
 int nvm_find = 0;
-int nvm1_find = 0;
+// int nvm1_find = 0;
 int nvm2_find = 0;
 int nvm3_find = 0;
 int nvm0_find = 0;
@@ -127,7 +127,7 @@ void* Data_out(void *arg)
             // cout << "[DEBUG] Begin out data!" << endl;
             out_num++;
             // vector<ram_entry_key_t> outData;
-            // size_t out = OUT_DATA;
+            size_t out = OUT_DATA;
             // outData = dram_bptree1->OutdeData(out);
             // out1_size += outData.size();
             // // cout << "outData.size(): " << outData.size() << endl;
@@ -258,7 +258,7 @@ void aepsystem::Insert(const string &key, const string &value)
     m_mutex.lock();
     // std::lock_guard<std::mutex> lk(m_mutex);
     insert_count++;
-    cout << "[DEBUG] Insert (" << insert_count << ") key: " << key << endl;
+    // cout << "[DEBUG] Insert (" << insert_count << ") key: " << key << endl;
     if(id == 0)  // primary aep
     {
         bptree_nvm0->Insert(char8toint64(key.c_str()),value);
