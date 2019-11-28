@@ -164,16 +164,13 @@ void Read_Cache(int id)     //预取
             if (bptree_nvm1->GetCacheSzie() != 0){
                 cache1_num++;
                 gettimeofday(&be1, NULL);
-                cout << "dramtree1 cache begin" << endl;
                 backData = bptree_nvm1->BacktoDram(dram_bptree1->MinHot(), read);
-                cout << "dramtree1 cache begin1" << endl;
                 cache1_size += backData.size();
                 if(backData.size()!=0){
                     for(int i=0;i<backData.size();i++){
                         dram_bptree1->Insert(backData[i].key, backData[i].hot, bptree_nvm1->Get(backData[i].key));
                     }
                 }
-                cout << "dramtree1 cache begin2" << endl;
                 gettimeofday(&en1, NULL);
                 nvm1_ctime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
             }
