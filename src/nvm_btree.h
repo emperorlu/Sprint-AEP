@@ -26,8 +26,7 @@ using namespace std;
 class NVMBtree{
 public:
     // queue<request *> req_que;
-    // double itime;
-    // double gtime;
+    double itime,gtime;
     NVMBtree();
     ~NVMBtree();
 
@@ -133,5 +132,7 @@ private:
     // condition_variable que_cond;
     // thread *worker_thread;
     // int stop;
-    // struct timeval nbe,nen;
+    struct timeval be,en;
+    // struct timeval gb,ge;
+    // struct timeval cb,ce;
 };
