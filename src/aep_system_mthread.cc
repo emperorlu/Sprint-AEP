@@ -505,16 +505,16 @@ void aepsystem::End()
     cout << dram_find << endl;
     cout << nvm0_find << endl;
     cout << nvm1_find << endl;
-    cout << nvm1_itime << endl;
-    cout << nvm1_gtime << endl;
+    cout << bptree_nvm1->itime << endl;
+    cout << bptree_nvm1->gtime << endl;
     cout << nvm1_ctime << endl;
     cout << nvm2_find << endl;
-    cout << nvm2_itime << endl;
-    cout << nvm2_gtime << endl;
+    cout << bptree_nvm2->itime << endl;
+    cout << bptree_nvm2->gtime << endl;
     cout << nvm2_ctime << endl;
     cout << nvm3_find << endl;
-    cout << nvm3_itime << endl;
-    cout << nvm3_gtime << endl;
+    cout << bptree_nvm3->itime << endl;
+    cout << bptree_nvm3->gtime << endl;
     cout << nvm3_ctime << endl;
 }
 
