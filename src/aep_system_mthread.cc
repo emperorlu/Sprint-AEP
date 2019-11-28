@@ -223,7 +223,6 @@ void Write_Log(int id)    //倒盘
             break;
         case 2:
             insertData = dram_bptree2->FlushtoNvm();
-#endif
             gettimeofday(&be1, NULL);
             for(int i=0;i<insertData.size();i++){
                 bptree_nvm2->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
