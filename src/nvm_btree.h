@@ -25,9 +25,9 @@ using namespace std;
 
 class NVMBtree{
 public:
-    queue<request *> req_que;
-    double itime;
-    double gtime;
+    // queue<request *> req_que;
+    // double itime;
+    // double gtime;
     NVMBtree();
     ~NVMBtree();
 
@@ -66,72 +66,72 @@ public:
         value_alloc->PrintStorage();
     }
 
-        void Enque_request(request *r) {
-        unique_lock<mutex> lk(lock);
-        req_que.push(r);
-        if(req_que.size() == 1) {
-            que_cond.notify_one();
-        }
-    }
+    // void Enque_request(request *r) {
+    //     unique_lock<mutex> lk(lock);
+    //     req_que.push(r);
+    //     if(req_que.size() == 1) {
+    //         que_cond.notify_one();
+    //     }
+    // }
 
-    void do_request(request *r) {
-        switch (r->flag)
-        {
-            case REQ_PUT:
-                gettimeofday(&nbe, NULL);
-                Insert(char8toint64(r->key.c_str()), r->value);
-                gettimeofday(&nen, NULL);
-                itime += (nen.tv_sec-nbe.tv_sec) + (nen.tv_usec-nbe.tv_usec)/1000000.0;
-                break;
-            case REQ_GET:
-                gettimeofday(&nbe, NULL);
-                r->value = Get(char8toint64(r->key.c_str()));
-                gettimeofday(&nen, NULL);
-                gtime += (nen.tv_sec-nbe.tv_sec) + (nen.tv_usec-nbe.tv_usec)/1000000.0;
-                break;
-            case REQ_DELETE:
-                Delete(char8toint64(r->key.c_str()));
-                break;
-            default:
-                break;
-        }
-        unique_lock<mutex> lk(r->req_mutex);
-        r->finished = true;
-        r->signal.notify_one();
-    }
+    // void do_request(request *r) {
+    //     switch (r->flag)
+    //     {
+    //         case REQ_PUT:
+    //             gettimeofday(&nbe, NULL);
+    //             Insert(char8toint64(r->key.c_str()), r->value);
+    //             gettimeofday(&nen, NULL);
+    //             itime += (nen.tv_sec-nbe.tv_sec) + (nen.tv_usec-nbe.tv_usec)/1000000.0;
+    //             break;
+    //         case REQ_GET:
+    //             gettimeofday(&nbe, NULL);
+    //             r->value = Get(char8toint64(r->key.c_str()));
+    //             gettimeofday(&nen, NULL);
+    //             gtime += (nen.tv_sec-nbe.tv_sec) + (nen.tv_usec-nbe.tv_usec)/1000000.0;
+    //             break;
+    //         case REQ_DELETE:
+    //             Delete(char8toint64(r->key.c_str()));
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    //     unique_lock<mutex> lk(r->req_mutex);
+    //     r->finished = true;
+    //     r->signal.notify_one();
+    // }
 
-    void worker() {
-        while(!stop || !req_que.empty()) {
-            // printf("Queue size is %d, stop:%d\n", req_que.size(), stop);
-            while(!req_que.empty()) {
-                request *r = NULL;
-                lock.lock();
-                r = req_que.front();
-                req_que.pop();
-                lock.unlock();
-                if(r)
-                    do_request(r);
-            }
-            lock.lock();
-            while(req_que.empty() && !stop) {
-                unique_lock<mutex> lk(lock, adopt_lock);
-                que_cond.wait(lk);
-                lk.release();
-            }
-            // if(stop){
-            //     //printf("try Stop the thread..\n");
-            // }
-            lock.unlock();
-        }
-        //printf("tree %p: stopped..\n", this);
-    }
+    // void worker() {
+    //     while(!stop || !req_que.empty()) {
+    //         // printf("Queue size is %d, stop:%d\n", req_que.size(), stop);
+    //         while(!req_que.empty()) {
+    //             request *r = NULL;
+    //             lock.lock();
+    //             r = req_que.front();
+    //             req_que.pop();
+    //             lock.unlock();
+    //             if(r)
+    //                 do_request(r);
+    //         }
+    //         lock.lock();
+    //         while(req_que.empty() && !stop) {
+    //             unique_lock<mutex> lk(lock, adopt_lock);
+    //             que_cond.wait(lk);
+    //             lk.release();
+    //         }
+    //         // if(stop){
+    //         //     //printf("try Stop the thread..\n");
+    //         // }
+    //         lock.unlock();
+    //     }
+    //     //printf("tree %p: stopped..\n", this);
+    // }
 
 private:
     NVMAllocator *value_alloc;
     btree *bt;
-    mutex lock;
-    condition_variable que_cond;
-    thread *worker_thread;
-    int stop;
-    struct timeval nbe,nen;
+    // mutex lock;
+    // condition_variable que_cond;
+    // thread *worker_thread;
+    // int stop;
+    // struct timeval nbe,nen;
 };
