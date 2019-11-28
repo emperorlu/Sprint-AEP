@@ -50,6 +50,7 @@ void NVMBtree::Insert(const unsigned long key, const unsigned long hot, const st
 vector<entry_key_t> NVMBtree::BacktoDram(int hot, size_t read)
 {
     if(bt) {
+        unique_lock<mutex> lk(lock);
         return bt->btree_back(hot, read);
     }
     exit(0);
@@ -57,6 +58,7 @@ vector<entry_key_t> NVMBtree::BacktoDram(int hot, size_t read)
 
 void NVMBtree::Updakey(const unsigned long key, const unsigned long hot){
     if(bt) {
+        unique_lock<mutex> lk(lock);
         bt->btree_updakey(entry_key_t(key, hot));
     }  
 }
