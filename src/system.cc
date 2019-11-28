@@ -11,7 +11,7 @@ int main(int argc, char **argv)
     int to_cache = atoi(argv[1]);
     int num_size = atoi(argv[2]);
     // int is_thread = atoi(argv[2]);
-
+    cout << "begin" << endl;
     struct timeval begin1,begin2,end1,end2;
     rocksdb::aepsystem *db_;
     size_t KEY_SIZE = rocksdb::NVM_KeySize;
