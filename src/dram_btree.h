@@ -50,10 +50,12 @@ public:
         return bt->minHot();
     }
     vector<ram_entry> FlushtoNvm(){
+        unique_lock<mutex> lk(lock);
         return bt->range_leafs();
     }
 
     vector<ram_entry_key_t> OutdeData(size_t out){
+        unique_lock<mutex> lk(lock);
         return bt->btree_out(out);
     }
 
@@ -132,7 +134,7 @@ public:
 private:
     NVMAllocator *value_alloc;
     ram_tree *bt;
-    // mutex lock;
+    mutex lock;
     // condition_variable que_cond;
     // thread *worker_thread;
     // int stop;

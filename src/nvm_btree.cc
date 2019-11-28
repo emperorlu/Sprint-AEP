@@ -60,6 +60,7 @@ void NVMBtree::Updakey(const unsigned long key, const unsigned long hot){
     
 void NVMBtree::Insert(const unsigned long key, const string &value) {
     if(bt) {
+        unique_lock<mutex> lk(lock);
         char *pvalue = value_alloc->Allocate(value.size());
         nvm_memcpy_persist(pvalue, value.c_str(), value.size(), false);
 
@@ -69,6 +70,7 @@ void NVMBtree::Insert(const unsigned long key, const string &value) {
 
 void NVMBtree::Delete(const unsigned long  key) {
     if(bt) {
+        unique_lock<mutex> lk(lock);
         bt->btree_delete(key);
     }
 }
@@ -76,6 +78,7 @@ void NVMBtree::Delete(const unsigned long  key) {
 const string NVMBtree::Get(const unsigned long key) {
     char *pvalue = NULL;
     if(bt) {
+        unique_lock<mutex> lk(lock);
         pvalue = bt->btree_search(key);
     }
     if(pvalue) {

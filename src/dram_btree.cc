@@ -44,6 +44,7 @@ RAMBtree::~RAMBtree() {
     
 void RAMBtree::Insert(const unsigned long key, const string &value) {
     if(bt) {
+        unique_lock<mutex> lk(lock);
         char *pvalue = value_alloc->Allocate(value.size());
         nvm_memcpy_persist(pvalue, value.c_str(), value.size(), false);
 
@@ -54,6 +55,7 @@ void RAMBtree::Insert(const unsigned long key, const string &value) {
 
 void RAMBtree::Insert(const unsigned long key, const unsigned long hot, const string &value){
     if(bt) {
+        unique_lock<mutex> lk(lock);
         char *pvalue = value_alloc->Allocate(value.size());
         nvm_memcpy_persist(pvalue, value.c_str(), value.size(), false);
 
@@ -64,6 +66,7 @@ void RAMBtree::Insert(const unsigned long key, const unsigned long hot, const st
 
 void RAMBtree::Delete(const unsigned long  key) {
     if(bt) {
+        // unique_lock<mutex> lk(lock);
         bt->btree_delete(key);
     }
 }
@@ -71,6 +74,7 @@ void RAMBtree::Delete(const unsigned long  key) {
 const string RAMBtree::Get(const unsigned long key) {
     char *pvalue = NULL;
     if(bt) {
+        unique_lock<mutex> lk(lock);
         pvalue = bt->btree_search(key);
     }
     if(pvalue) {

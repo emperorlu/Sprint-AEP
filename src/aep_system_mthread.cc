@@ -3,7 +3,6 @@
 
 using namespace rocksdb;
 
-std::mutex m_mutex;
 // rocksdb::NVM_BPlusTree_Wrapper *bptree_nvm0;
 // rocksdb::NVM_BPlusTree_Wrapper *bptree_nvm1;
 // rocksdb::NVM_BPlusTree_Wrapper *bptree_nvm2;
@@ -211,26 +210,10 @@ void Read_Cache(int id)     //预取
 void Write_Log(int id)    //倒盘
 {   
     vector<ram_entry> insertData;
-    request req;
-    // req.key = key;
-    // req.value = value;
-    req.flag = REQ_FLUSH;
-    req.finished = false;
     switch (id)
     { 
         case 1:    
-#ifdef USE_MUIL_THREAD
-            {
-                dram_bptree1->Enque_request(&req);
-                unique_lock<mutex> lk(req.req_mutex);
-                while(!req.finished) {
-                    req.signal.wait(lk);
-                }
-            }
-            insertData =  req.flushData;
-#else
             insertData = dram_bptree1->FlushtoNvm();
-#endif
             gettimeofday(&be1, NULL);
             for(int i=0;i<insertData.size();i++){
                 bptree_nvm1->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
@@ -239,16 +222,6 @@ void Write_Log(int id)    //倒盘
             nvm1_itime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
             break;
         case 2:
-#ifdef USE_MUIL_THREAD
-            {
-                dram_bptree2->Enque_request(&req);
-                unique_lock<mutex> lk(req.req_mutex);
-                while(!req.finished) {
-                    req.signal.wait(lk);
-                }
-            }
-            insertData =  req.flushData;
-#else
             insertData = dram_bptree2->FlushtoNvm();
 #endif
             gettimeofday(&be1, NULL);
@@ -259,18 +232,7 @@ void Write_Log(int id)    //倒盘
             nvm2_itime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
             break;
         case 3:
-#ifdef USE_MUIL_THREAD
-            {
-                dram_bptree3->Enque_request(&req);
-                unique_lock<mutex> lk(req.req_mutex);
-                while(!req.finished) {
-                    req.signal.wait(lk);
-                }
-            }
-            insertData =  req.flushData;
-#else
             insertData = dram_bptree3->FlushtoNvm();
-#endif
             gettimeofday(&be1, NULL);
             for(int i=0;i<insertData.size();i++){
                 bptree_nvm3->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
@@ -288,24 +250,9 @@ void aepsystem::Insert(const string &key, const string &value)
 {
     int id = Find_aep(key);
     insert_count++;
-    request req;
-    req.key = key;
-    req.value = value;
-    req.flag = REQ_PUT;
-    req.finished = false;
     if(id == 0)  // primary aep
     {
-#ifdef USE_MUIL_THREAD
-        {
-            bptree_nvm0->Enque_request(&req);
-            unique_lock<mutex> lk(req.req_mutex);
-            while(!req.finished) {
-                req.signal.wait(lk);
-            }
-        }
-#else
         bptree_nvm0->Insert(char8toint64(key.c_str()), value);
-#endif
     }
     else        //其它aep
     {
@@ -324,47 +271,17 @@ void aepsystem::Insert(const string &key, const string &value)
         switch (id)
         { 
             case 1:
-#ifdef USE_MUIL_THREAD
-                {
-                    dram_bptree1->Enque_request(&req);
-                    unique_lock<mutex> lk(req.req_mutex);
-                    while(!req.finished) {
-                        req.signal.wait(lk);
-                    }
-                }
-#else
                 dram_bptree1->Insert(char8toint64(key.c_str()), value);
-#endif
                 current_size++; 
                 flush_size++;
                 break;
             case 2:
-#ifdef USE_MUIL_THREAD
-                {
-                    dram_bptree2->Enque_request(&req);
-                    unique_lock<mutex> lk(req.req_mutex);
-                    while(!req.finished) {
-                        req.signal.wait(lk);
-                    }
-                }
-#else
                 dram_bptree2->Insert(char8toint64(key.c_str()), value);
-#endif
                 current_size++;  
                 flush_size++;
                 break;
             case 3:
-#ifdef USE_MUIL_THREAD
-                {
-                    dram_bptree3->Enque_request(&req);
-                    unique_lock<mutex> lk(req.req_mutex);
-                    while(!req.finished) {
-                        req.signal.wait(lk);
-                    }
-                }
-#else
                 dram_bptree3->Insert(char8toint64(key.c_str()), value);
-#endif
                 current_size++; 
                 flush_size++;
                 break;
@@ -380,80 +297,31 @@ string aepsystem::Get(const std::string& key)
     string tmp_value;
     int id = Find_aep(key);
     get_count++;
-    request req;
-    req.key = key;
-    req.flag = REQ_GET;
-    req.finished = false;
     if(id == 0)  // primary aep
     {
-#ifdef USE_MUIL_THREAD
-            {
-                bptree_nvm0->Enque_request(&req);
-                unique_lock<mutex> lk(req.req_mutex);
-                while(!req.finished) {
-                    req.signal.wait(lk);
-                }
-            }
-            tmp_value =  req.value;
-#else
-            tmp_value = bptree_nvm0->Get(char8toint64(key.c_str()));
-#endif
-            if(tmp_value.size() == 0){
-                not_find++;
-                return "";
-            }
-            nvm0_find++;
-            return tmp_value;
+        tmp_value = bptree_nvm0->Get(char8toint64(key.c_str()));
+        if(tmp_value.size() == 0){
+            not_find++;
+            return "";
+        }
+        nvm0_find++;
+        return tmp_value;
     }
     else        //其它aep
     {
         switch (id)
         {
             case 1:
-#ifdef USE_MUIL_THREAD
-                {
-                    dram_bptree1->Enque_request(&req);
-                    unique_lock<mutex> lk(req.req_mutex);
-                    while(!req.finished) {
-                        req.signal.wait(lk);
-                    }
-                }
-                tmp_value =  req.value;
-#else
                 tmp_value = dram_bptree1->Get(char8toint64(key.c_str()));
-#endif
                 break;
             case 2:
-#ifdef USE_MUIL_THREAD
-                {
-                    dram_bptree2->Enque_request(&req);
-                    unique_lock<mutex> lk(req.req_mutex);
-                    while(!req.finished) {
-                        req.signal.wait(lk);
-                    }
-                }
-                tmp_value =  req.value;
-#else
                 tmp_value = dram_bptree2->Get(char8toint64(key.c_str()));
-#endif
                 break;
             case 3:
-#ifdef USE_MUIL_THREAD
-                {
-                    dram_bptree3->Enque_request(&req);
-                    unique_lock<mutex> lk(req.req_mutex);
-                    while(!req.finished) {
-                        req.signal.wait(lk);
-                    }
-                }
-                tmp_value =  req.value;
-#else
                 tmp_value = dram_bptree3->Get(char8toint64(key.c_str()));
-#endif
                 break;
             default:
                 cout << "error!" << endl;
-                m_mutex.unlock();
                 return "";
         }
          // 没找到  在其它aep中找，并触发预取
@@ -474,7 +342,6 @@ string aepsystem::Get(const std::string& key)
             switch (id)
             {
                 case 1:
-                    // tmp_value = bptree_nvm1->Get(char8toint64(key.c_str()));
                     gettimeofday(&be1, NULL);
                     tmp_value = bptree_nvm1->Get(char8toint64(key.c_str()));
                     gettimeofday(&en1, NULL);
@@ -497,7 +364,6 @@ string aepsystem::Get(const std::string& key)
                     break;
                 default:
                     cout << "error!" << endl;
-                    m_mutex.unlock();
                     return "";
             }
             //没找到
@@ -516,22 +382,18 @@ string aepsystem::Get(const std::string& key)
                         nvm3_find--;
                         break;
                     default:
-                        m_mutex.unlock();
                         return "";
                    
                 }
-                m_mutex.unlock();
                 return "";
             }
             else{
                 nvm_find++;
-                m_mutex.unlock();
                 return tmp_value;
             } 
         }
         else{
             dram_find++;
-            m_mutex.unlock();
             return tmp_value;
         }
     }
