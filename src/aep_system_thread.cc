@@ -543,33 +543,29 @@ void aepsystem::End()
     cout << endl;
     // cout << "[GET] cache_find: " << cache_find << endl;
     cout << "[GET] not_find: "  << not_find << endl;
-    cout << "[GET] dram_find: "  << dram_find << endl;
-    cout << "[GET] nvm_find: "  << nvm_find << endl;
-    cout << "[GET] nvm1_find: "  << nvm1_find << endl;
-    cout << "[GET] nvm2_find: "  << nvm2_find << endl;
-    cout << "[GET] nvm3_find: "  << nvm3_find << endl;
-    cout << "[GET] nvm0_find: "  << nvm0_find << endl;
-    cout << endl;
     cout << "[COUNT] insert_count: "  << insert_count << endl;
     cout << "[COUNT] get_count: "  << get_count << endl;
     cout << "[COUNT] update_num1: "  << update_num1 << endl;
-    cout << endl;
-    cout << "[time] nvm1_itime: "  << nvm1_itime << endl;
-    cout << "[time] nvm2_itime: "  << nvm2_itime << endl;
-    cout << "[time] nvm3_itime: "  << nvm3_itime << endl;
-    cout << "[time] nvm1_gtime: "  << nvm1_gtime << endl;
-    cout << "[time] nvm2_gtime: "  << nvm2_gtime << endl;
-    cout << "[time] nvm3_gtime: "  << nvm3_gtime << endl;
-    cout << "[time] nvm1_ctime: "  << nvm1_ctime << endl;
-    cout << "[time] nvm2_ctime: "  << nvm2_ctime << endl;
-    cout << "[time] nvm3_ctime: "  << nvm3_ctime << endl;
     cout << "[time] nvm1_backtime: "  << nvm1_backtime << endl;
     cout << "[time] nvm1_inserttime: "  << nvm1_inserttime << endl;
-    cout << endl;
-    // cout << cache_table1.getSize() << endl;
-    // cout << cache_table2.getSize() << endl;
-    // cout << cache_table3.getSize() << endl;
-    // dram_bptree1->CreateChain();
+
+
+    cout << "result: " << endl; 
+    cout << dram_find << endl;
+    cout << nvm0_find << endl;
+    cout << nvm1_find << endl;
+    cout << nvm1_itime << endl;
+    cout << nvm1_gtime << endl;
+    cout << nvm1_ctime << endl;
+    cout << nvm2_find << endl;
+    cout << nvm2_itime << endl;
+    cout << nvm2_gtime << endl;
+    cout << nvm2_ctime << endl;
+    cout << nvm3_find << endl;
+    cout << nvm3_itime << endl;
+    cout << nvm3_gtime << endl;
+    cout << nvm3_ctime << endl;
+
 }
 
 void aepsystem::Print()
