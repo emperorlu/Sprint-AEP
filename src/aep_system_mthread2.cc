@@ -116,13 +116,14 @@ int Find_aep(string key)
     return emp_table.f_key(key).getValue();
 }
 
-void OutData(int id){
-    out_num++;
-    vector<ram_entry_key_t> outData;
-    size_t out = OUT_DATA;
-    switch (id)
-    { 
-        case 1:
+void* Data_out(void *arg) 
+{
+    while(stop){
+        if(current_size  >= OUT_SIZE && Dmark)
+        {
+            out_num++;
+            vector<ram_entry_key_t> outData;
+            size_t out = OUT_DATA;
             outData = dram_bptree1->OutdeData(out);
             out1_size += outData.size();
             if(outData.size()!=0){
@@ -131,45 +132,28 @@ void OutData(int id){
                     current_size--;
                 }
             }
-            break;
-        case 2:
-            outData = dram_bptree2->OutdeData(out);
-            out2_size += outData.size();
-            if(outData.size()!=0){
-                for(int i=0;i<outData.size();i++){
-                    bptree_nvm2->Updakey(outData[i].key, outData[i].hot);
-                    current_size--;
-                }
-            }
-            break;
-        case 3:
-            outData = dram_bptree3->OutdeData(out);
-            out3_size += outData.size();
-            if(outData.size()!=0){
-                for(int i=0;i<outData.size();i++){
-                    bptree_nvm3->Updakey(outData[i].key, outData[i].hot);
-                    current_size--;
-                }
-            }
-            break;
-        default:
-            cout << "error!" << endl;
-    }
-}
+            
 
-void* Data_out(void *arg) 
-{
-    while(stop){
-        if(current_size  >= OUT_SIZE && Dmark)
-        {
-            m_mutex.lock();
-            thread ot1(OutData, 1);
-            thread ot2(OutData, 2);
-            thread ot3(OutData, 3);
-            ot1.join();
-            ot2.join();
-            ot3.join();
-            m_mutex.unlock();
+            vector<ram_entry_key_t> outData2;
+            outData2 = dram_bptree2->OutdeData(out);
+            out2_size += outData2.size();
+            if(outData2.size()!=0){
+                for(int i=0;i<outData2.size();i++){
+                    bptree_nvm2->Updakey(outData2[i].key, outData2[i].hot);
+                    current_size--;
+                }
+            }
+
+
+            vector<ram_entry_key_t> outData3;
+            outData3 = dram_bptree3->OutdeData(out);
+            out3_size += outData3.size();
+            if(outData3.size()!=0){
+                for(int i=0;i<outData3.size();i++){
+                    bptree_nvm3->Updakey(outData3[i].key, outData3[i].hot);
+                    current_size--;
+                }
+            }
             flush_size = current_size;
         }
     }
@@ -227,10 +211,26 @@ void Read_Cache(int id)     //预取
 void Write_Log(int id)    //倒盘
 {   
     vector<ram_entry> insertData;
+    request req;
+    // req.key = key;
+    // req.value = value;
+    req.flag = REQ_FLUSH;
+    req.finished = false;
     switch (id)
     { 
         case 1:    
+#ifdef USE_MUIL_THREAD
+            {
+                dram_bptree1->Enque_request(&req);
+                unique_lock<mutex> lk(req.req_mutex);
+                while(!req.finished) {
+                    req.signal.wait(lk);
+                }
+            }
+            insertData =  req.flushData;
+#else
             insertData = dram_bptree1->FlushtoNvm();
+#endif
             gettimeofday(&be1, NULL);
             for(int i=0;i<insertData.size();i++){
                 bptree_nvm1->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
@@ -239,7 +239,18 @@ void Write_Log(int id)    //倒盘
             nvm1_itime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
             break;
         case 2:
+#ifdef USE_MUIL_THREAD
+            {
+                dram_bptree2->Enque_request(&req);
+                unique_lock<mutex> lk(req.req_mutex);
+                while(!req.finished) {
+                    req.signal.wait(lk);
+                }
+            }
+            insertData =  req.flushData;
+#else
             insertData = dram_bptree2->FlushtoNvm();
+#endif
             gettimeofday(&be1, NULL);
             for(int i=0;i<insertData.size();i++){
                 bptree_nvm2->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
@@ -248,7 +259,18 @@ void Write_Log(int id)    //倒盘
             nvm2_itime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
             break;
         case 3:
+#ifdef USE_MUIL_THREAD
+            {
+                dram_bptree3->Enque_request(&req);
+                unique_lock<mutex> lk(req.req_mutex);
+                while(!req.finished) {
+                    req.signal.wait(lk);
+                }
+            }
+            insertData =  req.flushData;
+#else
             insertData = dram_bptree3->FlushtoNvm();
+#endif
             gettimeofday(&be1, NULL);
             for(int i=0;i<insertData.size();i++){
                 bptree_nvm3->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
@@ -265,13 +287,25 @@ static long insert_count = 0;
 void aepsystem::Insert(const string &key, const string &value)
 {
     int id = Find_aep(key);
-    m_mutex.lock();
-    // std::lock_guard<std::mutex> lk(m_mutex);
     insert_count++;
-    // cout << "[DEBUG] Insert (" << insert_count << ") key: " << key << endl;
+    request req;
+    req.key = key;
+    req.value = value;
+    req.flag = REQ_PUT;
+    req.finished = false;
     if(id == 0)  // primary aep
     {
-        bptree_nvm0->Insert(char8toint64(key.c_str()),value);
+#ifdef USE_MUIL_THREAD
+        {
+            bptree_nvm0->Enque_request(&req);
+            unique_lock<mutex> lk(req.req_mutex);
+            while(!req.finished) {
+                req.signal.wait(lk);
+            }
+        }
+#else
+        bptree_nvm0->Insert(char8toint64(key.c_str()), value);
+#endif
     }
     else        //其它aep
     {
@@ -279,7 +313,7 @@ void aepsystem::Insert(const string &key, const string &value)
         {
             Dmark = 1;
             flush_num++;
-            flush_size = 0;//重新计数
+            flush_size = 0;                //重新计数
             thread w1(Write_Log, 1);
             thread w2(Write_Log, 2);
             thread w3(Write_Log, 3);
@@ -290,17 +324,47 @@ void aepsystem::Insert(const string &key, const string &value)
         switch (id)
         { 
             case 1:
-                dram_bptree1->Insert(char8toint64(key.c_str()),value);
+#ifdef USE_MUIL_THREAD
+                {
+                    dram_bptree1->Enque_request(&req);
+                    unique_lock<mutex> lk(req.req_mutex);
+                    while(!req.finished) {
+                        req.signal.wait(lk);
+                    }
+                }
+#else
+                dram_bptree1->Insert(char8toint64(key.c_str()), value);
+#endif
                 current_size++; 
                 flush_size++;
                 break;
             case 2:
-                dram_bptree2->Insert(char8toint64(key.c_str()),value); 
+#ifdef USE_MUIL_THREAD
+                {
+                    dram_bptree2->Enque_request(&req);
+                    unique_lock<mutex> lk(req.req_mutex);
+                    while(!req.finished) {
+                        req.signal.wait(lk);
+                    }
+                }
+#else
+                dram_bptree2->Insert(char8toint64(key.c_str()), value);
+#endif
                 current_size++;  
                 flush_size++;
                 break;
             case 3:
-                dram_bptree3->Insert(char8toint64(key.c_str()),value); 
+#ifdef USE_MUIL_THREAD
+                {
+                    dram_bptree3->Enque_request(&req);
+                    unique_lock<mutex> lk(req.req_mutex);
+                    while(!req.finished) {
+                        req.signal.wait(lk);
+                    }
+                }
+#else
+                dram_bptree3->Insert(char8toint64(key.c_str()), value);
+#endif
                 current_size++; 
                 flush_size++;
                 break;
@@ -308,7 +372,6 @@ void aepsystem::Insert(const string &key, const string &value)
                 cout << "error!" << endl;
         }
     }
-    m_mutex.unlock();
 }
 
 static long get_count = 0;
@@ -316,30 +379,77 @@ string aepsystem::Get(const std::string& key)
 {
     string tmp_value;
     int id = Find_aep(key);
-    m_mutex.lock();
-    // std::lock_guard<std::mutex> lk(m_mutex);
     get_count++;
-    // cout << "[DEBUG] Get (" << get_count << ") key: " << char8toint64(key.c_str()) << " id: " << id << endl;
-    // cout << "[DEBUG] Get (" << get_count << ") key: " << key << endl;
+    request req;
+    req.key = key;
+    req.flag = REQ_GET;
+    req.finished = false;
     if(id == 0)  // primary aep
     {
-        tmp_value = bptree_nvm0->Get(char8toint64(key.c_str()));
-        m_mutex.unlock();
-        nvm0_find++;
-        return tmp_value;
+#ifdef USE_MUIL_THREAD
+            {
+                bptree_nvm0->Enque_request(&req);
+                unique_lock<mutex> lk(req.req_mutex);
+                while(!req.finished) {
+                    req.signal.wait(lk);
+                }
+            }
+            tmp_value =  req.value;
+#else
+            tmp_value = bptree_nvm0->Get(char8toint64(key.c_str()));
+#endif
+            if(tmp_value.size() == 0){
+                not_find++;
+                return "";
+            }
+            nvm0_find++;
+            return tmp_value;
     }
     else        //其它aep
     {
         switch (id)
         {
             case 1:
+#ifdef USE_MUIL_THREAD
+                {
+                    dram_bptree1->Enque_request(&req);
+                    unique_lock<mutex> lk(req.req_mutex);
+                    while(!req.finished) {
+                        req.signal.wait(lk);
+                    }
+                }
+                tmp_value =  req.value;
+#else
                 tmp_value = dram_bptree1->Get(char8toint64(key.c_str()));
+#endif
                 break;
             case 2:
+#ifdef USE_MUIL_THREAD
+                {
+                    dram_bptree2->Enque_request(&req);
+                    unique_lock<mutex> lk(req.req_mutex);
+                    while(!req.finished) {
+                        req.signal.wait(lk);
+                    }
+                }
+                tmp_value =  req.value;
+#else
                 tmp_value = dram_bptree2->Get(char8toint64(key.c_str()));
+#endif
                 break;
             case 3:
+#ifdef USE_MUIL_THREAD
+                {
+                    dram_bptree3->Enque_request(&req);
+                    unique_lock<mutex> lk(req.req_mutex);
+                    while(!req.finished) {
+                        req.signal.wait(lk);
+                    }
+                }
+                tmp_value =  req.value;
+#else
                 tmp_value = dram_bptree3->Get(char8toint64(key.c_str()));
+#endif
                 break;
             default:
                 cout << "error!" << endl;
@@ -513,7 +623,6 @@ void aepsystem::Initialize()
     }
     pthread_detach(t2);
     // dram_bptree1->CreateChain();
-
 }
 
 void aepsystem::End()
