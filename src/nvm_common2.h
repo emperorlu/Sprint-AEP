@@ -6,6 +6,9 @@
 #include <sys/time.h>
 #include <assert.h>
 #include <atomic>
+#include <queue>
+#include <thread>
+#include <mutex>
 
 #include "nvm_allocator.h"
 #include "statistic.h"

@@ -6,6 +6,10 @@ NVMBtree::NVMBtree() {
         assert(0);
     }
     value_alloc = nullptr;
+    stop = 0;
+    itime = 0;
+    gtime = 0;
+    worker_thread = new thread(&NVMBtree::worker, this);
     // bpnode *root = NewBpNode();
     // btree tmpbtree = btree(root);
 }

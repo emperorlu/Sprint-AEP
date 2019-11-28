@@ -6,6 +6,10 @@ RAMBtree::RAMBtree() {
         assert(0);
     }
     value_alloc = nullptr;
+    stop = 0;
+    itime = 0;
+    gtime = 0;
+    worker_thread = new thread(&RAMBtree::worker, this);
     // bpnode *root = NewBpNode();
     // ram_tree tmpbtree = ram_tree(root);
 }
