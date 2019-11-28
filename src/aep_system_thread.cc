@@ -117,7 +117,6 @@ int Find_aep(string key)
 }
 
 void OutData(int id){
-    out_num++;
     vector<ram_entry_key_t> outData;
     size_t out = OUT_DATA;
     switch (id)
@@ -162,6 +161,7 @@ void* Data_out(void *arg)
     while(stop){
         if(current_size  >= OUT_SIZE && Dmark)
         {
+            out_num++;
             m_mutex.lock();
             thread ot1(OutData, 1);
             thread ot2(OutData, 2);
