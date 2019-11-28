@@ -1,6 +1,6 @@
 CXX = g++
 LDFLAGS = -pthread -lpmemobj -lpmem #-lcityhash
-DEFS = -DCZL_DEBUG -DEVERY_1G_PRINT -DDRAM_CANCEL_LOG #-DUSE_MUIL_THREAD# -DCAL_ACCESS_COUNT
+DEFS = -DCZL_DEBUG -DEVERY_1G_PRINT -DDRAM_CANCEL_LOG -DUSE_MUIL_THREAD  # -DCAL_ACCESS_COUNT
 IFLAGS = -I../../system
 CXXFLAGS += $(DEFS) $(IFLAGS)
 AR = ar
@@ -17,7 +17,7 @@ LIB_SOURCES = persistent_skiplist_no_transaction.cc\
 			dram_btree.cc\
 			con_btree.cc\
 			statistic.cc\
-			aep_system_thread.cc\
+			aep_system_mthread.cc\
 			nvm_allocator.cc
 
 TEST_TARGET = system\
