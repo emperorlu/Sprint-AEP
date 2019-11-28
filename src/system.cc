@@ -9,7 +9,7 @@ using namespace rocksdb;
 int main(int argc, char **argv)
 {
 
-    int num_size = atoi(argv[1]);
+    int num_size = atoi(argv[2]);
     int to_cache = atoi(argv[1]);
     // int is_thread = atoi(argv[2]);
 
