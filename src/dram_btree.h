@@ -90,7 +90,7 @@ public:
                 gtime += (nen.tv_sec-nbe.tv_sec) + (nen.tv_usec-nbe.tv_usec)/1000000.0;
                 break;
             case REQ_FLUSH:
-                FlushtoNvm();
+                r->flushData = FlushtoNvm();
                 break;
             case REQ_DELETE:
                 Delete(char8toint64(r->key.c_str()));

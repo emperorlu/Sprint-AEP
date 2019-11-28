@@ -121,15 +121,11 @@ void* Data_out(void *arg)
     while(stop){
         if(current_size  >= OUT_SIZE && Dmark)
         {
-            // std::lock_guard<std::mutex> lk(m_mutex);
-            m_mutex.lock();
-            // cout << "[DEBUG] Begin out data!" << endl;
             out_num++;
             vector<ram_entry_key_t> outData;
             size_t out = OUT_DATA;
             outData = dram_bptree1->OutdeData(out);
             out1_size += outData.size();
-            // cout << "outData.size(): " << outData.size() << endl;
             if(outData.size()!=0){
                 for(int i=0;i<outData.size();i++){
                     bptree_nvm1->Updakey(outData[i].key,outData[i].hot);
@@ -159,7 +155,6 @@ void* Data_out(void *arg)
                 }
             }
             flush_size = current_size;
-            m_mutex.unlock();
         }
     }
     pthread_exit(NULL);
@@ -217,8 +212,8 @@ void Write_Log(int id)    //倒盘
 {   
     vector<ram_entry> insertData;
     request req;
-    req.key = key;
-    req.value = value;
+    // req.key = key;
+    // req.value = value;
     req.flag = REQ_FLUSH;
     req.finished = false;
     switch (id)
