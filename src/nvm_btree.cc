@@ -36,10 +36,14 @@ NVMBtree::~NVMBtree() {
 
 void NVMBtree::Insert(const unsigned long key, const unsigned long hot, const string &value) {
     if(bt) {
+        unique_lock<mutex> lk(lock);
+        gettimeofday(&be, NULL);
         char *pvalue = value_alloc->Allocate(value.size());
         nvm_memcpy_persist(pvalue, value.c_str(), value.size(), false);
         // bt->chain_insert(entry_key_t(key, hot));
         bt->btree_insert(entry_key_t(key, hot), pvalue);
+        gettimeofday(&en, NULL);
+        itime += (en.tv_sec-be.tv_sec) + (en.tv_usec-be.tv_usec)/1000000.0;
     }
 }
 
