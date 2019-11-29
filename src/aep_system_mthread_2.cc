@@ -379,9 +379,9 @@ aepsystem::~aepsystem(){
 void aepsystem::Initialize()
 {
     
-    OUT_SIZE = num_size * 0.4;
+    OUT_SIZE = num_size * 0.8;
     FLUSH_SIZE = OUT_SIZE / 4;
-    OUT_DATA = OUT_SIZE / 40;
+    OUT_DATA = OUT_SIZE / 80;
     READ_DATA = OUT_DATA / 100;
     // READ_DATA = 1;
     cout << "System run!" << endl;
@@ -448,9 +448,9 @@ void aepsystem::End()
     cout << dram_find << endl;
     cout << nvm0_find << endl;
     cout << nvm1_find << endl;
-    cout << bptree_nvm1->itime << endl;
-    cout << bptree_nvm1->gtime << endl;
-    cout << nvm1_ctime << endl;
+    // cout << bptree_nvm1->itime << endl;
+    // cout << bptree_nvm1->gtime << endl;
+    // cout << nvm1_ctime << endl;
     cout << nvm2_find << endl;
     cout << bptree_nvm2->itime << endl;
     cout << bptree_nvm2->gtime << endl;
