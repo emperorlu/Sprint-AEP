@@ -249,18 +249,18 @@ void aepsystem::Insert(const string &key, const string &value)
     }
     else        //其它aep
     {
-        if ( flush_size >= FLUSH_SIZE)   //触发倒盘
-        {
-            Dmark = 1;
-            flush_num++;
-            flush_size = 0;                //重新计数
-            thread w1(Write_Log, 1);
-            thread w2(Write_Log, 2);
-            thread w3(Write_Log, 3);
-            w1.join();
-            w2.join();
-            w3.join();
-        }
+        // if ( flush_size >= FLUSH_SIZE)   //触发倒盘
+        // {
+        //     Dmark = 1;
+        //     flush_num++;
+        //     flush_size = 0;                //重新计数
+        //     thread w1(Write_Log, 1);
+        //     thread w2(Write_Log, 2);
+        //     thread w3(Write_Log, 3);
+        //     w1.join();
+        //     w2.join();
+        //     w3.join();
+        // }
         switch (id)
         { 
             case 1:
@@ -462,12 +462,12 @@ void aepsystem::Initialize()
     dram_bptree2->Initial(CACHE2, CACHE_SIZE);
     dram_bptree3 = new RAMBtree();
     dram_bptree3->Initial(CACHE3, CACHE_SIZE);
-    pthread_t t2;
-    if(pthread_create(&t2, NULL, Data_out, NULL) == -1){
-        puts("fail to create pthread t0");
-        exit(1);
-    }
-    pthread_detach(t2);
+    // pthread_t t2;
+    // if(pthread_create(&t2, NULL, Data_out, NULL) == -1){
+    //     puts("fail to create pthread t0");
+    //     exit(1);
+    // }
+    // pthread_detach(t2);
     // dram_bptree1->CreateChain();
 }
 
