@@ -43,6 +43,7 @@ int stop = 1;
 int open = 1;
 
 //统计
+int current_size = 0;
 int flush_size = 0;
 int not_find = 0;
 int dram_find = 0;
@@ -98,7 +99,7 @@ int Find_aep(string key)
 void* Data_out(void *arg) 
 {
     while(stop){
-        if(current_size  >= OUT_SIZE && Dmark)
+        if(current_size  >= OUT_SIZE && Dmark){
             out_num++;
             size_t out = OUT_DATA;
             vector<ram_entry_key_t> outData2;
