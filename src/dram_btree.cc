@@ -66,7 +66,7 @@ void RAMBtree::Insert(const unsigned long key, const unsigned long hot, const st
 
 void RAMBtree::Delete(const unsigned long  key) {
     if(bt) {
-        // unique_lock<mutex> lk(lock);
+        unique_lock<mutex> lk(lock);
         bt->btree_delete(key);
     }
 }
