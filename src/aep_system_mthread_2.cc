@@ -288,10 +288,7 @@ string aepsystem::Get(const std::string& key)
                     nvm2_find++;
                     break;
                 case 3:
-                    gettimeofday(&be1, NULL);
                     tmp_value = bptree_nvm3->Get(char8toint64(key.c_str()));
-                    gettimeofday(&en1, NULL);
-                    nvm3_gtime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
                     nvm3_find++;
                     break;
                 default:
