@@ -134,7 +134,7 @@ public:
 private:
     NVMAllocator *value_alloc;
     ram_tree *bt;
-    mutex lock, hlock;
+    mutex lock;
     // condition_variable que_cond;
     // thread *worker_thread;
     // int stop;
