@@ -8,10 +8,10 @@ using namespace rocksdb;
 
 int main(int argc, char **argv)
 {
-
-    int num_size = atoi(argv[1]);
+    int to_cache = atoi(argv[1]);
+    int num_size = atoi(argv[2]);
     // int is_thread = atoi(argv[2]);
-
+    cout << "begin" << endl;
     struct timeval begin1,begin2,end1,end2;
     rocksdb::aepsystem *db_;
     size_t KEY_SIZE = rocksdb::NVM_KeySize;
@@ -20,6 +20,7 @@ int main(int argc, char **argv)
     int ops = 1000000 * num_size;
     db_ = new rocksdb::aepsystem;
     db_->num_size = ops;
+    db_->is_cache = to_cache;
     db_->Initialize();
     char keybuf[KEY_SIZE + 1];
     char valuebuf[VALUE_SIZE + 1];

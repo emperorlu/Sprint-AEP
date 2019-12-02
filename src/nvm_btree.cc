@@ -67,14 +67,14 @@ void NVMBtree::Updakey(const unsigned long key, const unsigned long hot){
     
 void NVMBtree::Insert(const unsigned long key, const string &value) {
     if(bt) {
-        unique_lock<mutex> lk(lock);
-        gettimeofday(&be, NULL);
+        // unique_lock<mutex> lk(lock);
+        // gettimeofday(&be, NULL);
         char *pvalue = value_alloc->Allocate(value.size());
         nvm_memcpy_persist(pvalue, value.c_str(), value.size(), false);
 
         bt->btree_insert(key, pvalue);
-        gettimeofday(&en, NULL);
-        itime += (en.tv_sec-be.tv_sec) + (en.tv_usec-be.tv_usec)/1000000.0;
+        // gettimeofday(&en, NULL);
+        // itime += (en.tv_sec-be.tv_sec) + (en.tv_usec-be.tv_usec)/1000000.0;
     }
 }
 
