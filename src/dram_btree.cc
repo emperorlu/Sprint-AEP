@@ -50,6 +50,7 @@ void RAMBtree::Insert(const unsigned long key, const string &value) {
 
         // bt->btree_insert(key, pvalue);
         bt->btree_insert(ram_entry_key_t(key, 0, 0), pvalue);
+        usleep(0);
     }
 }
 
@@ -61,6 +62,7 @@ void RAMBtree::Insert(const unsigned long key, const unsigned long hot, const st
 
         // bt->btree_insert(key, pvalue);
         bt->btree_insert(ram_entry_key_t(key, hot, 0), pvalue);
+        usleep(0);
     }
 }
 
@@ -76,6 +78,7 @@ const string RAMBtree::Get(const unsigned long key) {
     if(bt) {
         unique_lock<mutex> lk(lock);
         pvalue = bt->btree_search(key);
+        usleep(0);
     }
     if(pvalue) {
         // print_log(LV_DEBUG, "Get pvalue is %p.", pvalue);
