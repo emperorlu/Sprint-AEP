@@ -158,7 +158,7 @@ void aepsystem::Insert(const string &key, const string &value)
         bptree_nvm1->Insert(char8toint64(key.c_str()),value);
     }else if(id == 2){
         bptree_nvm2->Insert(char8toint64(key.c_str()),value);       
-    else  //其它aep
+    }else  //其它aep
     {
         if ( flush_size >= FLUSH_SIZE)   //触发倒盘
         {
