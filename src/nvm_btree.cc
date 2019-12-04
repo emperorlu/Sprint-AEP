@@ -6,13 +6,13 @@ NVMBtree::NVMBtree() {
         assert(0);
     }
     value_alloc = nullptr;
-    // stop = 0;
+    stop = 0;
     itime = 0;
     gtime = 0;
     // ctime = 0;
-    // worker_thread = new thread(&NVMBtree::worker, this);
-    // bpnode *root = NewBpNode();
-    // btree tmpbtree = btree(root);
+    worker_thread = new thread(&NVMBtree::worker, this);
+    bpnode *root = NewBpNode();
+    btree tmpbtree = btree(root);
 }
 
 void NVMBtree::Initial(const std::string &path, uint64_t keysize, const std::string &valuepath, 
@@ -32,18 +32,25 @@ NVMBtree::~NVMBtree() {
     if(value_alloc) {
         delete value_alloc;
     }
+    if(worker_thread) {
+        stop = 1;
+        que_cond.notify_one();
+        //printf("Stop the thread..\n");
+        worker_thread->join();
+        delete worker_thread;
+    }
 }
 
 void NVMBtree::Insert(const unsigned long key, const unsigned long hot, const string &value) {
     if(bt) {
-        unique_lock<mutex> lk(lock);
-        gettimeofday(&be, NULL);
+        // unique_lock<mutex> lk(lock);
+        // gettimeofday(&be, NULL);
         char *pvalue = value_alloc->Allocate(value.size());
         nvm_memcpy_persist(pvalue, value.c_str(), value.size(), false);
         // bt->chain_insert(entry_key_t(key, hot));
         bt->btree_insert(entry_key_t(key, hot), pvalue);
-        gettimeofday(&en, NULL);
-        itime += (en.tv_sec-be.tv_sec) + (en.tv_usec-be.tv_usec)/1000000.0;
+        // gettimeofday(&en, NULL);
+        // itime += (en.tv_sec-be.tv_sec) + (en.tv_usec-be.tv_usec)/1000000.0;
     }
 }
 
@@ -67,20 +74,20 @@ void NVMBtree::Updakey(const unsigned long key, const unsigned long hot){
     
 void NVMBtree::Insert(const unsigned long key, const string &value) {
     if(bt) {
-        unique_lock<mutex> lk(lock);
-        gettimeofday(&be, NULL);
+        // unique_lock<mutex> lk(lock);
+        // gettimeofday(&be, NULL);
         char *pvalue = value_alloc->Allocate(value.size());
         nvm_memcpy_persist(pvalue, value.c_str(), value.size(), false);
 
         bt->btree_insert(key, pvalue);
-        gettimeofday(&en, NULL);
-        itime += (en.tv_sec-be.tv_sec) + (en.tv_usec-be.tv_usec)/1000000.0;
+        // gettimeofday(&en, NULL);
+        // itime += (en.tv_sec-be.tv_sec) + (en.tv_usec-be.tv_usec)/1000000.0;
     }
 }
 
 void NVMBtree::Delete(const unsigned long  key) {
     if(bt) {
-        unique_lock<mutex> lk(lock);
+        // unique_lock<mutex> lk(lock);
         bt->btree_delete(key);
     }
 }
@@ -88,11 +95,11 @@ void NVMBtree::Delete(const unsigned long  key) {
 const string NVMBtree::Get(const unsigned long key) {
     char *pvalue = NULL;
     if(bt) {
-        unique_lock<mutex> lk(lock);
-        gettimeofday(&be, NULL);
+        // unique_lock<mutex> lk(lock);
+        // gettimeofday(&be, NULL);
         pvalue = bt->btree_search(key);
-        gettimeofday(&en, NULL);
-        gtime += (en.tv_sec-be.tv_sec) + (en.tv_usec-be.tv_usec)/1000000.0;
+        // gettimeofday(&en, NULL);
+        // gtime += (en.tv_sec-be.tv_sec) + (en.tv_usec-be.tv_usec)/1000000.0;
     }
     if(pvalue) {
         // print_log(LV_DEBUG, "Get pvalue is %p.", pvalue);

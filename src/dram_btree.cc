@@ -6,12 +6,12 @@ RAMBtree::RAMBtree() {
         assert(0);
     }
     value_alloc = nullptr;
-    // stop = 0;
-    // itime = 0;
-    // gtime = 0;
-    // worker_thread = new thread(&RAMBtree::worker, this);
-    // bpnode *root = NewBpNode();
-    // ram_tree tmpbtree = ram_tree(root);
+    stop = 0;
+    itime = 0;
+    gtime = 0;
+    worker_thread = new thread(&RAMBtree::worker, this);
+    bpnode *root = NewBpNode();
+    ram_tree tmpbtree = ram_tree(root);
 }
 
 void RAMBtree::Initial(const std::string &valuepath, uint64_t valuesize) {
@@ -30,6 +30,13 @@ RAMBtree::~RAMBtree() {
     if(value_alloc) {
         delete value_alloc;
     }
+    if(worker_thread) {
+        stop = 1;
+        que_cond.notify_one();
+        //printf("Stop the thread..\n");
+        worker_thread->join();
+        delete worker_thread;
+    }
 }
 
 // void RAMBtree::Insert(const unsigned long key, const unsigned long hot, const string &value) {
@@ -44,7 +51,7 @@ RAMBtree::~RAMBtree() {
     
 void RAMBtree::Insert(const unsigned long key, const string &value) {
     if(bt) {
-        unique_lock<mutex> lk(lock);
+        // unique_lock<mutex> lk(lock);
         char *pvalue = value_alloc->Allocate(value.size());
         nvm_memcpy_persist(pvalue, value.c_str(), value.size(), false);
 
@@ -56,7 +63,7 @@ void RAMBtree::Insert(const unsigned long key, const string &value) {
 
 void RAMBtree::Insert(const unsigned long key, const unsigned long hot, const string &value){
     if(bt) {
-        unique_lock<mutex> lk(lock);
+        // unique_lock<mutex> lk(lock);
         char *pvalue = value_alloc->Allocate(value.size());
         nvm_memcpy_persist(pvalue, value.c_str(), value.size(), false);
 
@@ -68,7 +75,7 @@ void RAMBtree::Insert(const unsigned long key, const unsigned long hot, const st
 
 void RAMBtree::Delete(const unsigned long  key) {
     if(bt) {
-        unique_lock<mutex> lk(lock);
+        // unique_lock<mutex> lk(lock);
         bt->btree_delete(key);
     }
 }
@@ -76,7 +83,7 @@ void RAMBtree::Delete(const unsigned long  key) {
 const string RAMBtree::Get(const unsigned long key) {
     char *pvalue = NULL;
     if(bt) {
-        unique_lock<mutex> lk(lock);
+        // unique_lock<mutex> lk(lock);
         pvalue = bt->btree_search(key);
         // usleep(0);
     }
