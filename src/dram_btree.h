@@ -165,7 +165,7 @@ public:
 
     void worker() {
         while(!stop || !req_que.empty()) {
-            printf("Queue size is %d, stop:%d\n", req_que.size(), stop);
+            // printf("Queue size is %d, stop:%d\n", req_que.size(), stop);
             while(!req_que.empty()) {
                 request *r = NULL;
                 lock.lock();
