@@ -32,6 +32,7 @@ public:
     double gtime;
     double ftime;
     double ctime;
+    double otime;
     NVMBtree *bptree_nvm;
     RAMBtree();
     ~RAMBtree();
