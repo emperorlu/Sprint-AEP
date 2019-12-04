@@ -11,8 +11,6 @@ NVMBtree::NVMBtree() {
     gtime = 0;
     // ctime = 0;
     worker_thread = new thread(&NVMBtree::worker, this);
-    bpnode *root = NewBpNode();
-    btree tmpbtree = btree(root);
 }
 
 void NVMBtree::Initial(const std::string &path, uint64_t keysize, const std::string &valuepath, 

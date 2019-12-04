@@ -77,16 +77,16 @@ public:
         switch (r->flag)
         {
             case REQ_PUT:
-                gettimeofday(&nbe, NULL);
+                gettimeofday(&be, NULL);
                 Insert(char8toint64(r->key.c_str()), r->value);
-                gettimeofday(&nen, NULL);
-                itime += (nen.tv_sec-nbe.tv_sec) + (nen.tv_usec-nbe.tv_usec)/1000000.0;
+                gettimeofday(&en, NULL);
+                itime += (en.tv_sec-be.tv_sec) + (en.tv_usec-be.tv_usec)/1000000.0;
                 break;
             case REQ_GET:
-                gettimeofday(&nbe, NULL);
+                gettimeofday(&be, NULL);
                 r->value = Get(char8toint64(r->key.c_str()));
-                gettimeofday(&nen, NULL);
-                gtime += (nen.tv_sec-nbe.tv_sec) + (nen.tv_usec-nbe.tv_usec)/1000000.0;
+                gettimeofday(&en, NULL);
+                gtime += (en.tv_sec-be.tv_sec) + (en.tv_usec-be.tv_usec)/1000000.0;
                 break;
             case REQ_DELETE:
                 Delete(char8toint64(r->key.c_str()));

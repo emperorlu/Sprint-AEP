@@ -10,8 +10,7 @@ RAMBtree::RAMBtree() {
     itime = 0;
     gtime = 0;
     worker_thread = new thread(&RAMBtree::worker, this);
-    bpnode *root = NewBpNode();
-    ram_tree tmpbtree = ram_tree(root);
+
 }
 
 void RAMBtree::Initial(const std::string &valuepath, uint64_t valuesize) {
