@@ -210,77 +210,77 @@ void Read_Cache(int id)     //预取
 
 void Write_Log(int id)    //倒盘
 {   
-    vector<ram_entry> insertData;
-    request req;
-    // req.key = key;
-    // req.value = value;
-    req.flag = REQ_FLUSH;
-    req.finished = false;
-    switch (id)
-    { 
-        case 1:    
-#ifdef USE_MUIL_THREAD
-            {
-                dram_bptree1->Enque_request(&req);
-                unique_lock<mutex> lk(req.req_mutex);
-                while(!req.finished) {
-                    req.signal.wait(lk);
-                }
-            }
-            insertData =  req.flushData;
-#else
-            insertData = dram_bptree1->FlushtoNvm();
-#endif
-            gettimeofday(&be1, NULL);
-            for(int i=0;i<insertData.size();i++){
-                bptree_nvm1->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
-            }
-            gettimeofday(&en1, NULL);
-            nvm1_itime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
-            break;
-        case 2:
-#ifdef USE_MUIL_THREAD
-            {
-                dram_bptree2->Enque_request(&req);
-                unique_lock<mutex> lk(req.req_mutex);
-                while(!req.finished) {
-                    req.signal.wait(lk);
-                }
-            }
-            insertData =  req.flushData;
-#else
-            insertData = dram_bptree2->FlushtoNvm();
-#endif
-            gettimeofday(&be1, NULL);
-            for(int i=0;i<insertData.size();i++){
-                bptree_nvm2->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
-            }
-            gettimeofday(&en1, NULL);
-            nvm2_itime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
-            break;
-        case 3:
-#ifdef USE_MUIL_THREAD
-            {
-                dram_bptree3->Enque_request(&req);
-                unique_lock<mutex> lk(req.req_mutex);
-                while(!req.finished) {
-                    req.signal.wait(lk);
-                }
-            }
-            insertData =  req.flushData;
-#else
-            insertData = dram_bptree3->FlushtoNvm();
-#endif
-            gettimeofday(&be1, NULL);
-            for(int i=0;i<insertData.size();i++){
-                bptree_nvm3->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
-            }
-            gettimeofday(&en1, NULL);
-            nvm3_itime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
-            break;
-        default:
-            cout << "error!" << endl;
-    }
+//     vector<ram_entry> insertData;
+//     request req;
+//     // req.key = key;
+//     // req.value = value;
+//     req.flag = REQ_FLUSH;
+//     req.finished = false;
+//     switch (id)
+//     { 
+//         case 1:    
+// #ifdef USE_MUIL_THREAD
+//             {
+//                 dram_bptree1->Enque_request(&req);
+//                 unique_lock<mutex> lk(req.req_mutex);
+//                 while(!req.finished) {
+//                     req.signal.wait(lk);
+//                 }
+//             }
+//             insertData =  req.flushData;
+// #else
+//             insertData = dram_bptree1->FlushtoNvm();
+// #endif
+//             gettimeofday(&be1, NULL);
+//             for(int i=0;i<insertData.size();i++){
+//                 bptree_nvm1->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
+//             }
+//             gettimeofday(&en1, NULL);
+//             nvm1_itime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
+//             break;
+//         case 2:
+// #ifdef USE_MUIL_THREAD
+//             {
+//                 dram_bptree2->Enque_request(&req);
+//                 unique_lock<mutex> lk(req.req_mutex);
+//                 while(!req.finished) {
+//                     req.signal.wait(lk);
+//                 }
+//             }
+//             insertData =  req.flushData;
+// #else
+//             insertData = dram_bptree2->FlushtoNvm();
+// #endif
+//             gettimeofday(&be1, NULL);
+//             for(int i=0;i<insertData.size();i++){
+//                 bptree_nvm2->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
+//             }
+//             gettimeofday(&en1, NULL);
+//             nvm2_itime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
+//             break;
+//         case 3:
+// #ifdef USE_MUIL_THREAD
+//             {
+//                 dram_bptree3->Enque_request(&req);
+//                 unique_lock<mutex> lk(req.req_mutex);
+//                 while(!req.finished) {
+//                     req.signal.wait(lk);
+//                 }
+//             }
+//             insertData =  req.flushData;
+// #else
+//             insertData = dram_bptree3->FlushtoNvm();
+// #endif
+//             gettimeofday(&be1, NULL);
+//             for(int i=0;i<insertData.size();i++){
+//                 bptree_nvm3->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
+//             }
+//             gettimeofday(&en1, NULL);
+//             nvm3_itime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
+//             break;
+//         default:
+//             cout << "error!" << endl;
+//     }
 }  
 
 static long insert_count = 0;
