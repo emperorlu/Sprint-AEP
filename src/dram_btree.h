@@ -58,17 +58,17 @@ public:
     int MinHot(){
         return bt->minHot();
     }
-    static void NvmInsert(void * arg){
+    static void NvmInsert(vector<ram_entry> insertData){
         for(int i=0;i<insertData.size();i++){
             bptree_nvm->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
             current_num ++;
         }
     }
     void FlushtoNvm(){
-        insertData = bt->range_leafs();
+        vector<ram_entry> insertData = bt->range_leafs();
         if(insertData.size()!=0){
             pthread_t t;
-            if(pthread_create(&t, NULL, NvmInsert, NULL) == -1){
+            if(pthread_create(&t, NULL, NvmInsert, insertData) == -1){
                 puts("fail to create pthread t");
                 exit(1);
             }
@@ -195,6 +195,5 @@ private:
     condition_variable que_cond;
     thread *worker_thread;
     int stop;
-    vector<ram_entry> insertData;
     struct timeval nbe,nen;
 };
