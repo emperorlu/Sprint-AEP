@@ -76,6 +76,9 @@ public:
     void do_request(request *r) {
         switch (r->flag)
         {
+            case REQ_INSERT:
+                Insert(r->lkey, r->hot, r->value);
+                break;
             case REQ_PUT:
                 gettimeofday(&be, NULL);
                 Insert(char8toint64(r->key.c_str()), r->value);

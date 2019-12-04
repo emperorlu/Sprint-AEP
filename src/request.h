@@ -11,11 +11,14 @@ using namespace std;
 #define REQ_FLUSH 5
 #define REQ_DELETE 6
 #define REQ_GETC 7
+#define REQ_INSERT 8
 
 struct request {
     int flag;
     string key;
     string value;
+    unsigned long lkey;
+    unsigned long hot;
     mutex req_mutex;
     size_t outdata;
     size_t out;

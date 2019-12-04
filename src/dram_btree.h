@@ -70,9 +70,10 @@ public:
                 future.push_back(move(async(launch::async,[&bptree_nvm](int tid, uint64_t from, uint64_t to) {
                     for(uint64_t i = from; i < to; i ++) {
                         request req;
-                        req.key = key;
-                        req.value = value;
-                        req.flag = REQ_PUT;
+                        req.lkey = insertData[i].key.key;
+                        key.hot = insertData[i].key.hot;
+                        req.value = string(insertData[i].ptr, NVM_ValueSize);
+                        req.flag = REQ_INSERT;
                         req.finished = false;
                         {
                             bptree_nvm->Enque_request(&req);
