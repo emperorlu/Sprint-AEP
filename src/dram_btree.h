@@ -72,12 +72,12 @@ public:
                         vector<ram_entry> insertTem  = insertData;
                         request req;
                         req.lkey = insertTem[i].key.key;
-                        key.hot = insertTem[i].key.hot;
+                        req.hot = insertTem[i].key.hot;
                         req.value = string(insertTem[i].ptr, NVM_ValueSize);
                         req.flag = REQ_INSERT;
                         req.finished = false;
                         {
-                            this->bptree_nvm->Enque_request(&req);
+                            this.bptree_nvm->Enque_request(&req);
                             unique_lock<mutex> lk(req.req_mutex);
                             while(!req.finished) {
                                 req.signal.wait(lk);
