@@ -649,7 +649,7 @@ aepsystem::~aepsystem(){
 void aepsystem::Initialize()
 {
     
-    OUT_SIZE = num_size * 0.7;
+    OUT_SIZE = num_size * 7;
     FLUSH_SIZE = OUT_SIZE / 2;
     OUT_DATA = OUT_SIZE / 70;
     READ_DATA = OUT_DATA / 100;
