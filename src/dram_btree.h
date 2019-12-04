@@ -141,6 +141,9 @@ public:
             case REQ_DELETE:
                 Delete(char8toint64(r->key.c_str()));
                 break;
+            case REQ_GETC:
+                r->value = bptree_nvm->Get(char8toint64(r->key.c_str()));
+                break;
             default:
                 break;
         }

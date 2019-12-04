@@ -10,6 +10,7 @@ using namespace std;
 #define REQ_CACHE 4
 #define REQ_FLUSH 5
 #define REQ_DELETE 6
+#define REQ_GETC 7
 
 struct request {
     int flag;

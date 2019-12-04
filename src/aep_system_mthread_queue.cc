@@ -547,29 +547,65 @@ string aepsystem::Get(const std::string& key)
                 }
                     // Read_Cache();
             }
+            request req;
+            req.key = key;
+            req.flag = REQ_GETC;
+            req.finished = false;
             switch (id)
             {
                 case 1:
-                    // tmp_value = bptree_nvm1->Get(char8toint64(key.c_str()));
+#ifdef USE_MUIL_THREAD
+                    {
+                        dram_bptree1->Enque_request(&req);
+                        unique_lock<mutex> lk(req.req_mutex);
+                        while(!req.finished) {
+                            req.signal.wait(lk);
+                        }
+                    }
+                    tmp_value =  req.value;
+#else
                     gettimeofday(&be1, NULL);
                     tmp_value = dram_bptree1->bptree_nvm->Get(char8toint64(key.c_str()));
                     gettimeofday(&en1, NULL);
                     nvm1_gtime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
                     nvm1_find++;
+#endif
                     break;
                 case 2:
+#ifdef USE_MUIL_THREAD
+                    {
+                        dram_bptree2->Enque_request(&req);
+                        unique_lock<mutex> lk(req.req_mutex);
+                        while(!req.finished) {
+                            req.signal.wait(lk);
+                        }
+                    }
+                    tmp_value =  req.value;
+#else
                     gettimeofday(&be1, NULL);
                     tmp_value = dram_bptree2->bptree_nvm->Get(char8toint64(key.c_str()));
                     gettimeofday(&en1, NULL);
                     nvm2_gtime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
                     nvm2_find++;
+#endif
                     break;
                 case 3:
+#ifdef USE_MUIL_THREAD
+                    {
+                        dram_bptree3->Enque_request(&req);
+                        unique_lock<mutex> lk(req.req_mutex);
+                        while(!req.finished) {
+                            req.signal.wait(lk);
+                        }
+                    }
+                    tmp_value =  req.value;
+#else
                     gettimeofday(&be1, NULL);
                     tmp_value = dram_bptree3->bptree_nvm->Get(char8toint64(key.c_str()));
                     gettimeofday(&en1, NULL);
                     nvm3_gtime += (en1.tv_sec-be1.tv_sec) + (en1.tv_usec-be1.tv_usec)/1000000.0;
                     nvm3_find++;
+#endif
                     break;
                 default:
                     cout << "error!" << endl;
