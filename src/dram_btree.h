@@ -125,14 +125,14 @@ public:
             case REQ_FLUSH:
                 gettimeofday(&nbe, NULL);
                 insertData = bt->range_leafs();
-                // {
-                    // unique_lock<mutex> lk(r->req_mutex);
-                //     r->finished = true;
-                //     r->signal.notify_one();
-                // }
-                r->finished = true;
-                r->signal.notify_one();
-                FlushtoNvm();
+                {
+                    unique_lock<mutex> lk(r->req_mutex);
+                    r->finished = true;
+                    r->signal.notify_one();
+                }
+                // FlushtoNvm();
+                thread f(FlushtoNvm);
+                f.join();
                 gettimeofday(&nen, NULL);
                 ftime += (nen.tv_sec-nbe.tv_sec) + (nen.tv_usec-nbe.tv_usec)/1000000.0;
                 return;
