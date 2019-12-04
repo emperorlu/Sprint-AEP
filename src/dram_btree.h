@@ -23,12 +23,6 @@
 // #endif
 
 using namespace std;
-void* NvmInsert(void * arg){
-    for(int i=0;i<insertData.size();i++){
-        bptree_nvm->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
-        current_num ++;
-    }
-}
 
 class RAMBtree{
 public:
@@ -64,7 +58,12 @@ public:
     int MinHot(){
         return bt->minHot();
     }
-
+    static void NvmInsert(void * arg){
+        for(int i=0;i<insertData.size();i++){
+            bptree_nvm->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
+            current_num ++;
+        }
+    }
     void FlushtoNvm(){
         insertData = bt->range_leafs();
         if(insertData.size()!=0){
