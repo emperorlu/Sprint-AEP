@@ -58,15 +58,15 @@ public:
     int MinHot(){
         return bt->minHot();
     }
-    // void FlushtoNvm(){
-    //     vector<ram_entry> insertData = bt->range_leafs();
-    //     if(insertData.size()!=0){
-    //         for(int i=0;i<insertData.size();i++){
-    //             bptree_nvm->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
-    //             current_num ++;
-    //         }
-    //     }
-    // }
+    void FlushtoNvm(){
+        // vector<ram_entry> insertData = bt->range_leafs();
+        if(insertData.size()!=0){
+            for(int i=0;i<insertData.size();i++){
+                bptree_nvm->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
+                current_num ++;
+            }
+        }
+    }
 
    size_t OutdeData(size_t out){
         vector<ram_entry_key_t> outData = bt->btree_out(out);
@@ -124,20 +124,14 @@ public:
                 break;
             case REQ_FLUSH:
                 gettimeofday(&nbe, NULL);
-                // FlushtoNvm();
-                vector<ram_entry> insertData = bt->range_leafs();
+                insertData = bt->range_leafs();
                 unique_lock<mutex> lk(r->req_mutex);
                 r->finished = true;
                 r->signal.notify_one();
-                if(insertData.size()!=0){
-                    for(int i=0;i<insertData.size();i++){
-                        bptree_nvm->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
-                        current_num ++;
-                    }
-                }
+                FlushtoNvm();
                 gettimeofday(&nen, NULL);
                 ftime += (nen.tv_sec-nbe.tv_sec) + (nen.tv_usec-nbe.tv_usec)/1000000.0;
-                // return;
+                return;
                 break;
             case REQ_OUT:
                 gettimeofday(&nbe, NULL);
@@ -200,5 +194,6 @@ private:
     condition_variable que_cond;
     thread *worker_thread;
     int stop;
+    vector<ram_entry> insertData;
     struct timeval nbe,nen;
 };
