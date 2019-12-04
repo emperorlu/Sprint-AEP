@@ -77,7 +77,7 @@ public:
                         req.flag = REQ_INSERT;
                         req.finished = false;
                         {
-                            this.bptree_nvm->Enque_request(&req);
+                            bptree_nvm->Enque_request(&req);
                             unique_lock<mutex> lk(req.req_mutex);
                             while(!req.finished) {
                                 req.signal.wait(lk);
