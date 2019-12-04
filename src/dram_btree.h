@@ -67,13 +67,13 @@ public:
             for(int tid = 0; tid < thread_num; tid ++) {
                 uint64_t from = (ops / thread_num) * tid;
                 uint64_t to = (tid == thread_num - 1) ? ops : from + (ops / thread_num);
-                future.push_back(move(async(launch::async,[](int tid, uint64_t from, uint64_t to) {
+                future.push_back(move(async(launch::async,[](int tid, uint64_t from, uint64_t to,  
+                        vector<ram_entry> insertData, NVMBtree *bptree_nvm) {
                     for(uint64_t i = from; i < to; i ++) {
-                        vector<ram_entry> insertTem  = insertData;
                         request req;
-                        req.lkey = insertTem[i].key.key;
-                        req.hot = insertTem[i].key.hot;
-                        req.value = string(insertTem[i].ptr, NVM_ValueSize);
+                        req.lkey = insertData[i].key.key;
+                        req.hot = insertData[i].key.hot;
+                        req.value = string(insertData[i].ptr, NVM_ValueSize);
                         req.flag = REQ_INSERT;
                         req.finished = false;
                         {
@@ -84,7 +84,7 @@ public:
                             }
                         }
                     }
-                }, tid, from, to)));
+                }, tid, from, to, insertData, bptree_nvm)));
             }
             for(auto &f : future) {
                 if(f.valid()) {
