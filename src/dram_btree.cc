@@ -10,6 +10,10 @@ RAMBtree::RAMBtree() {
     stop = 0;
     itime = 0;
     gtime = 0;
+    ftime = 0;
+    ctime = 0;
+    otime = 0;
+    cache_num = 0;
     worker_thread = new thread(&RAMBtree::worker, this);
 
 }
