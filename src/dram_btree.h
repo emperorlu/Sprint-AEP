@@ -33,6 +33,7 @@ public:
     double ftime;
     double ctime;
     double otime;
+    int current_num;
     NVMBtree *bptree_nvm;
     RAMBtree();
     ~RAMBtree();
@@ -61,20 +62,21 @@ public:
         vector<ram_entry> insertData = bt->range_leafs();
         if(insertData.size()!=0){
             for(int i=0;i<insertData.size();i++){
-                // bptree_nvm->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
-                request req;
-                req.lkey = insertData[i].key.key;
-                req.hot = insertData[i].key.hot;
-                req.value = string(insertData[i].ptr, NVM_ValueSize);
-                req.flag = REQ_INSERT;
-                req.finished = false;
-                {
-                    bptree_nvm->Enque_request(&req);
-                    unique_lock<mutex> lk(req.req_mutex);
-                    while(!req.finished) {
-                        req.signal.wait(lk);
-                    }
-                }
+                bptree_nvm->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
+                current_num ++;
+                // request req;
+                // req.lkey = insertData[i].key.key;
+                // req.hot = insertData[i].key.hot;
+                // req.value = string(insertData[i].ptr, NVM_ValueSize);
+                // req.flag = REQ_INSERT;
+                // req.finished = false;
+                // {
+                //     bptree_nvm->Enque_request(&req);
+                //     unique_lock<mutex> lk(req.req_mutex);
+                //     while(!req.finished) {
+                //         req.signal.wait(lk);
+                //     }
+                // }
             }
         }
     }

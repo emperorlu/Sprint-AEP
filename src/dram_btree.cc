@@ -14,6 +14,7 @@ RAMBtree::RAMBtree() {
     ctime = 0;
     otime = 0;
     cache_num = 0;
+    current_num = 0;
     worker_thread = new thread(&RAMBtree::worker, this);
 
 }
