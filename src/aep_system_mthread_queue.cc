@@ -164,12 +164,9 @@ void* Data_out(void *arg)
             thread o1(DataOut, 1);
             thread o2(DataOut, 2);
             thread o3(DataOut, 3);
-            // o1.join();
-            // o2.join();
-            // o3.join();
-            o1.detach();
-            o2.detach();
-            o3.detach();
+            o1.join();
+            o2.join();
+            o3.join();
             flush_size = current_size;
         }
     }
@@ -361,12 +358,9 @@ void aepsystem::Insert(const string &key, const string &value)
             thread w1(Write_Log, 1);
             thread w2(Write_Log, 2);
             thread w3(Write_Log, 3);
-            // w1.join();
-            // w2.join();
-            // w3.join();
-            w1.detach();
-            w2.detach();
-            w3.detach();
+            w1.join();
+            w2.join();
+            w3.join();
         }
         switch (id)
         { 
@@ -510,12 +504,9 @@ string aepsystem::Get(const std::string& key)
                 thread r1(Read_Cache, 1);
                 thread r2(Read_Cache, 2);
                 thread r3(Read_Cache, 3);
-                // r1.join();
-                // r2.join();
-                // r3.join();
-                r1.detach();
-                r2.detach();
-                r3.detach();
+                r1.join();
+                r2.join();
+                r3.join();
             }
             request req;
             req.key = key;
