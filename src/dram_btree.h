@@ -132,7 +132,7 @@ public:
                 }
                 // FlushtoNvm();
                 {
-                    thread f(FlushtoNvm);
+                    thread f(&RAMBtree::FlushtoNvm, this);
                     f.join();
                 }
                 gettimeofday(&nen, NULL);
