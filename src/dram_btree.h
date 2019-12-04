@@ -15,6 +15,7 @@
 #include "nvm_allocator.h"
 #include "ram_btree.h"
 #include "request.h"
+#include "nvm_btree.h"
 // #ifdef SINGLE_BTREE
 // #include "single_btree.h"
 // #else 
@@ -26,8 +27,11 @@ using namespace std;
 class RAMBtree{
 public:
     queue<request *> req_que;
+    int cache_num;
     double itime;
     double gtime;
+    double ftime;
+    double ctime;
     RAMBtree();
     ~RAMBtree();
 
@@ -49,14 +53,35 @@ public:
     int MinHot(){
         return bt->minHot();
     }
-    vector<ram_entry> FlushtoNvm(){
-        unique_lock<mutex> lk(lock);
-        return bt->range_leafs();
+    void FlushtoNvm(){
+        vector<ram_entry> insertData = bt->range_leafs();
+        if(insertData.size()!=0){
+            for(int i=0;i<insertData.size();i++){
+                bptree_nvm->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
+            }
+        }
     }
 
-    vector<ram_entry_key_t> OutdeData(size_t out){
-        unique_lock<mutex> lk(lock);
-        return bt->btree_out(out);
+   size_t OutdeData(size_t out){
+        vector<ram_entry_key_t> outData = bt->btree_out(out);
+        if(outData.size()!=0){
+            for(int i=0;i<outData.size();i++){
+                bptree_nvm->Updakey(outData[i].key,outData[i].hot);
+            }
+        }
+        return outData.size();
+    }
+
+    void ReadCache(size_t read){
+        if (bptree_nvm->GetCacheSzie() != 0){
+            cache_num++;
+            vector<entry_key_t> backData = bptree_nvm->BacktoDram(MinHot(), read);
+            if(backData.size()!=0){
+                for(int i=0;i<backData.size();i++){
+                    Insert(backData[i].key, backData[i].hot, bptree_nvm1->Get(backData[i].key));
+                }
+            }
+        }
     }
 
     bool StorageIsFull() {
@@ -68,7 +93,7 @@ public:
         value_alloc->PrintStorage();
     }
 
-        void Enque_request(request *r) {
+    void Enque_request(request *r) {
         unique_lock<mutex> lk(lock);
         req_que.push(r);
         if(req_que.size() == 1) {
@@ -92,7 +117,22 @@ public:
                 gtime += (nen.tv_sec-nbe.tv_sec) + (nen.tv_usec-nbe.tv_usec)/1000000.0;
                 break;
             case REQ_FLUSH:
-                // r->flushData = FlushtoNvm();
+                gettimeofday(&nbe, NULL);
+                FlushtoNvm();
+                gettimeofday(&nen, NULL);
+                ftime += (nen.tv_sec-nbe.tv_sec) + (nen.tv_usec-nbe.tv_usec)/1000000.0;
+                break;
+            case REQ_OUT:
+                gettimeofday(&nbe, NULL);
+                r->outdata = OutdeData(r->out);
+                gettimeofday(&nen, NULL);
+                otime += (nen.tv_sec-nbe.tv_sec) + (nen.tv_usec-nbe.tv_usec)/1000000.0;
+                break;
+            case REQ_CACHE:
+                gettimeofday(&nbe, NULL);
+                ReadCache(r->read);
+                gettimeofday(&nen, NULL);
+                ctime += (nen.tv_sec-nbe.tv_sec) + (nen.tv_usec-nbe.tv_usec)/1000000.0;
                 break;
             case REQ_DELETE:
                 Delete(char8toint64(r->key.c_str()));
@@ -139,4 +179,5 @@ private:
     thread *worker_thread;
     int stop;
     struct timeval nbe,nen;
+    NVMBtree *bptree_nvm;
 };

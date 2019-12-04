@@ -2,6 +2,7 @@
 
 RAMBtree::RAMBtree() {
     bt = new ram_tree();
+    bptree_nvm= new NVMBtree();
     if(!bt) {
         assert(0);
     }
@@ -13,13 +14,15 @@ RAMBtree::RAMBtree() {
 
 }
 
-void RAMBtree::Initial(const std::string &valuepath, uint64_t valuesize) {
+void RAMBtree::Initial(const std::string &valuepath, uint64_t valuesize, const std::string &path, 
+                uint64_t keysize, const std::string &valuepath2, uint64_t valuesize2) {
     bt->btree_init();
     value_alloc = new NVMAllocator(valuepath, valuesize);
     if(value_alloc == nullptr) {
         delete bt;
         assert(0);
     }
+    bptree_nvm->Initial(path, keysize, valuepath2, valuesize2);
 }
 
 RAMBtree::~RAMBtree() {
@@ -36,6 +39,7 @@ RAMBtree::~RAMBtree() {
         worker_thread->join();
         delete worker_thread;
     }
+     delete bptree_nvm;
 }
 
 // void RAMBtree::Insert(const unsigned long key, const unsigned long hot, const string &value) {
