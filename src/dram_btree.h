@@ -60,14 +60,14 @@ public:
     void FlushtoNvm(){
         vector<ram_entry> insertData = bt->range_leafs();
         if(insertData.size()!=0){
-#ifdef USE_MUIL_THREAD
+// #ifdef USE_MUIL_THREAD
             int thread_num = 10;
             int ops = insertData.size();
             vector<future<void>> future;
             for(int tid = 0; tid < thread_num; tid ++) {
                 uint64_t from = (ops / thread_num) * tid;
                 uint64_t to = (tid == thread_num - 1) ? ops : from + (ops / thread_num);
-                future.push_back(move(async(launch::async,[&bptree_nvm](int tid, uint64_t from, uint64_t to) {
+                future.push_back(move(async(launch::async,(int tid, uint64_t from, uint64_t to) {
                     for(uint64_t i = from; i < to; i ++) {
                         request req;
                         req.lkey = insertData[i].key.key;
@@ -90,11 +90,11 @@ public:
                     f.get();
                 }
             }
-#else
-            for(int i=0;i<insertData.size();i++){
-                bptree_nvm->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
-            }
-#endif
+// #else
+//             for(int i=0;i<insertData.size();i++){
+//                 bptree_nvm->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
+//             }
+// #endif
         }
     }
 
