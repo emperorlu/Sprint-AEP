@@ -35,7 +35,9 @@ public:
     RAMBtree();
     ~RAMBtree();
 
-    void Initial(const std::string &valuepath, uint64_t valuesize);
+    void Initial(const std::string &valuepath, uint64_t valuesize){}
+    void Initial(const std::string &valuepath, uint64_t valuesize, const std::string &path, 
+                uint64_t keysize, const std::string &valuepath2, uint64_t valuesize2);
 
     void Insert(const unsigned long key, const string &value);
     void Insert(const unsigned long key, const unsigned long hot, const string &value);
@@ -78,7 +80,7 @@ public:
             vector<entry_key_t> backData = bptree_nvm->BacktoDram(MinHot(), read);
             if(backData.size()!=0){
                 for(int i=0;i<backData.size();i++){
-                    Insert(backData[i].key, backData[i].hot, bptree_nvm1->Get(backData[i].key));
+                    Insert(backData[i].key, backData[i].hot, bptree_nvm->Get(backData[i].key));
                 }
             }
         }
