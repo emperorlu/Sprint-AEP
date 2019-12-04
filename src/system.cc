@@ -26,7 +26,7 @@ int main(int argc, char **argv)
     char valuebuf[VALUE_SIZE + 1];
     printf("******Test Start.******\n");
     gettimeofday(&begin1, NULL);
-    int thread_num = 20;
+    int thread_num = 1;
 #ifdef USE_MUIL_THREAD
     vector<future<void>> futurei;
     for(int tid = 0; tid < thread_num; tid ++) {
