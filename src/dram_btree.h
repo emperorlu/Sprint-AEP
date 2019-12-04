@@ -30,7 +30,7 @@ public:
     int cache_num;
     double itime;
     double gtime;
-    double ftime, f1time, f2time;
+    double ftime;
     double ctime;
     double otime;
     NVMBtree *bptree_nvm;
@@ -58,18 +58,25 @@ public:
         return bt->minHot();
     }
     void FlushtoNvm(){
-        gettimeofday(&nbe, NULL);
         vector<ram_entry> insertData = bt->range_leafs();
-        gettimeofday(&nen, NULL);
-        f1time += (nen.tv_sec-nbe.tv_sec) + (nen.tv_usec-nbe.tv_usec)/1000000.0;
-        gettimeofday(&nbe, NULL);
         if(insertData.size()!=0){
             for(int i=0;i<insertData.size();i++){
-                bptree_nvm->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
+                // bptree_nvm->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
+                request req;
+                req.lkey = insertData[i].key.key;
+                req.hot = insertData[i].key.hot;
+                req.value = string(insertData[i].ptr, NVM_ValueSize);
+                req.flag = REQ_INSERT;
+                req.finished = false;
+                {
+                    bptree_nvm->Enque_request(&req);
+                    unique_lock<mutex> lk(req.req_mutex);
+                    while(!req.finished) {
+                        req.signal.wait(lk);
+                    }
+                }
             }
         }
-        gettimeofday(&nen, NULL);
-        f2time += (nen.tv_sec-nbe.tv_sec) + (nen.tv_usec-nbe.tv_usec)/1000000.0;
     }
 
    size_t OutdeData(size_t out){
