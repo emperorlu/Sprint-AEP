@@ -687,7 +687,7 @@ void aepsystem::Initialize()
     // bptree_nvm3->Initial(PATH3, NVM_SIZE, VALUEPATH3, NVM_VALUE_SIZE);
 
     dram_bptree1 = new RAMBtree();
-    dram_bptree1->Initial(CACHE1, CACHE_SIZE, PATH1, NVM_SIZE, VALUEPATH1, NVM_VALUE_SIZE));
+    dram_bptree1->Initial(CACHE1, CACHE_SIZE, PATH1, NVM_SIZE, VALUEPATH1, NVM_VALUE_SIZE);
     dram_bptree2 = new RAMBtree();
     dram_bptree2->Initial(CACHE2, CACHE_SIZE, PATH2, NVM_SIZE, VALUEPATH2, NVM_VALUE_SIZE);
     dram_bptree3 = new RAMBtree();
