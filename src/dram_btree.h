@@ -32,6 +32,7 @@ public:
     double gtime;
     double ftime;
     double ctime;
+    NVMBtree *bptree_nvm;
     RAMBtree();
     ~RAMBtree();
 
@@ -181,5 +182,4 @@ private:
     thread *worker_thread;
     int stop;
     struct timeval nbe,nen;
-    NVMBtree *bptree_nvm;
 };
