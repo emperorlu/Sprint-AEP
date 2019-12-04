@@ -58,7 +58,7 @@ public:
     int MinHot(){
         return bt->minHot();
     }
-    void NvmInsert(void * arg){
+    void* NvmInsert(void * arg){
         for(int i=0;i<insertData.size();i++){
             bptree_nvm->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
             current_num ++;
