@@ -14,7 +14,7 @@
 #include "nvm_common2.h"
 #include "nvm_allocator.h"
 #include "ram_btree.h"
-// #include "request.h"
+#include "request.h"
 // #ifdef SINGLE_BTREE
 // #include "single_btree.h"
 // #else 
@@ -92,7 +92,7 @@ public:
                 gtime += (nen.tv_sec-nbe.tv_sec) + (nen.tv_usec-nbe.tv_usec)/1000000.0;
                 break;
             case REQ_FLUSH:
-                r->flushData = FlushtoNvm();
+                // r->flushData = FlushtoNvm();
                 break;
             case REQ_DELETE:
                 Delete(char8toint64(r->key.c_str()));

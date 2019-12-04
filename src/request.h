@@ -16,8 +16,8 @@ struct request {
     int flag;
     string key;
     string value;
-    vector<ram_entry> flushData;
-    vector<entry_key_t> backData;
+    // vector<ram_entry> flushData;
+    // vector<entry_key_t> backData;
     mutex req_mutex;
     condition_variable signal;
     bool finished;
