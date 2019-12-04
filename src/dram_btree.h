@@ -58,26 +58,21 @@ public:
     int MinHot(){
         return bt->minHot();
     }
+    void NvmInsert(void * arg){
+        for(int i=0;i<insertData.size();i++){
+            bptree_nvm->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
+            current_num ++;
+        }
+    }
     void FlushtoNvm(){
-        vector<ram_entry> insertData = bt->range_leafs();
+        insertData = bt->range_leafs();
         if(insertData.size()!=0){
-            for(int i=0;i<insertData.size();i++){
-                bptree_nvm->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
-                current_num ++;
-                // request req;
-                // req.lkey = insertData[i].key.key;
-                // req.hot = insertData[i].key.hot;
-                // req.value = string(insertData[i].ptr, NVM_ValueSize);
-                // req.flag = REQ_INSERT;
-                // req.finished = false;
-                // {
-                //     bptree_nvm->Enque_request(&req);
-                //     unique_lock<mutex> lk(req.req_mutex);
-                //     while(!req.finished) {
-                //         req.signal.wait(lk);
-                //     }
-                // }
+            pthread_t t;
+            if(pthread_create(&t, NULL, NvmInsert, NULL) == -1){
+                puts("fail to create pthread t");
+                exit(1);
             }
+            pthread_detach(t);
         }
     }
 
@@ -200,5 +195,6 @@ private:
     condition_variable que_cond;
     thread *worker_thread;
     int stop;
+    vector<ram_entry> insertData;
     struct timeval nbe,nen;
 };
