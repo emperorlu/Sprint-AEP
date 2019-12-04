@@ -156,11 +156,9 @@ public:
             default:
                 break;
         }
-        if(r->flag != REQ_FLUSH){
-            unique_lock<mutex> lk(r->req_mutex);
-            r->finished = true;
-            r->signal.notify_one();
-        }
+        unique_lock<mutex> lk(r->req_mutex);
+        r->finished = true;
+        r->signal.notify_one();
     }
 
     void worker() {
