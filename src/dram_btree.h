@@ -69,14 +69,15 @@ public:
                 uint64_t to = (tid == thread_num - 1) ? ops : from + (ops / thread_num);
                 future.push_back(move(async(launch::async,[](int tid, uint64_t from, uint64_t to) {
                     for(uint64_t i = from; i < to; i ++) {
+                        vector<ram_entry> insertTem  = insertData;
                         request req;
-                        req.lkey = insertData[i].key.key;
-                        key.hot = insertData[i].key.hot;
-                        req.value = string(insertData[i].ptr, NVM_ValueSize);
+                        req.lkey = insertTem[i].key.key;
+                        key.hot = insertTem[i].key.hot;
+                        req.value = string(insertTem[i].ptr, NVM_ValueSize);
                         req.flag = REQ_INSERT;
                         req.finished = false;
                         {
-                            bptree_nvm->Enque_request(&req);
+                            this->bptree_nvm->Enque_request(&req);
                             unique_lock<mutex> lk(req.req_mutex);
                             while(!req.finished) {
                                 req.signal.wait(lk);
