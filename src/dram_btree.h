@@ -30,7 +30,7 @@ public:
     int cache_num;
     double itime;
     double gtime;
-    double ftime;
+    double ftime, f1time, f2time;
     double ctime;
     double otime;
     NVMBtree *bptree_nvm;
@@ -58,45 +58,18 @@ public:
         return bt->minHot();
     }
     void FlushtoNvm(){
+        gettimeofday(&nbe, NULL);
         vector<ram_entry> insertData = bt->range_leafs();
+        gettimeofday(&nen, NULL);
+        f1time += (nen.tv_sec-nbe.tv_sec) + (nen.tv_usec-nbe.tv_usec)/1000000.0;
+        gettimeofday(&nbe, NULL);
         if(insertData.size()!=0){
-// #ifdef USE_MUIL_THREAD
-            int thread_num = 10;
-            int ops = insertData.size();
-            vector<future<void>> future;
-            for(int tid = 0; tid < thread_num; tid ++) {
-                uint64_t from = (ops / thread_num) * tid;
-                uint64_t to = (tid == thread_num - 1) ? ops : from + (ops / thread_num);
-                future.push_back(move(async(launch::async,[](int tid, uint64_t from, uint64_t to,  
-                        vector<ram_entry> insertData, NVMBtree *bptree_nvm) {
-                    for(uint64_t i = from; i < to; i ++) {
-                        request req;
-                        req.lkey = insertData[i].key.key;
-                        req.hot = insertData[i].key.hot;
-                        req.value = string(insertData[i].ptr, NVM_ValueSize);
-                        req.flag = REQ_INSERT;
-                        req.finished = false;
-                        {
-                            bptree_nvm->Enque_request(&req);
-                            unique_lock<mutex> lk(req.req_mutex);
-                            while(!req.finished) {
-                                req.signal.wait(lk);
-                            }
-                        }
-                    }
-                }, tid, from, to, insertData, bptree_nvm)));
+            for(int i=0;i<insertData.size();i++){
+                bptree_nvm->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
             }
-            for(auto &f : future) {
-                if(f.valid()) {
-                    f.get();
-                }
-            }
-// #else
-//             for(int i=0;i<insertData.size();i++){
-//                 bptree_nvm->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
-//             }
-// #endif
         }
+        gettimeofday(&nen, NULL);
+        f2time += (nen.tv_sec-nbe.tv_sec) + (nen.tv_usec-nbe.tv_usec)/1000000.0;
     }
 
    size_t OutdeData(size_t out){

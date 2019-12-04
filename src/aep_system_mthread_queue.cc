@@ -708,6 +708,8 @@ void aepsystem::End()
     cout << "[GET] nvm1_insert_time: "  << dram_bptree1->itime << endl;
     cout << "[GET] nvm1_get_time: "     << dram_bptree1->gtime << endl;
     cout << "[GET] nvm1_flush_time: "   << dram_bptree1->ftime << endl;
+    cout << "[GET] nvm1_flush1_time: "   << dram_bptree1->f1time << endl;
+    cout << "[GET] nvm1_flush2_time: "   << dram_bptree1->f2time << endl;
     cout << "[GET] nvm1_out_time: "     << dram_bptree1->otime << endl;
     cout << "[GET] nvm1_cache_time: "   << dram_bptree1->ctime << endl;
     cout << "[GET] nvm2_find: "  << nvm2_find << endl;
