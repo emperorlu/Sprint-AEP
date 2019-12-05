@@ -44,6 +44,7 @@ public:
 
     void Insert(const unsigned long key, const string &value);
     void Insert(const unsigned long key, const unsigned long hot, const string &value);
+    void Insert(const unsigned long key, const unsigned long hot, const string &value , int i);
 
     void Delete(const unsigned long key);
 
@@ -84,7 +85,7 @@ public:
             vector<entry_key_t> backData = bptree_nvm->BacktoDram(MinHot(), read);
             if(backData.size()!=0){
                 for(int i=0;i<backData.size();i++){
-                    Insert(backData[i].key, backData[i].hot, bptree_nvm->Get(backData[i].key));
+                    Insert(backData[i].key, backData[i].hot, bptree_nvm->Get(backData[i].key), 1);
                 }
             }
         }
