@@ -30,6 +30,7 @@ public:
     int cache_num;
     double itime;
     double gtime;
+    double nvm_gtime;
     double ftime;
     double ctime;
     double otime;
@@ -156,7 +157,10 @@ public:
                 Delete(char8toint64(r->key.c_str()));
                 break;
             case REQ_GETC:
+                gettimeofday(&nbe, NULL);
                 r->value = bptree_nvm->Get(char8toint64(r->key.c_str()));
+                gettimeofday(&nen, NULL);
+                nvm_gtime += (nen.tv_sec-nbe.tv_sec) + (nen.tv_usec-nbe.tv_usec)/1000000.0;
                 break;
             default:
                 break;
