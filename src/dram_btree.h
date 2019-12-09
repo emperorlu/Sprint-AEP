@@ -61,20 +61,17 @@ public:
         return bt->minHot();
     }
     void FlushtoNvm(){
-        while(flush){
-            lock.lock();
-            vector<ram_entry> insertData = bt->range_leafs();
-            lock.unlock();
-            if(insertData.size()!=0){
-                cout << "flush!" << endl;
-                for(int i=0;i<insertData.size();i++){
-                    bptree_nvm->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
-                    current_num ++;
-                }
+        lock.lock();
+        vector<ram_entry> insertData = bt->range_leafs();
+        lock.unlock();
+        if(insertData.size()!=0){
+            cout << "flush!" << endl;
+            for(int i=0;i<insertData.size();i++){
+                bptree_nvm->Insert(insertData[i].key.key, insertData[i].key.hot, string(insertData[i].ptr, NVM_ValueSize));
+                current_num ++;
             }
-            insertData.clear();
-            flush = 0;
         }
+        insertData.clear();
     }
 
    size_t OutdeData(size_t out){
