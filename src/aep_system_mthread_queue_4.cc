@@ -104,7 +104,7 @@ void aepsystem::Insert(const string &key, const string &value)
 #endif
             break;
         default:
-            count << "error!" << endl;
+            cout << "error!" << endl;
             return;
     }
 }
@@ -202,7 +202,7 @@ string aepsystem::Get(const std::string& key)
             return tmp_value;
             break;
         default:
-            count << "error!" << endl;
+            cout << "error!" << endl;
             return;
     }
 }
