@@ -136,11 +136,11 @@ public:
                 gettimeofday(&nbe, NULL);
                 // insertData = bt->range_leafs();
                 // FlushtoNvm();
-                flush = 1;
-                // {
-                //     thread f(&RAMBtree::FlushtoNvm, this);
-                //     f.join();
-                // }
+                // flush = 1;
+                {
+                    thread f(&RAMBtree::FlushtoNvm, this);
+                    f.join();
+                }
                 gettimeofday(&nen, NULL);
                 ftime += (nen.tv_sec-nbe.tv_sec) + (nen.tv_usec-nbe.tv_usec)/1000000.0;
                 break;

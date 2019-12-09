@@ -8,7 +8,7 @@ RAMBtree::RAMBtree() {
     }
     value_alloc = nullptr;
     stop = 0;
-    flush = 0;
+    // flush = 0;
     itime = 0;
     gtime = 0;
     nvm_gtime = 0;
@@ -18,7 +18,7 @@ RAMBtree::RAMBtree() {
     cache_num = 0;
     current_num = 0;
     worker_thread = new thread(&RAMBtree::worker, this);
-    flush_thread = new thread(&RAMBtree::FlushtoNvm, this);
+    // flush_thread = new thread(&RAMBtree::FlushtoNvm, this);
 
 }
 
@@ -32,13 +32,13 @@ void RAMBtree::Initial(const std::string &valuepath, uint64_t valuesize, const s
     }
     bptree_nvm->Initial(path, keysize, valuepath2, valuesize2);
 }
-void RAMBtree::InsertOver() {
-    if(flush_thread) {
-        flush = 0;
-        flush_thread->join();
-        delete flush_thread;
-    }
-}
+// void RAMBtree::InsertOver() {
+//     if(flush_thread) {
+//         flush = 0;
+//         flush_thread->join();
+//         delete flush_thread;
+//     }
+// }
 
 RAMBtree::~RAMBtree() {
     if(bt) {
