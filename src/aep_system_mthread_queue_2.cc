@@ -388,7 +388,7 @@ string aepsystem::Get(const std::string& key)
                 not_find++;
                 return "";
             }
-            nvm0_find++;
+            nvm1_find++;
             return tmp_value;
     }else        //其它aep
     {
