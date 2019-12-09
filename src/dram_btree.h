@@ -62,8 +62,8 @@ public:
         return bt->minHot();
     }
     void FlushtoNvm(){
-        // vector<ram_entry> insertData = bt->range_leafs();
         while(flush){
+            vector<ram_entry> insertData = bt->range_leafs();
             if(insertData.size()!=0){
                 cout << "flush!" << endl;
                 for(int i=0;i<insertData.size();i++){
@@ -132,7 +132,7 @@ public:
                 break;
             case REQ_FLUSH:
                 gettimeofday(&nbe, NULL);
-                insertData = bt->range_leafs();
+                // insertData = bt->range_leafs();
                 // FlushtoNvm();
                 flush = 1;
                 // {
@@ -205,6 +205,6 @@ private:
     thread *worker_thread;
     thread *flush_thread;
     int stop,flush;
-    vector<ram_entry> insertData;
+    // vector<ram_entry> insertData;
     struct timeval nbe,nen;
 };
