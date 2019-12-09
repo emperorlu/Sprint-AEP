@@ -390,7 +390,8 @@ void aepsystem::Initialize()
 {
     
     OUT_SIZE = num_size * 0.2;
-    FLUSH_SIZE = OUT_SIZE / 2;
+    // FLUSH_SIZE = OUT_SIZE / 2;
+    FLUSH_SIZE = num_size * 0.15;
     OUT_DATA = OUT_SIZE / 20;
     READ_DATA = OUT_DATA / 100;
     // READ_DATA = 1;
