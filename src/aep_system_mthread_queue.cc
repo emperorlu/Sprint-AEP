@@ -72,10 +72,10 @@ struct timeval be1,en1;
 
 int Find_aep(string key)
 {
-    emp_table.insert(e1);
-    emp_table.insert(e2);
-    emp_table.insert(e3);
-    emp_table.insert(e4);
+    // emp_table.insert(e1);
+    // emp_table.insert(e2);
+    // emp_table.insert(e3);
+    // emp_table.insert(e4);
     return emp_table.f_key(key).getValue();
 }
 
@@ -633,6 +633,10 @@ aepsystem::aepsystem(){
     is_cache = 0;
     cache_size = 1;
     buf_size = KEY_SIZE + VALUE_SIZE + 1;
+    emp_table.insert(e1);
+    emp_table.insert(e2);
+    emp_table.insert(e3);
+    emp_table.insert(e4);
     // one = buf_size;
 }
 aepsystem::~aepsystem(){
