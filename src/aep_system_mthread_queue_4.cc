@@ -233,9 +233,9 @@ void aepsystem::Initialize()
     bptree_nvm1= new NVMBtree();
     bptree_nvm1->Initial(PATH1, NVM_SIZE, VALUEPATH1, NVM_VALUE_SIZE);
     bptree_nvm2= new NVMBtree();
-    bptree_nvm2->Initial(PATH1, NVM_SIZE, VALUEPATH1, NVM_VALUE_SIZE);
+    bptree_nvm2->Initial(PATH2, NVM_SIZE, VALUEPATH2, NVM_VALUE_SIZE);
     bptree_nvm3= new NVMBtree();
-    bptree_nvm3->Initial(PATH1, NVM_SIZE, VALUEPATH1, NVM_VALUE_SIZE);
+    bptree_nvm3->Initial(PATH3, NVM_SIZE, VALUEPATH3, NVM_VALUE_SIZE);
 }
 
 void aepsystem::End()

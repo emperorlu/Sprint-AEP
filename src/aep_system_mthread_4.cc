@@ -3,31 +3,17 @@
 
 using namespace rocksdb;
 
-// rocksdb::NVM_BPlusTree_Wrapper *bptree_nvm0;
-// rocksdb::NVM_BPlusTree_Wrapper *bptree_nvm1;
-// rocksdb::NVM_BPlusTree_Wrapper *bptree_nvm2;
-// rocksdb::NVM_BPlusTree_Wrapper *bptree_nvm3;
 NVMBtree *bptree_nvm0;
 NVMBtree *bptree_nvm1;
 NVMBtree *bptree_nvm2;
 NVMBtree *bptree_nvm3;
 
-// rocksdb::DrNVM_BPlusTree_Wrapper *dram_bptree1;
-// rocksdb::DrNVM_BPlusTree_Wrapper *dram_bptree2;
-// rocksdb::DrNVM_BPlusTree_Wrapper *dram_bptree3;
 
 Employee e1("aep0",0);
 Employee e2("aep1",1);
 Employee e3("aep2",2);
 Employee e4("aep3",3);
 HashTable<Employee> emp_table(4);
-// HashTable<Keyvalue> cache_table1(3000);
-// HashTable<Keyvalue> cache_table2(3000);
-// HashTable<Keyvalue> cache_table3(3000);
-
-// vector<string> updakey1;
-// vector<string> updakey2;
-// vector<string> updakey3;
 
 //大小参数
 const size_t NVM_SIZE = 10 * (1ULL << 30);               // 45GB
@@ -43,9 +29,6 @@ size_t OUT_SIZE = 0;
 
 
 //标记
-int Dmark = 0;
-int stop = 1;
-// int one = 1;
 int open = 1;
 
 //统计
@@ -217,7 +200,6 @@ void aepsystem::Initialize()
 
 void aepsystem::End()
 {
-    stop = 0;
     cout << "[NUM] out_num: " << out_num << endl;
     cout << "[NUM] cache_num: " << cache_num << endl;
     cout << "[NUM] flush_num: " << flush_num << endl;
