@@ -276,7 +276,7 @@ void aepsystem::Insert(const string &key, const string &value)
 #else
         bptree_nvm0->Insert(char8toint64(key.c_str()), value);
 #endif
-    }else if (id = 1){
+    }else if (id == 1){
 #ifdef USE_MUIL_THREAD
         {
             bptree_nvm1->Enque_request(&req);
