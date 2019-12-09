@@ -734,9 +734,11 @@ void aepsystem::End()
     cout << dram_bptree1->ftime << endl;
     cout << dram_bptree1->nvm_gtime << endl;
     cout << dram_bptree1->ctime << endl;
+    cout << nvm2_find << endl;
     cout << dram_bptree2->ftime << endl;
     cout << dram_bptree2->nvm_gtime << endl;
     cout << dram_bptree2->ctime << endl;
+    cout << nvm3_find << endl;
     cout << dram_bptree3->ftime << endl;
     cout << dram_bptree3->nvm_gtime << endl;
     cout << dram_bptree3->ctime << endl;
