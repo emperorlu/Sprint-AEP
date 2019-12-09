@@ -8,6 +8,7 @@ RAMBtree::RAMBtree() {
     }
     value_alloc = nullptr;
     stop = 0;
+    flush = 0;
     itime = 0;
     gtime = 0;
     nvm_gtime = 0;
@@ -17,6 +18,7 @@ RAMBtree::RAMBtree() {
     cache_num = 0;
     current_num = 0;
     worker_thread = new thread(&RAMBtree::worker, this);
+    flush_thread = new thread(&RAMBtree::FlushtoNvm, this);
 
 }
 
@@ -45,7 +47,12 @@ RAMBtree::~RAMBtree() {
         worker_thread->join();
         delete worker_thread;
     }
-     delete bptree_nvm;
+    if(flush_thread) {
+        flush = 0;
+        flush_thread->join();
+        delete flush_thread;
+    }
+    delete bptree_nvm;
 }
 
 // void RAMBtree::Insert(const unsigned long key, const unsigned long hot, const string &value) {
