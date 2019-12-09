@@ -61,7 +61,7 @@ public:
         return bt->minHot();
     }
     void FlushtoNvm(){
-        gettimeofday(&nbe, NULL);
+        gettimeofday(&be, NULL);
         lock.lock();
         vector<ram_entry> insertData = bt->range_leafs();
         lock.unlock();
@@ -72,8 +72,8 @@ public:
             }
         }
         insertData.clear();
-        gettimeofday(&nen, NULL);
-        ftime += (nen.tv_sec-nbe.tv_sec) + (nen.tv_usec-nbe.tv_usec)/1000000.0;
+        gettimeofday(&en, NULL);
+        ftime += (en.tv_sec-be.tv_sec) + (en.tv_usec-be.tv_usec)/1000000.0;
     }
 
    size_t OutdeData(size_t out){
@@ -207,4 +207,5 @@ private:
     int stop,flush;
     // vector<ram_entry> insertData;
     struct timeval nbe,nen;
+    struct timeval be,en;
 };
