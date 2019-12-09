@@ -203,7 +203,7 @@ string aepsystem::Get(const std::string& key)
             break;
         default:
             cout << "error!" << endl;
-            return;
+            return "";
     }
 }
 
