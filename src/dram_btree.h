@@ -63,7 +63,9 @@ public:
     }
     void FlushtoNvm(){
         while(flush){
+            lock.lock();
             vector<ram_entry> insertData = bt->range_leafs();
+            lock.unlock();
             if(insertData.size()!=0){
                 cout << "flush!" << endl;
                 for(int i=0;i<insertData.size();i++){
