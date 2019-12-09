@@ -290,7 +290,7 @@ string aepsystem::Get(const std::string& key)
                 not_find++;
                 return "";
             }
-            nvm0_find++;
+            nvm1_find++;
             return tmp_value;
     }else if(id == 2)  // primary aep
     {
@@ -310,7 +310,7 @@ string aepsystem::Get(const std::string& key)
                 not_find++;
                 return "";
             }
-            nvm0_find++;
+            nvm2_find++;
             return tmp_value;
     }
     else        //其它aep
@@ -443,6 +443,7 @@ void aepsystem::End()
     cout << dram_find << endl;
     cout << nvm0_find << endl;
     cout << nvm1_find << endl;
+    cout << nvm2_find << endl;
     cout << dram_bptree3->ftime << endl;
     cout << dram_bptree3->nvm_gtime << endl;
     cout << dram_bptree3->ctime << endl;
