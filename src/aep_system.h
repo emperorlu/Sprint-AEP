@@ -23,12 +23,12 @@
 // #include "statistic.h"
 
 
-#define PATH0      "/pmem0/datastruct/persistent"
-#define VALUEPATH0 "/pmem0/datastruct/value_persistent"
+#define PATH0      "/pmem3/datastruct/persistent"
+#define VALUEPATH0 "/pmem3/datastruct/value_persistent"
 
-#define CACHE1  "/pmem0/cache/daram1"
-#define CACHE2  "/pmem0/cache/daram2"
-#define CACHE3  "/pmem0/cache/daram3"
+#define CACHE1  "/pmem3/cache/daram1"
+#define CACHE2  "/pmem3/cache/daram2"
+#define CACHE3  "/pmem3/cache/daram3"
 
 
 
@@ -36,8 +36,8 @@
 #define VALUEPATH1 "/pmem1/datastruct/value_persistent"
 #define PATH2      "/pmem2/datastruct/persistent"
 #define VALUEPATH2 "/pmem2/datastruct/value_persistent"
-#define PATH3      "/pmem3/datastruct/persistent"
-#define VALUEPATH3 "/pmem3/datastruct/value_persistent"
+#define PATH3      "/pmem0/datastruct/persistent"
+#define VALUEPATH3 "/pmem0/datastruct/value_persistent"
 
 using namespace std;
 
@@ -56,7 +56,6 @@ namespace rocksdb{
     void Delete(const std::string& key);
 
     string Get(const std::string& key);
-    void InsertOver();
 
    int is_cache;
    int num_size;
