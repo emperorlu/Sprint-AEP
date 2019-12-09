@@ -186,6 +186,8 @@ void aepsystem::Delete(const std::string& key)
 }
 
 aepsystem::aepsystem(){
+    is_cache = 0;
+    cache_size = 1;
     buf_size = KEY_SIZE + VALUE_SIZE + 1;
     // one = buf_size;
 }
