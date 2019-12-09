@@ -370,6 +370,10 @@ void aepsystem::Delete(const std::string& key)
 {
 }
 
+void aepsystem::InsertOver(){
+    dram_bptree3->InsertOver();
+}
+
 aepsystem::aepsystem(){
     is_cache = 0;
     cache_size = 1;
@@ -378,6 +382,7 @@ aepsystem::aepsystem(){
 aepsystem::~aepsystem(){
     delete bptree_nvm0;
     delete bptree_nvm1;
+    delete bptree_nvm2;
     delete dram_bptree3;
 }
 

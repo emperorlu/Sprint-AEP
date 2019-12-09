@@ -60,6 +60,7 @@ int main(int argc, char **argv)
         db_->Insert(data, value);
     }
 #endif
+    db_->InsertOver();
     gettimeofday(&end1, NULL);
     double delta1 = (end1.tv_sec-begin1.tv_sec) + (end1.tv_usec-begin1.tv_usec)/1000000.0;
     printf("******Insert test finished.******\n");

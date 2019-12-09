@@ -56,6 +56,7 @@ namespace rocksdb{
     void Delete(const std::string& key);
 
     string Get(const std::string& key);
+    void InsertOver();
 
    int is_cache;
    int num_size;

@@ -32,6 +32,13 @@ void RAMBtree::Initial(const std::string &valuepath, uint64_t valuesize, const s
     }
     bptree_nvm->Initial(path, keysize, valuepath2, valuesize2);
 }
+void RAMBtree::InsertOver() {
+    if(flush_thread) {
+        flush = 0;
+        flush_thread->join();
+        delete flush_thread;
+    }
+}
 
 RAMBtree::~RAMBtree() {
     if(bt) {
@@ -46,11 +53,6 @@ RAMBtree::~RAMBtree() {
         //printf("Stop the thread..\n");
         worker_thread->join();
         delete worker_thread;
-    }
-    if(flush_thread) {
-        flush = 0;
-        flush_thread->join();
-        delete flush_thread;
     }
     delete bptree_nvm;
 }
