@@ -103,9 +103,7 @@ void* Data_out(void *arg)
         if(current_size  >= OUT_SIZE && Dmark)
         {
             out_num++;
-            thread o2(DataOut, 2);
             thread o3(DataOut, 3);
-            o2.join();
             o3.join();
             flush_size = current_size;
         }
