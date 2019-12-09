@@ -141,7 +141,7 @@ void Read_Cache(int id)     //预取
 #endif
 }
 
-void Write_Log(int id)    //倒盘
+void Write_Log()    //倒盘
 {   
     vector<ram_entry> insertData;
     request req;
@@ -221,8 +221,9 @@ void aepsystem::Insert(const string &key, const string &value)
             Dmark = 1;
             flush_num++;
             flush_size = 0;                //重新计数
-            thread w3(Write_Log, 3);
-            w3.detach();
+            // thread w3(Write_Log, 3);
+            // w3.detach();
+            Write_Log();
         }
 #ifdef USE_MUIL_THREAD
         {
