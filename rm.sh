@@ -5,6 +5,8 @@ rm -rf /pmem2/datastruct/*
 rm -rf /pmem3/datastruct/*
 
 rm -rf /pmem0/cache/*
+rm -rf /pmem1/cache/*
+rm -rf /pmem2/cache/*
 rm -rf /pmem3/cache/*
 
 rm -rf /pmem0/test/*
