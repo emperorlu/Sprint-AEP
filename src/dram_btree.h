@@ -61,6 +61,7 @@ public:
         return bt->minHot();
     }
     void FlushtoNvm(){
+        gettimeofday(&nbe, NULL);
         lock.lock();
         vector<ram_entry> insertData = bt->range_leafs();
         lock.unlock();
@@ -71,6 +72,8 @@ public:
             }
         }
         insertData.clear();
+        gettimeofday(&nen, NULL);
+        ftime += (nen.tv_sec-nbe.tv_sec) + (nen.tv_usec-nbe.tv_usec)/1000000.0;
     }
 
    size_t OutdeData(size_t out){
@@ -128,7 +131,7 @@ public:
                 gtime += (nen.tv_sec-nbe.tv_sec) + (nen.tv_usec-nbe.tv_usec)/1000000.0;
                 break;
             case REQ_FLUSH:
-                gettimeofday(&nbe, NULL);
+                // gettimeofday(&nbe, NULL);
                 // insertData = bt->range_leafs();
                 // FlushtoNvm();
                 // flush = 1;
@@ -136,8 +139,8 @@ public:
                     thread f(&RAMBtree::FlushtoNvm, this);
                     f.detach();
                 }
-                gettimeofday(&nen, NULL);
-                ftime += (nen.tv_sec-nbe.tv_sec) + (nen.tv_usec-nbe.tv_usec)/1000000.0;
+                // gettimeofday(&nen, NULL);
+                // ftime += (nen.tv_sec-nbe.tv_sec) + (nen.tv_usec-nbe.tv_usec)/1000000.0;
                 break;
             case REQ_OUT:
                 gettimeofday(&nbe, NULL);
