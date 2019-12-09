@@ -370,9 +370,6 @@ void aepsystem::Delete(const std::string& key)
 {
 }
 
-void aepsystem::InsertOver(){
-    dram_bptree3->InsertOver();
-}
 
 aepsystem::aepsystem(){
     is_cache = 0;

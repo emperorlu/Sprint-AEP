@@ -57,7 +57,6 @@ public:
     void motivationtest();
     void Print();
     void PrintInfo();
-    void InsertOver();
     int MinHot(){
         return bt->minHot();
     }
