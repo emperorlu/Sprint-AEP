@@ -401,7 +401,7 @@ void aepsystem::Initialize()
     bptree_nvm1= new NVMBtree();
     bptree_nvm1->Initial(PATH1, NVM_SIZE, VALUEPATH1, NVM_VALUE_SIZE);
     bptree_nvm2= new NVMBtree();
-    bptree_nvm2->Initial(PATH1, NVM_SIZE, VALUEPATH1, NVM_VALUE_SIZE);
+    bptree_nvm2->Initial(PATH2, NVM_SIZE, VALUEPATH2, NVM_VALUE_SIZE);
     dram_bptree3 = new RAMBtree();
     dram_bptree3->Initial(CACHE3, CACHE_SIZE, PATH3, NVM_SIZE, VALUEPATH3, NVM_VALUE_SIZE);
     pthread_t t2;
@@ -442,8 +442,15 @@ void aepsystem::End()
     cout <<" ----------------Result ---------------" << endl;
     cout << dram_find << endl;
     cout << nvm0_find << endl;
+    cout << bptree_nvm0->itime << endl;
+    cout << bptree_nvm0->gtime << endl;
     cout << nvm1_find << endl;
+    cout << bptree_nvm1->itime << endl;
+    cout << bptree_nvm1->gtime << endl;
     cout << nvm2_find << endl;
+    cout << bptree_nvm2->itime << endl;
+    cout << bptree_nvm2->gtime << endl;
+    cout << nvm3_find << endl;
     cout << dram_bptree3->ftime << endl;
     cout << dram_bptree3->nvm_gtime << endl;
     cout << dram_bptree3->ctime << endl;
