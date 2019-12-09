@@ -222,7 +222,7 @@ void aepsystem::Insert(const string &key, const string &value)
             flush_num++;
             flush_size = 0;                //重新计数
             thread w3(Write_Log, 3);
-            w3.join();
+            w3.detach();
         }
 #ifdef USE_MUIL_THREAD
         {
