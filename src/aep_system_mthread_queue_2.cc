@@ -546,9 +546,9 @@ aepsystem::~aepsystem(){
 void aepsystem::Initialize()
 {
     
-    OUT_SIZE = num_size * 0.4;
+    OUT_SIZE = num_size * 0.5;
     FLUSH_SIZE = OUT_SIZE / 2;
-    OUT_DATA = OUT_SIZE / 40;
+    OUT_DATA = OUT_SIZE / 50;
     READ_DATA = OUT_DATA / 100;
     // READ_DATA = 1;
     cout << "System run!" << endl;
