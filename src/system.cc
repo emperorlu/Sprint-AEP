@@ -78,7 +78,7 @@ int main(int argc, char **argv)
             char keybuf[KEY_SIZE + 1];
             char valuebuf[VALUE_SIZE + 1];
             for(uint64_t i = from; i < to; i ++) {
-                i = rand()%insert_ops;
+                i = rand()%(get_ops*3);
                 snprintf(keybuf, sizeof(keybuf), "%07d", i);
                 snprintf(valuebuf, sizeof(valuebuf), "%020d", i * i);
                 string data(keybuf, KEY_SIZE);
