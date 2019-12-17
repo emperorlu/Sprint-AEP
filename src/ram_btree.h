@@ -374,8 +374,8 @@ class ram_node{
           uint64_t records_ptr = (uint64_t)(&records[i]);
           int remainder = records_ptr % RAM_CACHE_LINE_SIZE;
           bool do_flush = (remainder == 0) || 
-            ((((int)(remainder + sizeof(entry)) / RAM_CACHE_LINE_SIZE) == 1) && 
-             ((remainder + sizeof(entry)) % RAM_CACHE_LINE_SIZE) != 0);
+            ((((int)(remainder + sizeof(ram_entry)) / RAM_CACHE_LINE_SIZE) == 1) && 
+             ((remainder + sizeof(ram_entry)) % RAM_CACHE_LINE_SIZE) != 0);
           if(do_flush) {
             rcflush((char *)records_ptr, RAM_CACHE_LINE_SIZE);
           }
@@ -674,8 +674,8 @@ class ram_node{
 
                 int remainder = records_ptr % RAM_CACHE_LINE_SIZE;
                 bool do_flush = (remainder == 0) || 
-                  ((((int)(remainder + sizeof(entry)) / RAM_CACHE_LINE_SIZE) == 1) 
-                   && ((remainder+sizeof(entry))%RAM_CACHE_LINE_SIZE)!=0);
+                  ((((int)(remainder + sizeof(ram_entry)) / RAM_CACHE_LINE_SIZE) == 1) 
+                   && ((remainder+sizeof(ram_entry))%RAM_CACHE_LINE_SIZE)!=0);
                 if(do_flush) {
                   rcflush((char*)records_ptr,RAM_CACHE_LINE_SIZE);
                   to_flush_cnt = 0;
