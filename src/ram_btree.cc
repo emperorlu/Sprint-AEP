@@ -156,7 +156,7 @@ void ram_tree::btree_init(){ //const std::string &path, uint64_t keysize) {
 
 void ram_tree::setNewRoot(char *new_root) {
   this->root = (char*)new_root;
-  rcflush((char*)&(this->root),sizeof(char*));
+  //rcflush((char*)&(this->root),sizeof(char*));
   ++height;
 }
 
