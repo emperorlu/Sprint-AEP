@@ -20,13 +20,13 @@ HashTable<Employee> emp_table(4);
 
 
 //大小参数
-// const size_t NVM_SIZE = 10 * (1ULL << 30);               // 45GB
-// const size_t NVM_VALUE_SIZE = 40 * (1ULL << 30);         // 180GB
-// const size_t CACHE_SIZE = 20 * (1ULL << 30);         // 180GB
-
-const size_t NVM_SIZE = 5 * (1ULL << 30);               // 45GB
-const size_t NVM_VALUE_SIZE = 30 * (1ULL << 30);         // 180GB
+const size_t NVM_SIZE = 10 * (1ULL << 30);               // 45GB
+const size_t NVM_VALUE_SIZE = 40 * (1ULL << 30);         // 180GB
 const size_t CACHE_SIZE = 20 * (1ULL << 30);         // 180GB
+
+// const size_t NVM_SIZE = 5 * (1ULL << 30);               // 45GB
+// const size_t NVM_VALUE_SIZE = 30 * (1ULL << 30);         // 180GB
+// const size_t CACHE_SIZE = 20 * (1ULL << 30);         // 180GB
 
 //阈值
 size_t OUT_DATA = 0;
@@ -678,14 +678,14 @@ void aepsystem::Initialize()
     // bptree_nvm3->Initial(PATH3, NVM_SIZE, VALUEPATH3, NVM_VALUE_SIZE);
 
     dram_bptree1 = new RAMBtree();
-    dram_bptree1->Initial(CPATH1, NVM_SIZE, CACHE1, CACHE_SIZE, PATH1, NVM_SIZE, VALUEPATH1, NVM_VALUE_SIZE);
-    // dram_bptree1->Initial(CACHE1, CACHE_SIZE, PATH1, NVM_SIZE, VALUEPATH1, NVM_VALUE_SIZE);
+    // dram_bptree1->Initial(CPATH1, NVM_SIZE, CACHE1, CACHE_SIZE, PATH1, NVM_SIZE, VALUEPATH1, NVM_VALUE_SIZE);
+    dram_bptree1->Initial(CACHE1, CACHE_SIZE, PATH1, NVM_SIZE, VALUEPATH1, NVM_VALUE_SIZE);
     dram_bptree2 = new RAMBtree();
-    dram_bptree2->Initial(CPATH2, NVM_SIZE, CACHE2, CACHE_SIZE, PATH2, NVM_SIZE, VALUEPATH2, NVM_VALUE_SIZE);
-    // dram_bptree2->Initial(CACHE2, CACHE_SIZE, PATH2, NVM_SIZE, VALUEPATH2, NVM_VALUE_SIZE);
+    // dram_bptree2->Initial(CPATH2, NVM_SIZE, CACHE2, CACHE_SIZE, PATH2, NVM_SIZE, VALUEPATH2, NVM_VALUE_SIZE);
+    dram_bptree2->Initial(CACHE2, CACHE_SIZE, PATH2, NVM_SIZE, VALUEPATH2, NVM_VALUE_SIZE);
     dram_bptree3 = new RAMBtree();
-    dram_bptree3->Initial(CPATH3, NVM_SIZE, CACHE3, CACHE_SIZE, PATH3, NVM_SIZE, VALUEPATH3, NVM_VALUE_SIZE);
-    // dram_bptree3->Initial(CACHE3, CACHE_SIZE, PATH3, NVM_SIZE, VALUEPATH3, NVM_VALUE_SIZE);
+    // dram_bptree3->Initial(CPATH3, NVM_SIZE, CACHE3, CACHE_SIZE, PATH3, NVM_SIZE, VALUEPATH3, NVM_VALUE_SIZE);
+    dram_bptree3->Initial(CACHE3, CACHE_SIZE, PATH3, NVM_SIZE, VALUEPATH3, NVM_VALUE_SIZE);
     pthread_t t2;
     if(pthread_create(&t2, NULL, Data_out, NULL) == -1){
         puts("fail to create pthread t0");

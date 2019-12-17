@@ -128,12 +128,13 @@ ram_tree::ram_tree(){
 
 
 void* ram_tree::Newram_node() {
-    // return new ram_node();
-    return node_alloc->Allocate(sizeof(ram_node));
+    return new ram_node();
+    // return node_alloc->Allocate(sizeof(ram_node));
 }
 
-void ram_tree::btree_init(const std::string &path, uint64_t keysize) {
-      node_alloc = new NVMAllocator(path, keysize);
+void ram_tree::btree_init(){ //const std::string &path, uint64_t keysize) {
+      node_alloc = new NVMAllocator();
+      // node_alloc = new NVMAllocator(path, keysize);
       if(node_alloc == nullptr) {
           exit(0);
       }

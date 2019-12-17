@@ -22,26 +22,26 @@ RAMBtree::RAMBtree() {
 
 }
 
-// void RAMBtree::Initial(const std::string &valuepath, uint64_t valuesize, const std::string &path, 
-//                 uint64_t keysize, const std::string &valuepath2, uint64_t valuesize2) {
-//     bt->btree_init();
-//     value_alloc = new NVMAllocator(valuepath, valuesize);
-//     if(value_alloc == nullptr) {
-//         delete bt;
-//         assert(0);
-//     }
-//     bptree_nvm->Initial(path, keysize, valuepath2, valuesize2);
-// }
-void RAMBtree::Initial(const std::string &path, uint64_t keysize, const std::string &valuepath, uint64_t valuesize, 
-                const std::string &path2, uint64_t keysize2, const std::string &valuepath2, uint64_t valuesize2){
-    bt->btree_init(path, keysize);
+void RAMBtree::Initial(const std::string &valuepath, uint64_t valuesize, const std::string &path, 
+                uint64_t keysize, const std::string &valuepath2, uint64_t valuesize2) {
+    bt->btree_init();
     value_alloc = new NVMAllocator(valuepath, valuesize);
     if(value_alloc == nullptr) {
         delete bt;
         assert(0);
     }
-    bptree_nvm->Initial(path2, keysize2, valuepath2, valuesize2);
+    bptree_nvm->Initial(path, keysize, valuepath2, valuesize2);
 }
+// void RAMBtree::Initial(const std::string &path, uint64_t keysize, const std::string &valuepath, uint64_t valuesize, 
+//                 const std::string &path2, uint64_t keysize2, const std::string &valuepath2, uint64_t valuesize2){
+//     bt->btree_init(path, keysize);
+//     value_alloc = new NVMAllocator(valuepath, valuesize);
+//     if(value_alloc == nullptr) {
+//         delete bt;
+//         assert(0);
+//     }
+//     bptree_nvm->Initial(path2, keysize2, valuepath2, valuesize2);
+// }
 
 RAMBtree::~RAMBtree() {
     if(bt) {
