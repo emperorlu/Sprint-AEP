@@ -73,7 +73,7 @@ int main(int argc, char **argv)
         int sun = insert_ops;
         uint64_t from = (get_ops / thread_num) * tid;
         uint64_t to = (tid == thread_num - 1) ? get_ops : from + (get_ops / thread_num);
-        futures.push_back(move(async(launch::async,[&db_](int tid, uint64_t from, uint64_t to) {
+        futures.push_back(move(async(launch::async,[&db_](int sun, int tid, uint64_t from, uint64_t to) {
             size_t KEY_SIZE = rocksdb::NVM_KeySize;
             size_t VALUE_SIZE = rocksdb::NVM_ValueSize;
             char keybuf[KEY_SIZE + 1];
@@ -91,7 +91,7 @@ int main(int argc, char **argv)
                     printf("Error: Get key-value faild.(Expect:%s, but Get %s)\n", value.c_str(), tmp_value.c_str());
                 } 
             }
-        }, tid, from, to)));
+        }, sun, tid, from, to)));
     }
     for(auto &f : futures) {
         if(f.valid()) {
