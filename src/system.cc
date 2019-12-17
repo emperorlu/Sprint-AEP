@@ -24,14 +24,17 @@ int main(int argc, char **argv)
     db_->Initialize();
     char keybuf[KEY_SIZE + 1];
     char valuebuf[VALUE_SIZE + 1];
+    int insert_ops = ops / 4 * 3;
+    int get_ops = ops / 4;
     printf("******Test Start.******\n");
+    printf("insert_ops:%d ; get_ops:%d\n",insert_ops,get_ops);
     gettimeofday(&begin1, NULL);
     int thread_num = 20;
 #ifdef USE_MUIL_THREAD
     vector<future<void>> futurei;
     for(int tid = 0; tid < thread_num; tid ++) {
-        uint64_t from = (ops / thread_num) * tid;
-        uint64_t to = (tid == thread_num - 1) ? ops : from + (ops / thread_num);
+        uint64_t from = (insert_ops / thread_num) * tid;
+        uint64_t to = (tid == thread_num - 1) ? insert_ops : from + (insert_ops / thread_num);
         futurei.push_back(move(async(launch::async,[&db_](int tid, uint64_t from, uint64_t to) {
             size_t KEY_SIZE = rocksdb::NVM_KeySize;
             size_t VALUE_SIZE = rocksdb::NVM_ValueSize;
@@ -67,14 +70,15 @@ int main(int argc, char **argv)
 #ifdef USE_MUIL_THREAD
     vector<future<void>> futures;
     for(int tid = 0; tid < thread_num; tid ++) {
-        uint64_t from = (ops / thread_num) * tid;
-        uint64_t to = (tid == thread_num - 1) ? ops : from + (ops / thread_num);
+        uint64_t from = (get_ops / thread_num) * tid;
+        uint64_t to = (tid == thread_num - 1) ? get_ops : from + (get_ops / thread_num);
         futures.push_back(move(async(launch::async,[&db_](int tid, uint64_t from, uint64_t to) {
             size_t KEY_SIZE = rocksdb::NVM_KeySize;
             size_t VALUE_SIZE = rocksdb::NVM_ValueSize;
             char keybuf[KEY_SIZE + 1];
             char valuebuf[VALUE_SIZE + 1];
             for(uint64_t i = from; i < to; i ++) {
+                i = rand()%insert_ops;
                 snprintf(keybuf, sizeof(keybuf), "%07d", i);
                 snprintf(valuebuf, sizeof(valuebuf), "%020d", i * i);
                 string data(keybuf, KEY_SIZE);
