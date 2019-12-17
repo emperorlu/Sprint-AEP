@@ -70,7 +70,6 @@ int main(int argc, char **argv)
 #ifdef USE_MUIL_THREAD
     vector<future<void>> futures;
     for(int tid = 0; tid < thread_num; tid ++) {
-        int sun = insert_ops;
         uint64_t from = (get_ops / thread_num) * tid;
         uint64_t to = (tid == thread_num - 1) ? get_ops : from + (get_ops / thread_num);
         futures.push_back(move(async(launch::async,[&db_](int sun, int tid, uint64_t from, uint64_t to) {
@@ -79,9 +78,9 @@ int main(int argc, char **argv)
             char keybuf[KEY_SIZE + 1];
             char valuebuf[VALUE_SIZE + 1];
             for(uint64_t i = from; i < to; i ++) {
-                i = rand()%sun;
-                snprintf(keybuf, sizeof(keybuf), "%07d", i);
-                snprintf(valuebuf, sizeof(valuebuf), "%020d", i * i);
+                int j = rand()%sun;
+                snprintf(keybuf, sizeof(keybuf), "%07d", j);
+                snprintf(valuebuf, sizeof(valuebuf), "%020d", j * j);
                 string data(keybuf, KEY_SIZE);
                 string value(valuebuf, VALUE_SIZE);
                 string tmp_value = db_->Get(data);
@@ -91,7 +90,7 @@ int main(int argc, char **argv)
                     printf("Error: Get key-value faild.(Expect:%s, but Get %s)\n", value.c_str(), tmp_value.c_str());
                 } 
             }
-        }, sun, tid, from, to)));
+        }, insert_ops, tid, from, to)));
     }
     for(auto &f : futures) {
         if(f.valid()) {
