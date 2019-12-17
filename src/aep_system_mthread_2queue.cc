@@ -14,8 +14,8 @@ HashTable<Employee> emp_table(2);
 
 //大小参数
 const size_t NVM_SIZE = 10 * (1ULL << 30);               // 45GB
-const size_t NVM_VALUE_SIZE = 40 * (1ULL << 30);         // 180GB
-const size_t CACHE_SIZE = 20 * (1ULL << 30);         // 180GB
+const size_t NVM_VALUE_SIZE = 50 * (1ULL << 30);         // 180GB
+const size_t CACHE_SIZE = 50 * (1ULL << 30);         // 180GB
 
 // const size_t NVM_SIZE = 5 * (1ULL << 30);               // 45GB
 // const size_t NVM_VALUE_SIZE = 30 * (1ULL << 30);         // 180GB
