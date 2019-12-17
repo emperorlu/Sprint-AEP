@@ -10,6 +10,7 @@ int main(int argc, char **argv)
 {
     int to_cache = atoi(argv[1]);
     int num_size = atoi(argv[2]);
+    int ioaf = atoi(argv[3]);
     // int is_thread = atoi(argv[2]);
     cout << "begin" << endl;
     struct timeval begin1,begin2,end1,end2;
@@ -20,9 +21,12 @@ int main(int argc, char **argv)
     int ops = 1000000 * num_size;
     db_ = new rocksdb::aepsystem;
     db_->is_cache = to_cache;
-    int insert_ops = ops / 2 * 3;
-    int get_ops = ops / 2;
-
+    int insert_ops = ops / 2;
+    int get_ops = ops / 2 * 3;
+    if(ioaf){
+        insert_ops = ops / 2 * 3;
+        get_ops = ops / 2;
+    }
     db_->num_size = insert_ops;
     db_->Initialize();
     
