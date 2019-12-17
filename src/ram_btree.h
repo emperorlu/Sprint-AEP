@@ -669,20 +669,20 @@ class ram_node{
             if(key < records[i].key ) {
               records[i+1].ptr = records[i].ptr;
               records[i+1].key = records[i].key;
-              if(flush) {
-                uint64_t records_ptr = (uint64_t)(&records[i+1]);
+              // if(flush) {
+              //   uint64_t records_ptr = (uint64_t)(&records[i+1]);
 
-                int remainder = records_ptr % RAM_CACHE_LINE_SIZE;
-                bool do_flush = (remainder == 0) || 
-                  ((((int)(remainder + sizeof(ram_entry)) / RAM_CACHE_LINE_SIZE) == 1) 
-                   && ((remainder+sizeof(ram_entry))%RAM_CACHE_LINE_SIZE)!=0);
-                // if(do_flush) {
-                  //rcflush((char*)records_ptr,RAM_CACHE_LINE_SIZE);
-                  // to_flush_cnt = 0;
-                // }
-                else
-                  ++to_flush_cnt;
-              }
+              //   int remainder = records_ptr % RAM_CACHE_LINE_SIZE;
+              //   bool do_flush = (remainder == 0) || 
+              //     ((((int)(remainder + sizeof(ram_entry)) / RAM_CACHE_LINE_SIZE) == 1) 
+              //      && ((remainder+sizeof(ram_entry))%RAM_CACHE_LINE_SIZE)!=0);
+              //   // if(do_flush) {
+              //     //rcflush((char*)records_ptr,RAM_CACHE_LINE_SIZE);
+              //     // to_flush_cnt = 0;
+              //   // }
+              //   else
+              //     ++to_flush_cnt;
+              // }
             }
             else{
               records[i+1].ptr = records[i].ptr;
