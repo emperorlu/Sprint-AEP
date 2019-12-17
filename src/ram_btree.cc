@@ -133,11 +133,11 @@ void* ram_tree::Newram_node() {
 }
 
 void ram_tree::btree_init(){ //const std::string &path, uint64_t keysize) {
-      node_alloc = new NVMAllocator();
-      // node_alloc = new NVMAllocator(path, keysize);
-      if(node_alloc == nullptr) {
-          exit(0);
-      }
+      // node_alloc = new NVMAllocator();
+      // // node_alloc = new NVMAllocator(path, keysize);
+      // if(node_alloc == nullptr) {
+      //     exit(0);
+      // }
       root = (char*)(new (Newram_node()) ram_node());
 }
 
