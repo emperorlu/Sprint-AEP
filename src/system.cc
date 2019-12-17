@@ -20,13 +20,13 @@ int main(int argc, char **argv)
     int ops = 1000000 * num_size;
     db_ = new rocksdb::aepsystem;
     db_->is_cache = to_cache;
-
-    char keybuf[KEY_SIZE + 1];
-    char valuebuf[VALUE_SIZE + 1];
     int insert_ops = ops / 2 * 3;
     int get_ops = ops / 2;
     db_->num_size = insert_ops;
     db_->Initialize();
+    
+    char keybuf[KEY_SIZE + 1];
+    char valuebuf[VALUE_SIZE + 1];
     printf("******Test Start.******\n");
     printf("insert_ops:%d ; get_ops:%d\n",insert_ops,get_ops);
     gettimeofday(&begin1, NULL);
