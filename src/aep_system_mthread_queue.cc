@@ -669,7 +669,7 @@ void aepsystem::Initialize()
     cout << "[SIZE] READ_DATA: " << READ_DATA << endl;
 
     bptree_nvm0= new NVMBtree();
-    bptree_nvm0->Initial(PATH1, NVM_SIZE, VALUEPATH1, NVM_VALUE_SIZE);
+    bptree_nvm0->Initial(PATH0, NVM_SIZE, VALUEPATH0, NVM_VALUE_SIZE);
     // bptree_nvm1= new NVMBtree();
     // bptree_nvm1->Initial(PATH1, NVM_SIZE, VALUEPATH1, NVM_VALUE_SIZE);
     // bptree_nvm2= new NVMBtree();
@@ -678,7 +678,7 @@ void aepsystem::Initialize()
     // bptree_nvm3->Initial(PATH3, NVM_SIZE, VALUEPATH3, NVM_VALUE_SIZE);
 
     dram_bptree1 = new RAMBtree();
-    dram_bptree1->Initial(CPATH1, NVM_SIZE, CACHE1, CACHE_SIZE, PATH0, NVM_SIZE, VALUEPATH0, NVM_VALUE_SIZE);
+    dram_bptree1->Initial(CPATH1, NVM_SIZE, CACHE1, CACHE_SIZE, PATH1, NVM_SIZE, VALUEPATH1, NVM_VALUE_SIZE);
     // dram_bptree1->Initial(CACHE1, CACHE_SIZE, PATH1, NVM_SIZE, VALUEPATH1, NVM_VALUE_SIZE);
     dram_bptree2 = new RAMBtree();
     dram_bptree2->Initial(CPATH2, NVM_SIZE, CACHE2, CACHE_SIZE, PATH2, NVM_SIZE, VALUEPATH2, NVM_VALUE_SIZE);
