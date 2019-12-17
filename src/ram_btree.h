@@ -219,7 +219,7 @@ class ram_tree{
 
     ram_tree();
     // ram_tree(ram_node *root);
-    void btree_init(); 
+    void btree_init(const std::string &path, uint64_t keysize); 
     ~ram_tree() {
         if(node_alloc) {
             delete node_alloc;
@@ -354,7 +354,7 @@ class ram_node{
 
     inline bool remove_key(ram_entry_key_t key) {
       // Set the switch_counter
-      if(IS_FORWARD(hdr.switch_counter)) 
+      if(RAM_IS_FORWARD(hdr.switch_counter)) 
         ++hdr.switch_counter;
 
       bool shift = false;
@@ -372,12 +372,12 @@ class ram_node{
 
           // flush
           uint64_t records_ptr = (uint64_t)(&records[i]);
-          int remainder = records_ptr % CACHE_LINE_SIZE;
+          int remainder = records_ptr % RAM_CACHE_LINE_SIZE;
           bool do_flush = (remainder == 0) || 
-            ((((int)(remainder + sizeof(entry)) / CACHE_LINE_SIZE) == 1) && 
-             ((remainder + sizeof(entry)) % CACHE_LINE_SIZE) != 0);
+            ((((int)(remainder + sizeof(entry)) / RAM_CACHE_LINE_SIZE) == 1) && 
+             ((remainder + sizeof(entry)) % RAM_CACHE_LINE_SIZE) != 0);
           if(do_flush) {
-            rcflush((char *)records_ptr, CACHE_LINE_SIZE);
+            rcflush((char *)records_ptr, RAM_CACHE_LINE_SIZE);
           }
         }
       }
@@ -653,14 +653,14 @@ class ram_node{
 
           array_end->ptr = (char*)NULL;
           if(flush) {
-            rcflush((char*) this, CACHE_LINE_SIZE);
+            rcflush((char*) this, RAM_CACHE_LINE_SIZE);
           }
         }
         else {
           int i = *num_entries - 1, inserted = 0, to_flush_cnt = 0;
           records[*num_entries+1].ptr = records[*num_entries].ptr; 
           if(flush) {
-            if((uint64_t)&(records[*num_entries+1].ptr) % CACHE_LINE_SIZE == 0) 
+            if((uint64_t)&(records[*num_entries+1].ptr) % RAM_CACHE_LINE_SIZE == 0) 
               rcflush((char*)&(records[*num_entries+1].ptr), sizeof(char*));
           }
 
@@ -672,12 +672,12 @@ class ram_node{
               if(flush) {
                 uint64_t records_ptr = (uint64_t)(&records[i+1]);
 
-                int remainder = records_ptr % CACHE_LINE_SIZE;
+                int remainder = records_ptr % RAM_CACHE_LINE_SIZE;
                 bool do_flush = (remainder == 0) || 
-                  ((((int)(remainder + sizeof(entry)) / CACHE_LINE_SIZE) == 1) 
-                   && ((remainder+sizeof(entry))%CACHE_LINE_SIZE)!=0);
+                  ((((int)(remainder + sizeof(entry)) / RAM_CACHE_LINE_SIZE) == 1) 
+                   && ((remainder+sizeof(entry))%RAM_CACHE_LINE_SIZE)!=0);
                 if(do_flush) {
-                  rcflush((char*)records_ptr,CACHE_LINE_SIZE);
+                  rcflush((char*)records_ptr,RAM_CACHE_LINE_SIZE);
                   to_flush_cnt = 0;
                 }
                 else
