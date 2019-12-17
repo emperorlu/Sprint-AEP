@@ -65,6 +65,7 @@ public:
         value_alloc->PrintStorage();
     }
 
+
     void Enque_request(request *r) {
         unique_lock<mutex> lk(lock);
         req_que.push(r);
@@ -80,16 +81,16 @@ public:
                 Insert(r->lkey, r->hot, r->value);
                 break;
             case REQ_PUT:
-                gettimeofday(&be, NULL);
+                gettimeofday(&nbe, NULL);
                 Insert(char8toint64(r->key.c_str()), r->value);
-                gettimeofday(&en, NULL);
-                itime += (en.tv_sec-be.tv_sec) + (en.tv_usec-be.tv_usec)/1000000.0;
+                gettimeofday(&nen, NULL);
+                itime += (nen.tv_sec-nbe.tv_sec) + (nen.tv_usec-nbe.tv_usec)/1000000.0;
                 break;
             case REQ_GET:
-                gettimeofday(&be, NULL);
+                gettimeofday(&nbe, NULL);
                 r->value = Get(char8toint64(r->key.c_str()));
-                gettimeofday(&en, NULL);
-                gtime += (en.tv_sec-be.tv_sec) + (en.tv_usec-be.tv_usec)/1000000.0;
+                gettimeofday(&nen, NULL);
+                gtime += (nen.tv_sec-nbe.tv_sec) + (nen.tv_usec-nbe.tv_usec)/1000000.0;
                 break;
             case REQ_DELETE:
                 Delete(char8toint64(r->key.c_str()));
@@ -135,7 +136,5 @@ private:
     condition_variable que_cond;
     thread *worker_thread;
     int stop;
-    struct timeval be,en;
-    struct timeval gb,ge;
-    struct timeval cb,ce;
+    struct timeval nbe,nen;
 };

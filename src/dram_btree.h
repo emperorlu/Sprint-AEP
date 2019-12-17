@@ -40,6 +40,8 @@ public:
     ~RAMBtree();
 
     void Initial(const std::string &valuepath, uint64_t valuesize){}
+    void Initial(const std::string &path, uint64_t keysize, const std::string &valuepath, uint64_t valuesize, 
+                const std::string &path2, uint64_t keysize2, const std::string &valuepath2, uint64_t valuesize2);
     void Initial(const std::string &valuepath, uint64_t valuesize, const std::string &path, 
                 uint64_t keysize, const std::string &valuepath2, uint64_t valuesize2);
 

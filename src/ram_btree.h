@@ -100,6 +100,19 @@ struct ram_entry_key_t {
 };
 
 
+using namespace std;
+
+inline void clflush(char *data, int len)
+{
+    nvm_persist(data, len);
+}
+
+static void alloc_memalign(void **ret, size_t alignment, size_t size) {
+    char *mem =  node_alloc->Allocate(size);
+    *ret = mem;
+}
+
+
 class ram_node;
 
 
@@ -299,7 +312,7 @@ class ram_node{
 
       hdr.last_index = 0;
 
-      // clflush((char*)this, sizeof(ram_node));
+      clflush((char*)this, sizeof(ram_node));
     }
 
     // void *operator new(size_t size) {
@@ -341,7 +354,7 @@ class ram_node{
 
     inline bool remove_key(ram_entry_key_t key) {
       // Set the switch_counter
-      if(RAM_IS_FORWARD(hdr.switch_counter)) 
+      if(IS_FORWARD(hdr.switch_counter)) 
         ++hdr.switch_counter;
 
       bool shift = false;
@@ -356,11 +369,22 @@ class ram_node{
         if(shift) {
           records[i].key = records[i + 1].key;
           records[i].ptr = records[i + 1].ptr;
+
+          // flush
+          uint64_t records_ptr = (uint64_t)(&records[i]);
+          int remainder = records_ptr % CACHE_LINE_SIZE;
+          bool do_flush = (remainder == 0) || 
+            ((((int)(remainder + sizeof(entry)) / CACHE_LINE_SIZE) == 1) && 
+             ((remainder + sizeof(entry)) % CACHE_LINE_SIZE) != 0);
+          if(do_flush) {
+            clflush((char *)records_ptr, CACHE_LINE_SIZE);
+          }
         }
       }
 
       if(shift) {
         --hdr.last_index;
+        clflush((char *)&(hdr.last_index), sizeof(int16_t));
       }
       return shift;
     }
@@ -401,8 +425,9 @@ class ram_node{
           if(hdr.level > 0) {
             if(num_entries_before == 1 && !hdr.sibling_ptr) {
               bt->root = (char *)hdr.leftmost_ptr;
-
+              clflush((char *)&(bt->root), sizeof(char *));
               hdr.is_deleted = 1;
+              clflush((char *)&(hdr.is_deleted), sizeof(uint8_t));
             }
           }
 
@@ -490,9 +515,9 @@ class ram_node{
             } 
 
             left_sibling->records[m].ptr = nullptr;
-
+            clflush((char *)&(left_sibling->records[m].ptr), sizeof(char *));
             left_sibling->hdr.last_index = m - 1;
-
+            clflush((char *)&(left_sibling->hdr.last_index), sizeof(int16_t));
             parent_key = records[0].key; 
           }
           else{
@@ -507,13 +532,13 @@ class ram_node{
             parent_key = left_sibling->records[m].key; 
 
             hdr.leftmost_ptr = (ram_node*)left_sibling->records[m].ptr; 
-            // clflush((char *)&(hdr.leftmost_ptr), sizeof(ram_node *));
+            clflush((char *)&(hdr.leftmost_ptr), sizeof(ram_node *));
 
             left_sibling->records[m].ptr = nullptr;
-            // clflush((char *)&(left_sibling->records[m].ptr), sizeof(char *));
+            clflush((char *)&(left_sibling->records[m].ptr), sizeof(char *));
 
             left_sibling->hdr.last_index = m - 1;
-            // clflush((char *)&(left_sibling->hdr.last_index), sizeof(int16_t));
+            clflush((char *)&(left_sibling->hdr.last_index), sizeof(int16_t));
           }
 
           if(left_sibling == ((ram_node *)bt->root)) {
@@ -527,7 +552,7 @@ class ram_node{
         }
         else{ // from leftmost case
           hdr.is_deleted = 1;
-          // clflush((char *)&(hdr.is_deleted), sizeof(uint8_t));
+          clflush((char *)&(hdr.is_deleted), sizeof(uint8_t));
 
           ram_node* new_sibling = new (bt->Newram_node()) ram_node(hdr.level); 
           new_sibling->hdr.mtx->lock();
@@ -547,10 +572,10 @@ class ram_node{
                   &new_sibling_cnt, false); 
             } 
 
-            // clflush((char *)(new_sibling), sizeof(ram_node));
+            clflush((char *)(new_sibling), sizeof(ram_node));
 
             left_sibling->hdr.sibling_ptr = new_sibling;
-            // clflush((char *)&(left_sibling->hdr.sibling_ptr), sizeof(ram_node *));
+            clflush((char *)&(left_sibling->hdr.sibling_ptr), sizeof(ram_node *));
 
             parent_key = new_sibling->records[0].key; 
           }
@@ -570,10 +595,10 @@ class ram_node{
               new_sibling->insert_key(records[i].key, records[i].ptr,
                   &new_sibling_cnt, false); 
             } 
-            // clflush((char *)(new_sibling), sizeof(ram_node));
+            clflush((char *)(new_sibling), sizeof(ram_node));
 
             left_sibling->hdr.sibling_ptr = new_sibling;
-            // clflush((char *)&(left_sibling->hdr.sibling_ptr), sizeof(ram_node *));
+            clflush((char *)&(left_sibling->hdr.sibling_ptr), sizeof(ram_node *));
           }
 
           if(left_sibling == ((ram_node *)bt->root)) {
@@ -590,7 +615,7 @@ class ram_node{
       }
       else {
         hdr.is_deleted = 1;
-        // clflush((char *)&(hdr.is_deleted), sizeof(uint8_t));
+        clflush((char *)&(hdr.is_deleted), sizeof(uint8_t));
 
         if(hdr.leftmost_ptr)
           left_sibling->insert_key(deleted_key_from_parent, 
@@ -601,7 +626,7 @@ class ram_node{
         }
 
         left_sibling->hdr.sibling_ptr = hdr.sibling_ptr;
-        // clflush((char *)&(left_sibling->hdr.sibling_ptr), sizeof(ram_node *));
+        clflush((char *)&(left_sibling->hdr.sibling_ptr), sizeof(ram_node *));
       }
 
       if(with_lock) {
@@ -627,24 +652,45 @@ class ram_node{
           new_entry->ptr = (char*) ptr;
 
           array_end->ptr = (char*)NULL;
+          if(flush) {
+            clflush((char*) this, CACHE_LINE_SIZE);
+          }
         }
         else {
           int i = *num_entries - 1, inserted = 0, to_flush_cnt = 0;
           records[*num_entries+1].ptr = records[*num_entries].ptr; 
+          if(flush) {
+            if((uint64_t)&(records[*num_entries+1].ptr) % CACHE_LINE_SIZE == 0) 
+              clflush((char*)&(records[*num_entries+1].ptr), sizeof(char*));
+          }
 
           // FAST
           for(i = *num_entries - 1; i >= 0; i--) {
             if(key < records[i].key ) {
               records[i+1].ptr = records[i].ptr;
               records[i+1].key = records[i].key;
+              if(flush) {
+                uint64_t records_ptr = (uint64_t)(&records[i+1]);
+
+                int remainder = records_ptr % CACHE_LINE_SIZE;
+                bool do_flush = (remainder == 0) || 
+                  ((((int)(remainder + sizeof(entry)) / CACHE_LINE_SIZE) == 1) 
+                   && ((remainder+sizeof(entry))%CACHE_LINE_SIZE)!=0);
+                if(do_flush) {
+                  clflush((char*)records_ptr,CACHE_LINE_SIZE);
+                  to_flush_cnt = 0;
+                }
+                else
+                  ++to_flush_cnt;
+              }
             }
             else{
               records[i+1].ptr = records[i].ptr;
               records[i+1].key = key;
               records[i+1].ptr = ptr;
 
-              // if(flush)
-                // clflush((char*)&records[i+1],sizeof(ram_entry));
+              if(flush)
+                clflush((char*)&records[i+1],sizeof(ram_entry));
               inserted = 1;
               break;
             }
@@ -653,14 +699,14 @@ class ram_node{
             records[0].ptr =(char*) hdr.leftmost_ptr;
             records[0].key = key;
             records[0].ptr = ptr;
-            // if(flush)
-              // clflush((char*) &records[0], sizeof(ram_entry)); 
+            if(flush)
+              clflush((char*) &records[0], sizeof(ram_entry)); 
           }
         }
 
         if(update_last_index) {
           hdr.last_index = *num_entries;
-          // clflush((char *)&(hdr.last_index), sizeof(int16_t));
+          clflush((char *)&(hdr.last_index), sizeof(int16_t));
         }
         ++(*num_entries);
       }
@@ -726,10 +772,10 @@ class ram_node{
           }
 
           sibling->hdr.sibling_ptr = hdr.sibling_ptr;
-          // clflush((char *)sibling, sizeof(ram_node));
+          clflush((char *)sibling, sizeof(ram_node));
 
           hdr.sibling_ptr = sibling;
-          // clflush((char*) &hdr, sizeof(hdr));
+          clflush((char*) &hdr, sizeof(hdr));
 
           // set to NULL
           if(RAM_IS_FORWARD(hdr.switch_counter))
@@ -737,10 +783,10 @@ class ram_node{
           else
             ++hdr.switch_counter;
           records[m].ptr = NULL;
-          // clflush((char*) &records[m], sizeof(ram_entry));
+          clflush((char*) &records[m], sizeof(ram_entry));
 
           hdr.last_index = m - 1;
-          // clflush((char *)&(hdr.last_index), sizeof(int16_t));
+          clflush((char *)&(hdr.last_index), sizeof(int16_t));
 
           num_entries = hdr.last_index + 1;
 
