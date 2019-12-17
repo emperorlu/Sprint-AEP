@@ -22,7 +22,7 @@ int main(int argc, char **argv)
     db_->is_cache = to_cache;
     int insert_ops = ops / 2 * 3;
     int get_ops = ops / 2;
-    
+
     db_->num_size = insert_ops;
     db_->Initialize();
     
@@ -121,6 +121,7 @@ int main(int argc, char **argv)
     printf("end\n Insert 总共时间：%lf s\n",delta1);
     printf("end\n Get 总共时间：%lf s\n",delta2);
     delete db_;
+    printf("******Test Over.******\n");
     return 0; 
 }
  
