@@ -24,8 +24,8 @@ int main(int argc, char **argv)
     db_->Initialize();
     char keybuf[KEY_SIZE + 1];
     char valuebuf[VALUE_SIZE + 1];
-    int insert_ops = ops / 4 * 3;
-    int get_ops = ops / 4;
+    int insert_ops = ops / 2 * 3;
+    int get_ops = ops / 2;
     db_->num_size = insert_ops;
     printf("******Test Start.******\n");
     printf("insert_ops:%d ; get_ops:%d\n",insert_ops,get_ops);
