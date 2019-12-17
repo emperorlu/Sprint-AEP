@@ -25,7 +25,7 @@
 
 
 #define CACHE0  "/pmem0/cache/daram0"
-#define CACHE1  "/pmem0/cache/daram1"
+#define CACHE1  "/pmem2/cache/daram1"
 #define CACHE2  "/pmem0/cache/daram2"
 #define CACHE3  "/pmem0/cache/daram3"
 
