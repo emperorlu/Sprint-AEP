@@ -40,7 +40,7 @@ void RAMBtree::Initial(const std::string &path, uint64_t keysize, const std::str
         delete bt;
         assert(0);
     }
-    bptree_nvm->Initial(path, keysize, valuepath2, valuesize2);
+    bptree_nvm->Initial(path2, keysize2, valuepath2, valuesize2);
 }
 
 RAMBtree::~RAMBtree() {
