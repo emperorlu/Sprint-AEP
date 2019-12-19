@@ -78,6 +78,7 @@ void RAMBtree::Insert(const unsigned long key, const string &value) {
 
         // bt->btree_insert(key, pvalue);
         bt->btree_insert(ram_entry_key_t(key, 0, 0), pvalue);
+        usleep(0);
     }
 }
 
@@ -89,6 +90,7 @@ void RAMBtree::Insert(const unsigned long key, const unsigned long hot, const st
 
         // bt->btree_insert(key, pvalue);
         bt->btree_insert(ram_entry_key_t(key, hot, 0), pvalue);
+        usleep(0);
     }
 }
 
@@ -98,6 +100,7 @@ void RAMBtree::Insert(const unsigned long key, const unsigned long hot, const st
         nvm_memcpy_persist(pvalue, value.c_str(), value.size(), false);
 
         bt->btree_insert(ram_entry_key_t(key, hot, 0), pvalue);
+        usleep(0);
     }
 }
 
@@ -113,7 +116,7 @@ const string RAMBtree::Get(const unsigned long key) {
     if(bt) {
         // unique_lock<mutex> lk(lock);
         pvalue = bt->btree_search(key);
-        // usleep(0);
+        usleep(0);
     }
     if(pvalue) {
         return string(pvalue, NVM_ValueSize);
