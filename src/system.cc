@@ -23,9 +23,13 @@ int main(int argc, char **argv)
     db_->is_cache = to_cache;
     int insert_ops = ops / 2;
     int get_ops = ops / 2 * 3;
-    if(ioaf){
+    if(ioaf == 1){
         insert_ops = ops / 2 * 3;
         get_ops = ops / 2;
+    }
+    if(ioaf == 2){
+        insert_ops = ops;
+        get_ops = ops;
     }
     db_->num_size = insert_ops;
     db_->Initialize();
