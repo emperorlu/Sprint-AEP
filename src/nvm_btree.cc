@@ -77,7 +77,6 @@ void NVMBtree::Insert(const unsigned long key, const string &value) {
 
         bt->btree_insert(key, pvalue);
         // usleep(0);
-        // gettimeofday(&en, NULL);
         // itime += (en.tv_sec-be.tv_sec) + (en.tv_usec-be.tv_usec)/1000000.0;
     }
 }
