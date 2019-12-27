@@ -76,7 +76,7 @@ void NVMBtree::Insert(const unsigned long key, const string &value) {
         nvm_memcpy_persist(pvalue, value.c_str(), value.size(), false);
 
         bt->btree_insert(key, pvalue);
-        // usleep(0);
+        usleep(0);
         // itime += (en.tv_sec-be.tv_sec) + (en.tv_usec-be.tv_usec)/1000000.0;
     }
 }
@@ -94,7 +94,7 @@ const string NVMBtree::Get(const unsigned long key) {
         // unique_lock<mutex> lk(lock);
         // gettimeofday(&be, NULL);
         pvalue = bt->btree_search(key);
-        // usleep(0);
+        usleep(0);
         // gettimeofday(&en, NULL);
         // gtime += (en.tv_sec-be.tv_sec) + (en.tv_usec-be.tv_usec)/1000000.0;
     }
