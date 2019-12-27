@@ -270,6 +270,7 @@ void aepsystem::Initialize()
     cout << "[SIZE] OUT_SIZE: " << OUT_SIZE << endl;
     cout << "[SIZE] OUT_DATA: " << OUT_DATA << endl;
     cout << "[SIZE] READ_DATA: " << READ_DATA << endl;
+    
 
     bptree_nvm0= new NVMBtree();
     bptree_nvm0->Initial(PATH2, NVM_SIZE, VALUEPATH2, NVM_VALUE_SIZE);
