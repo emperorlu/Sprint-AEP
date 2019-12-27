@@ -558,11 +558,11 @@ void aepsystem::Initialize()
     cout << "[SIZE] READ_DATA: " << READ_DATA << endl;
 
     bptree_nvm0= new NVMBtree();
-    bptree_nvm0->Initial(PATH0, NVM_SIZE, VALUEPATH0, NVM_VALUE_SIZE);
+    bptree_nvm0->Initial(PATH1, NVM_SIZE, VALUEPATH1, NVM_VALUE_SIZE);
     bptree_nvm1= new NVMBtree();
-    bptree_nvm1->Initial(PATH1, NVM_SIZE, VALUEPATH1, NVM_VALUE_SIZE);
+    bptree_nvm1->Initial(PATH2, NVM_SIZE, VALUEPATH2, NVM_VALUE_SIZE);
     dram_bptree2 = new RAMBtree();
-    dram_bptree2->Initial(CACHE2, CACHE_SIZE, PATH2, NVM_SIZE, VALUEPATH2, NVM_VALUE_SIZE);
+    dram_bptree2->Initial(CACHE0, CACHE_SIZE, PATH0, NVM_SIZE, VALUEPATH0, NVM_VALUE_SIZE);
     dram_bptree3 = new RAMBtree();
     dram_bptree3->Initial(CACHE3, CACHE_SIZE, PATH3, NVM_SIZE, VALUEPATH3, NVM_VALUE_SIZE);
     pthread_t t2;
