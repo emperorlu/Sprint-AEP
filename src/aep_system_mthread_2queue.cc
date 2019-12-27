@@ -275,7 +275,7 @@ void aepsystem::Initialize()
     bptree_nvm0->Initial(PATH2, NVM_SIZE, VALUEPATH2, NVM_VALUE_SIZE);
 
     dram_bptree1 = new RAMBtree();
-    dram_bptree1->Initial(CACHE1, CACHE_SIZE, PATH1, NVM_SIZE, VALUEPATH1, NVM_VALUE_SIZE);
+    dram_bptree1->Initial(CACHE2, CACHE_SIZE, PATH1, NVM_SIZE, VALUEPATH1, NVM_VALUE_SIZE);
 
     pthread_t t2;
     if(pthread_create(&t2, NULL, Data_out, NULL) == -1){
