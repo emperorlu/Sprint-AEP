@@ -18,6 +18,10 @@ RAMBtree::RAMBtree() {
     cache_num = 0;
     current_num = 0;
     worker_thread = new thread(&RAMBtree::worker, this);
+
+    first = 1;
+    qtime = 0;
+    qnum = 0;
     // flush_thread = new thread(&RAMBtree::FlushtoNvm, this);
 
 }

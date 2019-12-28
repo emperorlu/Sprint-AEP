@@ -750,7 +750,12 @@ void aepsystem::End()
     cout << nvm3_find << endl;
     cout << dram_bptree3->ftime << endl;
     cout << dram_bptree3->nvm_gtime << endl;
-    cout << dram_bptree3->ctime << endl;
+    cout << dram_bptree3->ctime << endl;    
+
+    cout << "--------------else-------------" << endl;
+    cout << dram_bptree1->qtime << endl;
+    cout << dram_bptree1->qnum << endl;
+    cout << dram_bptree1->qtime / dram_bptree1->qnum << endl;
 }
 
 void aepsystem::Print()

@@ -34,7 +34,9 @@ public:
     double ftime;
     double ctime;
     double otime;
+    double qtime;
     int current_num;
+    int qnum;
     NVMBtree *bptree_nvm;
     RAMBtree();
     ~RAMBtree();
@@ -118,6 +120,13 @@ public:
     }
 
     void do_request(request *r) {
+        if(!first){
+            gettimeofday(&fen, NULL);
+            qnum++;
+            qtime += (fen.tv_sec-fbe.tv_sec) + (fen.tv_usec-fbe.tv_usec)/1000000.0;
+        }  
+        gettimeofday(&fbe, NULL);
+        first = 0;
         switch (r->flag)
         {
             case REQ_PUT:
@@ -210,4 +219,6 @@ private:
     // vector<ram_entry> insertData;
     struct timeval nbe,nen;
     struct timeval be,en;
+    struct timeval fbe,fen;
+    int first;
 };
