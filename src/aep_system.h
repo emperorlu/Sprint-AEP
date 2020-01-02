@@ -24,22 +24,22 @@
 
 
 
-#define CACHE0  "/pmem0/cache/daram0"
-#define CACHE1  "/pmem0/cache/daram1"
-#define CACHE2  "/pmem0/cache/daram2"
-#define CACHE3  "/pmem0/cache/daram3"
+#define CACHE0  "/pmem2/cache/daram0"
+#define CACHE1  "/pmem2/cache/daram1"
+#define CACHE2  "/pmem2/cache/daram2"
+#define CACHE3  "/pmem2/cache/daram3"
 
 // #define CPATH0  "/pmem0/cache/path0"
 // #define CPATH1  "/pmem0/cache/path1"
 // #define CPATH2  "/pmem0/cache/path2"
 // #define CPATH3  "/pmem0/cache/path3"
 
-#define PATH0      "/pmem2/datastruct/persistent"
-#define VALUEPATH0 "/pmem2/datastruct/value_persistent"
+#define PATH0      "/pmem0/datastruct/persistent"
+#define VALUEPATH0 "/pmem0/datastruct/value_persistent"
 #define PATH1      "/pmem1/datastruct/persistent"
 #define VALUEPATH1 "/pmem1/datastruct/value_persistent"
-#define PATH2      "/pmem0/datastruct/persistent"
-#define VALUEPATH2 "/pmem0/datastruct/value_persistent"
+#define PATH2      "/pmem2/datastruct/persistent"
+#define VALUEPATH2 "/pmem2/datastruct/value_persistent"
 #define PATH3      "/pmem3/datastruct/persistent"
 #define VALUEPATH3 "/pmem3/datastruct/value_persistent"
 
