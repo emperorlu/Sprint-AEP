@@ -21,8 +21,8 @@ int main(int argc, char **argv)
     int ops = 1000000 * num_size;
     db_ = new rocksdb::aepsystem;
     db_->is_cache = to_cache;
-    int insert_ops = ops / 2;
-    int get_ops = ops / 2 * 3;
+    int insert_ops = ops / 10;
+    int get_ops = ops / 10 * 19;
     if(ioaf == 1){
         insert_ops = ops / 2 * 3;
         get_ops = ops / 2;
