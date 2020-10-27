@@ -1,3 +1,3 @@
-# Aep_sys
+# Sprint-AEP
 
-## Sprint-AEP: A Cost Effective Scheduling System for the Optane DC Persistent Memory Server
+Sprint-AEP: A Cost Effective Scheduling System for the Optane DC Persistent Memory Server
