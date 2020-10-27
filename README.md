@@ -1,3 +1,4 @@
 # Sprint-AEP
 
-Sprint-AEP: A Cost Effective Scheduling System for the Optane DC Persistent Memory Server
+The code for the paper
+"Sprint-AEP: A Cost Effective Scheduling System for the Optane DC Persistent Memory Server".
