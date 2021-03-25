@@ -1,4 +1,5 @@
 # Sprint-AEP
 
 The code for the paper
-"Sprint-AEP: A Cost Effective Scheduling System for the Optane DC Persistent Memory Server".
+"Disperse Access Considered Energy Inefficiency in Intel Optane DC Persistent Memory Servers". ICDCS 2020
+https://ieeexplore.ieee.org/document/9355739 
